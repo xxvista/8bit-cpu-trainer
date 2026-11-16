@@ -14,7 +14,7 @@ A startup that designs and sells hands-on electronics kits for learning, each wi
 
 ## Status
 
-The website works offline: open `index.html` in a browser. It opens on a home page where visitors choose a kit. All work is merged into `main`.
+The website works offline: open `index.html` in a browser. It opens on a home page where visitors choose a kit. Latest work is on branch `claude/sleepy-noether-bbtr9v`; `main` is one change behind (the team description).
 
 ## Site map
 
@@ -61,6 +61,7 @@ The company name in the header always goes back home.
 - 2026-11-16: Merged everything into `main`.
 - 2026-11-16: Rebuilt the home page to present the startup (see Home page above). Fixed a long French button making the phone page scroll sideways.
 - 2026-11-16: Merged the new home page into `main`.
+- 2026-11-16: "Who we are" now says the team is two Algerian electronics engineers (was "engineers and teachers").
 
 ## Not done yet
 
