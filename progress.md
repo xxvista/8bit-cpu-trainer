@@ -14,7 +14,7 @@ A startup that designs and sells hands-on electronics kits for learning, each wi
 
 ## Status
 
-The website works offline: open `index.html` in a browser. It opens on a home page where visitors choose a kit. All work is merged into `main`.
+The website works offline: open `index.html` in a browser. It opens on a home page where visitors choose a kit. Latest work (illustrations instead of photos, designer references removed) is on branch `claude/sleepy-noether-bbtr9v`, not yet merged into `main`.
 
 ## Site map
 
@@ -35,19 +35,18 @@ The company name in the header always goes back home.
 | Prices | Assembled 49,000 DA, solder kit 39,000 DA; home page card shows "From 39,000 DA" | `SHOP.prices` in `dev/app.js` |
 | PDF catalogue | 2-page A4 catalogue in English, French and Arabic, made from the site's text and prices; download buttons on the home page and the CPU kit page | `dev/brochure.js`, `brochure/catalogue-*.pdf` |
 | Quotes section | Built but hidden until real quotes are added | `QUOTES` in `dev/app.js` |
-| Home photos | "Inside the kit" gallery with 4 kit photos (temporary, until there are lab-session photos) | `HOMEPHOTOS` in `dev/app.js` |
+| Home board row | "Inside the kit" row of 4 board drawings | `HOMEBOARDS` in `dev/app.js` |
 | Visitor counting | GoatCounter (site code `xxvista`), counts page views and clicks (WhatsApp, email, catalogue, order form) | `ANALYTICS` in `dev/app.js` |
 | Order tracker | Google Sheet with Orders, Summary and Prices tabs, dropdowns and automatic totals: [Order tracker](https://docs.google.com/spreadsheets/d/1AN_my6Cz8LivtA_cFfjyjDTp47ep2JEO9SjNs_zl_BI/edit) | Google Drive |
-| Test bench | New CPU page: pick a module (Clock, PC, MAR, RAM, Register A/B/IR, ALU, Output, Control), drive its inputs by hand (bus switches, control lines, modes), pulse the clock or reset, and read its outputs on the live board drawing. Automatic test follows the designer's Arduino test plans step by step with PASS/FAIL, expected and actual values. 20 insertable faults, 10 of them real mistakes from his first boards | `dev/bench.js`, `BT` in `dev/strings.js` |
+| Test bench | New CPU page: pick a module (Clock, PC, MAR, RAM, Register A/B/IR, ALU, Output, Control), drive its inputs by hand (bus switches, control lines, modes), pulse the clock or reset, and read its outputs on the live board drawing. Automatic test runs a test plan step by step with PASS/FAIL, expected and actual values. 20 insertable faults | `dev/bench.js`, `BT` in `dev/strings.js` |
 | Simulator controls | Player-style control bar (Reset, Step back, Clock pulse, One instruction, Run/Pause) above the board; pinned to the bottom of the screen on phones | `dev/src.html`, `dev/app.js` |
 | Data path | Animated yellow line from the board driving the bus, along the bus, to every board storing the byte, with the value on a tag | `drawFlow` in `dev/app.js` |
 | Step tracker | T0–T5 bar under the explanation (fetch vs execute, current and finished steps, unused steps dimmed) | `render` in `dev/app.js` |
-| Designer's photos | Robert Riordan's photo of each module on the Modules page, credited, used with his permission | `RRPHOTO` in `dev/app.js`, `img/rr-*.jpg` |
-| Real build notes | "From the real build" note on each module card: what went wrong on the designer's boards and how it was fixed, with a link to his page for that board | `BUILD` in `dev/strings.js` |
+| Board illustrations | No real photos yet (no kit assembled): the home banner, kit card, kit page and catalogue use `img/kit-illustration.png` (the 11 boards rendered from the KiCad files); the board rows are drawings made live from the KiCad data | `KITILLUS`, `boardFig` in `dev/app.js` |
 | Brand | Placeholder name "Electronics Kits Lab", changed in one place | `BRAND` in `dev/app.js`, `<title>` in `dev/src.html` |
 | CPU simulator | SAP-1 CPU: microcode, ALU, flags, 16-byte RAM, assembler with labels, disassembler, step / instruction / run / back / reset, speed control | `dev/app.js` |
 | CPU board drawing | Boards drawn from the KiCad PCB outlines and parts, with board-colour options | `dev/app.js`, `dev/pcbdata.js`, `dev/bom.json` |
-| CPU teaching panels | State, Program, RAM, Microcode, Timing, Faults (9 faults, 2 taken from the real build: MAR address bits from the switches, Register B always on the bus), Trace | `dev/src.html`, `dev/app.js` |
+| CPU teaching panels | State, Program, RAM, Microcode, Timing, Faults (9 faults), Trace | `dev/src.html`, `dev/app.js` |
 | CPU example programs | 7 programs: count by 3, add, subtract, count down, carry, multiply, fetch cycle | `EXAMPLES` in `dev/app.js` |
 | CPU content pages | User guide, module catalog, lab exercises, course map, about | `dev/src.html`, `dev/strings.js` |
 | CPU order page | Order form that sends by email or WhatsApp | `SHOP` in `dev/app.js` |
@@ -90,6 +89,7 @@ The company name in the header always goes back home.
 - 2026-11-16: Merged the simulator redesign, build notes, new faults and the designer's photos into `main`.
 - 2026-11-16: Added the Test bench page (module-by-module testing). Code in `dev/bench.js`; the page start-up moved to `dev/start.js` so it runs after the bench code. The board drawing function takes an id prefix so a second live copy of a board can be on the page.
 - 2026-11-16: Merged the test bench into `main`.
+- 2026-11-16: The kit is not assembled yet, so all real photos were removed from the website and catalogue and replaced by illustrations drawn from the KiCad files. Removed every mention of GitHub, Ben Eater and the original designer from the site (module build notes, his photos and links, the About page question and credits, test bench wording); the About page and footer keep a neutral CERN-OHL-P licence line, and now say the kit was designed (not built) by Abdellah Abdelkafi and Feriel Hamouchi. Catalogue PDFs remade.
 
 ## Not done yet
 

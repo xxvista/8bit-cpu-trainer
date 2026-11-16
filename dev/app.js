@@ -118,9 +118,10 @@ const ANALYTICS={goatcounter:"xxvista"};
    Example entry: {text:["English","Français","العربية"],name:"Full name",role:["Lecturer, University of X","Enseignant, Université de X","أستاذ، جامعة X"]} ---------- */
 const QUOTES=[];
 
-/* ---------- photos on the home page. TEMPORARY: kit close-ups until there are photos of lab sessions.
-   Replace src with new files in img/ and the caption key with a new string in strings.js ---------- */
-const HOMEPHOTOS=[{src:"img/p043.jpg",cap:"hPh1"},{src:"img/p041.jpg",cap:"hPh2"},{src:"img/p040.jpg",cap:"hPh3"},{src:"img/p027.jpg",cap:"hPh4"}];
+/* ---------- boards shown on the home page: drawings made from the KiCad files (no photos until the first kit is assembled) ---------- */
+const HOMEBOARDS=["ctl","alu","reg","pc"];
+const KITILLUS="img/kit-illustration.png"; // the 11 boards, rendered from the design files
+function boardFig(b){const B=PCB[b];return'<figure><div class="bdraw" dir="ltr"><svg viewBox="-2 -2 '+(B.w+4)+" "+(B.h+4)+'" role="img" aria-label="'+esc(MODT[b][LI][0])+'">'+drawBoard(b,b==="reg"?"a":b,false)+"</svg></div><figcaption>"+MODT[b][LI][0]+"</figcaption></figure>";}
 
 /* ---------- kits shown on the home page. status "soon" = placeholder page with a contact button ---------- */
 const ICONS={
@@ -128,12 +129,12 @@ const ICONS={
  arduino:'<svg viewBox="0 0 120 84" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="10" width="108" height="66" rx="6"/><rect x="0" y="22" width="18" height="16" rx="2"/><rect x="2" y="50" width="14" height="16" rx="2"/><rect x="48" y="36" width="34" height="18" rx="2"/><path d="M30 10V4M38 10V4M46 10V4M54 10V4M62 10V4M70 10V4M78 10V4M86 10V4M94 10V4M102 10V4M50 82v-6M58 82v-6M66 82v-6M74 82v-6M88 82v-6M96 82v-6M104 82v-6"/><circle cx="100" cy="24" r="4"/></svg>'
 };
 const KITS=[
- {id:"cpu",status:"live",name:()=>"8-Bit CPU Trainer",desc:()=>t("hCpuD"),img:"img/p044.jpg"},
+ {id:"cpu",status:"live",name:()=>"8-Bit CPU Trainer",desc:()=>t("hCpuD"),img:KITILLUS},
  {id:"gates",status:"soon",name:()=>t("gName"),desc:()=>t("gD")},
  {id:"arduino",status:"soon",name:()=>t("aName"),desc:()=>t("aD")}
 ];
 function renderBrand(){const w=BRAND.trim().split(/\s+/),last=w.pop();$("brandName").innerHTML=(w.length?esc(w.join(" "))+" ":"")+"<span>"+esc(last)+"</span>";}
-function kitPic(k){return k.img?'<img src="'+k.img+'" alt="'+esc(k.name())+'" loading="lazy">':ICONS[k.id];}
+function kitPic(k){return k.img?'<img class="illus" src="'+k.img+'" alt="'+esc(k.name())+'" loading="lazy">':ICONS[k.id];}
 const WHYICONS=[
  '<path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
  '<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20v3H6.5"/>',
@@ -150,7 +151,7 @@ function renderHome(){
   const step=(lbl,k,txt)=>{const live=k.status==="live";return'<a class="pathstep'+(live?" live":"")+'" href="#'+(live?"simulator":k.id)+'"><span class="plbl">'+lbl+"</span><b"+(k.id==="cpu"?' class="ltr"':"")+">"+k.name()+"</b><span class=\"ptxt\">"+txt+'</span><span class="badge '+(live?"ok":"soon")+'">'+t(live?"hAvail":"hSoon")+"</span></a>";};
   $("homeBody").innerHTML=
    '<section class="homehero"><div class="herotext"><span class="eyebrow">'+t("hMade")+"</span><h2>"+t("hTitle")+'</h2><p class="lead">'+t("hLead")+'</p><div class="ctas"><button type="button" class="btn primary big" data-scroll="hKits">'+t("hSeeKits")+'</button><button type="button" class="btn big" data-scroll="hContactBox">'+t("hContact")+'</button></div></div>'+
-     '<img class="heroimg" src="img/p044.jpg" alt="'+esc(t("kPhotos"))+'">'+
+     '<figure class="heroimg"><img src="'+KITILLUS+'" alt="'+esc(t("hIllus"))+'"><figcaption>'+t("hIllus")+"</figcaption></figure>"+
      '<div class="facts"><div><b>3</b><span>'+t("hF1")+"</span></div><div><b>3</b><span>"+t("hF2")+"</span></div><div><b>58</b><span>"+t("hF3")+"</span></div></div></section>"+
    '<section class="hsec who"><h2>'+t("hWho")+'</h2><div><p class="whotext">'+t("hWhoP")+'</p><b class="forlbl">'+t("hFor")+'</b><div class="audience">'+[1,2,3,4].map(i=>"<span>"+t("hAud"+i)+"</span>").join("")+"</div></div></section>"+
    '<section class="hsec" id="hKits">'+head(t("hChoose"))+'<div class="kits">'+KITS.map(k=>{const live=k.status==="live";
@@ -159,7 +160,7 @@ function renderHome(){
    '<section class="hsec band">'+head(t("hPath"),t("hPathL"))+'<div class="path">'+
      step(t("hStep",1),kit("gates"),t("hPath1"))+'<span class="arrow" aria-hidden="true">→</span>'+step(t("hStep",2),kit("cpu"),t("hPath2"))+'<span class="arrow plus" aria-hidden="true">+</span>'+step(t("hAlong"),kit("arduino"),t("hPath3"))+"</div></section>"+
    '<section class="hsec">'+head(t("hWhy"))+'<div class="why">'+[1,2,3,4].map(i=>'<div class="whyitem"><span class="ico">'+svgI(WHYICONS[i-1])+"</span><h3>"+t("hW"+i)+"</h3><p>"+t("hW"+i+"d")+"</p></div>").join("")+"</div></section>"+
-   '<section class="hsec">'+head(t("hPhotos"))+'<div class="hgallery">'+HOMEPHOTOS.map(ph=>'<figure><img src="'+ph.src+'" alt="'+esc(t(ph.cap))+'" loading="lazy"><figcaption>'+t(ph.cap)+"</figcaption></figure>").join("")+"</div></section>"+
+   '<section class="hsec">'+head(t("hPhotos"))+'<div class="hgallery">'+HOMEBOARDS.map(boardFig).join("")+"</div></section>"+
    (QUOTES.length?'<section class="hsec">'+head(t("hQuotes"))+'<div class="quotes">'+QUOTES.map(q=>"<figure><blockquote>"+tr(q.text)+"</blockquote><figcaption><b>"+esc(q.name)+"</b><span>"+tr(q.role)+"</span></figcaption></figure>").join("")+"</div></section>":"")+
    '<section class="hsec band">'+head(t("hHow"))+'<ol class="how">'+[1,2,3].map(i=>'<li><span class="hn">'+i+"</span><h3>"+t("hHow"+i)+"</h3><p>"+t("hHow"+i+"d")+"</p></li>").join("")+'</ol><div class="ctas howctas"><a class="btn primary big" target="_blank" rel="noopener" href="'+waLink(t("hQuoteMsg"))+'">'+t("hQuote")+'</a><a class="btn big" href="#kit">'+t("hOrder")+" · 8-Bit CPU</a>"+catLink()+"</div></section>"+
    '<section class="hsec faqsec"><h2>'+t("hFaq")+'</h2><div class="faq">'+[1,2,3,4,5].map(i=>"<details><summary>"+t("hQ"+i)+"</summary><p>"+t("hA"+i)+"</p></details>").join("")+"</div></section>"+
@@ -172,7 +173,6 @@ function renderSoon(id){
 }
 
 const SHOP={email:"abdelkafiabdellah419@gmail.com",whatsapp:"213666020037",phone:"0666 02 00 37",currency:"DA",prices:{assembled:49000,solder:39000}};
-const PHOTOS={pc:"img/p027.jpg",reg:"img/p040.jpg",alu:"img/p041.jpg",mar:"img/p042.jpg",ctl:"img/p043.jpg"};
 
 const EXAMPLES=[
  {id:"count3",src:"; Shows 3, 6, 9 ... and wraps past 255\n      LDB three   ; B = 3\nloop: ADD         ; A = A + B\n      OUT         ; show A\n      JMP loop    ; again\n14:\nthree: 3"},
@@ -187,9 +187,6 @@ const SIGS=["MI","RI","RO","II","IO","PCO","PCE","JMP","AI","AO","BI","EO","SUB"
 const sigName=k=>SIGT[k][LI][0],sigDesc=k=>SIGT[k][LI][1];
 const ISA=[["0000","NOP"],["0001","LDA n"],["0010","STA n"],["0011","LDB n"],["0100","ADD"],["0101","SUB"],["0110","JMP n"],["0111","JMPC n"],["1000","JMPZ n"],["1110","OUT"],["1111","HLT"]];
 const MODORDER=["bus","clk","pc","mar","ram","reg","alu","out","ctl"];
-/* the original designer's photos of each module (used with his permission, given to the owner in 2026) */
-const RRPHOTO={clk:"img/rr-clk.jpg",pc:"img/rr-pc.jpg",mar:"img/rr-mar.jpg",reg:"img/rr-reg.jpg",ram:"img/rr-ram.jpg",alu:"img/rr-alu.jpg",ctl:"img/rr-ctl.jpg",out:"img/rr-out.jpg"};
-const BUILDURL={clk:"clock",pc:"program-counter",mar:"mar",reg:"registers",ram:"ram",alu:"alu",ctl:"control",out:"output",bus:"bus"};
 const LABEX=["fetch","add","sub","count3","down","mul"];
 const haltTxt=x=>x.st.halted?t("chHalt"):t("chNoHalt");
 const CHECKS=[
@@ -537,12 +534,12 @@ function priceHtml(k){const p=SHOP.prices[k];return p==null?'<div class="price r
 function stepper(k){return'<div class="stepper"><span>'+t("kQty")+'</span><button type="button" data-q="'+k+'" data-d="-1" aria-label="-">−</button><output id="q-'+k+'">'+order[k]+'</output><button type="button" data-q="'+k+'" data-d="1" aria-label="+">+</button></div>';}
 function renderKit(){
   const boards=BOARDLIST.map(([b,q])=>"<li>"+(q>1?q+" × ":"")+MODT[b][LI][0]+'<span>'+PCB[b].w.toFixed(0)+" × "+PCB[b].h.toFixed(0)+" mm · "+t("kBParts",partsOf(b))+"</span></li>").join("");
-  const gal=[["img/p040.jpg","reg"],["img/p041.jpg","alu"],["img/p042.jpg","mar"],["img/p043.jpg","ctl"],["img/p027.jpg","pc"]].map(([src,b])=>'<figure><img src="'+src+'" alt="'+esc(MODT[b][LI][0])+'" loading="lazy"><figcaption>'+MODT[b][LI][0]+"</figcaption></figure>").join("");
+  const gal=["reg","alu","mar","ctl","pc"].map(boardFig).join("");
   const bom=BOARDLIST.map(([b,q])=>'<details class="bom"><summary>'+(q>1?q+" × ":"")+MODT[b][LI][0]+"<span>"+t("kBParts",partsOf(b))+'</span></summary><div class="tablewrap"><table><thead><tr><th>'+t("kBQty")+"</th><th>"+t("kBVal")+"</th><th>"+t("kBRef")+"</th></tr></thead><tbody>"+
     BOM[b].map(r=>"<tr><td class='m'>"+r[0]+"</td><td class='m'>"+esc(r[1])+"</td><td class='m' style='white-space:normal'>"+esc(r[2])+"</td></tr>").join("")+"</tbody></table></div></details>").join("");
   const f=(id,key,type,req)=>'<label for="f-'+id+'">'+t(key)+(req?" *":"")+'<input id="f-'+id+'" data-f="'+id+'" type="'+type+'" value="'+esc(order[id])+'"'+(id==="phone"||id==="email"?' dir="ltr"':"")+"></label>";
   $("kitBody").innerHTML=
-   '<div class="hero"><div><h2>'+t("kTitle")+'</h2><p class="lead">'+t("kLead")+'</p><div class="facts"><div><b>11</b>'+t("kF1")+"</div><div><b>"+TOTALPARTS+"</b>"+t("kF2")+"</div><div><b>82</b>"+t("kF3")+"</div><div><b>16</b>"+t("kF4")+'</div></div><div class="ctas"><a class="btn primary big" href="#kit" data-go="order">'+t("kOrderCta")+'</a><a class="btn big" href="#simulator">'+t("kTry")+'</a>'+catLink()+'</div></div><img src="img/p044.jpg" alt="'+esc(t("kPhotos"))+'"></div>'+
+   '<div class="hero"><div><h2>'+t("kTitle")+'</h2><p class="lead">'+t("kLead")+'</p><div class="facts"><div><b>11</b>'+t("kF1")+"</div><div><b>"+TOTALPARTS+"</b>"+t("kF2")+"</div><div><b>82</b>"+t("kF3")+"</div><div><b>16</b>"+t("kF4")+'</div></div><div class="ctas"><a class="btn primary big" href="#kit" data-go="order">'+t("kOrderCta")+'</a><a class="btn big" href="#simulator">'+t("kTry")+'</a>'+catLink()+'</div></div><img src="'+KITILLUS+'" alt="'+esc(t("hIllus"))+'"></div>'+
    '<h2 class="sec">'+t("kChoose")+'</h2><div class="products">'+
      '<div class="product'+(order.qa?" sel":"")+'"><h3>'+t("kP1")+"</h3><p>"+t("kP1d")+"</p>"+priceHtml("assembled")+stepper("qa")+"</div>"+
      '<div class="product'+(order.qs?" sel":"")+'"><h3>'+t("kP2")+"</h3><p>"+t("kP2d")+"</p>"+priceHtml("solder")+stepper("qs")+"</div>"+
@@ -604,7 +601,7 @@ function renderStatic(){
     SIGS.map(k=>"<tr><td><code>"+k+"</code> "+sigName(k)+"</td><td>"+sigDesc(k)+".</td></tr>").join("")+"</tbody></table></div><h3>"+G.fl+"</h3><p>"+G.flP+"</p>";
   $("modCards").innerHTML=MODORDER.map(b=>{const B=PCB[b],m=MODT[b][LI];
     const svg=b==="bus"?'<svg viewBox="-2 -2 '+(B.h+4)+" "+(B.w+4)+'"><g transform="translate(0 '+B.w+') rotate(-90)">'+drawBoard(b,b,false)+"</g></svg>":'<svg viewBox="-2 -2 '+(B.w+4)+" "+(B.h+4)+'">'+drawBoard(b,b==="reg"?"a":b,false)+"</svg>";
-    return'<article class="card"><div dir="ltr">'+svg+"</div><h3>"+m[0]+'</h3><div class="slot" dir="auto">'+m[1]+" · "+B.w.toFixed(0)+" × "+B.h.toFixed(0)+" mm</div><p>"+m[2]+"</p><dl><dt>"+t("dtChips")+"</dt><dd>"+m[3]+"</dd><dt>"+t("dtLeds")+"</dt><dd>"+m[4]+"</dd><dt>"+t("dtWatch")+"</dt><dd>"+m[5]+"</dd></dl>"+(RRPHOTO[b]?'<figure class="modphoto"><img src="'+RRPHOTO[b]+'" alt="'+esc(t("photo"))+'" loading="lazy"><figcaption>'+t("photoBy")+"</figcaption></figure>":"")+""+(BUILD[b]?'<details class="buildnote"><summary>'+t("bnTitle")+"</summary><p>"+BUILD[b][LI]+'</p><a href="https://robert-riordan-ucd.github.io/this-is-rob/posts/8-bit-cpu/'+BUILDURL[b]+'/" target="_blank" rel="noopener">'+t("bnLink")+" ↗</a></details>":"")+"</article>";}).join("");
+    return'<article class="card"><div dir="ltr">'+svg+"</div><h3>"+m[0]+'</h3><div class="slot" dir="auto">'+m[1]+" · "+B.w.toFixed(0)+" × "+B.h.toFixed(0)+" mm</div><p>"+m[2]+"</p><dl><dt>"+t("dtChips")+"</dt><dd>"+m[3]+"</dd><dt>"+t("dtLeds")+"</dt><dd>"+m[4]+"</dd><dt>"+t("dtWatch")+"</dt><dd>"+m[5]+"</dd></dl>"+"</article>";}).join("");
   $("labCards").innerHTML=LABT.map((l,i)=>{const L=l[LI],e=EXAMPLES.find(x=>x.id===LABEX[i]);
     return'<article class="card"><div class="num">'+t("lab")+" "+(i+1)+"</div><h3>"+L[0]+"</h3><p>"+L[1]+"</p><pre>"+esc(e.src)+"</pre><ul>"+L[2].map(s=>"<li>"+s+"</li>").join("")+'</ul><button class="btn primary" data-lab="'+e.id+'">'+t("openSim")+"</button></article>";}).join("");
   $("chCards").innerHTML=CHT.map((c,i)=>'<article class="card"><div class="num">'+t("challenge")+" "+(i+1)+"</div><h3>"+c[LI][0]+"</h3><p>"+c[LI][1]+'</p><div class="result" id="chR'+i+'" role="status"></div><button class="btn" data-ch="'+i+'">'+t("chCheck")+"</button></article>").join("");

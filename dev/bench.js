@@ -1,6 +1,6 @@
 /* ---------- test bench: take one module out of the computer and test it on its own ----------
    Each module has: its inputs (bus value, switches, control lines), a model of what one clock pulse does,
-   what it drives onto the bus, a test plan that follows the designer's Arduino validation sketches,
+   what it drives onto the bus, a test plan,
    and faults (several are the real mistakes from his first boards). */
 const bt=k=>(BT[k]?BT[k][LI]:k);
 const BENCHMODS=["clk","pc","mar","ram","reg","alu","out","ctl"];
@@ -174,7 +174,7 @@ function renderBench(){
   const m=BM[bm],inst=bm==="reg"?bvar:bm,B=PCB[BTYPE[bm]];
   const chips=BENCHMODS.map(k=>'<button type="button" role="tab" data-bm="'+k+'" aria-selected="'+(k===bm)+'">'+t(CARDKEY[k==="reg"?"a":k]).replace(/ A$/,"")+"</button>").join("");
   const variant=bm==="reg"?'<div class="bvar" role="group">'+["a","b","ir"].map(v=>'<button type="button" data-bv="'+v+'" aria-pressed="'+(v===bvar)+'">'+t(CARDKEY[v])+"</button>").join("")+"</div>":"";
-  const faults='<option value="">'+bt("noFault")+"</option>"+m.faults.map(f=>'<option value="'+f+'"'+(f===bfault?" selected":"")+">"+bt("f_"+f)+(REALF.includes(f)?" ★":"")+"</option>").join("");
+  const faults='<option value="">'+bt("noFault")+"</option>"+m.faults.map(f=>'<option value="'+f+'"'+(f===bfault?" selected":"")+">"+bt("f_"+f)+"</option>").join("");
   $("benchBody").innerHTML=
    '<div class="bhead"><h2>'+bt("title")+'</h2><p class="lead">'+bt("lead")+'</p></div>'+
    '<div class="bmods" role="tablist">'+chips+"</div>"+
@@ -190,7 +190,6 @@ function renderBench(){
    "</div>"+
    '<div class="bcard btest"><h3>'+bt("autoT")+'</h3><p class="sub">'+bt("autoL")+'</p>'+
      '<div class="rowf"><label class="sub" for="bFaultSel" style="margin:0">'+bt("insFault")+'</label><select id="bFaultSel">'+faults+'</select><button class="btn primary" type="button" data-bact="test">'+bt("runT")+"</button></div>"+
-     '<p class="sub bstar">★ '+bt("realF")+"</p>"+
      '<div id="bRes"></div></div>';
   renderBenchInputs();renderBenchLive();renderBenchResult();benchClkSync();
 }
@@ -239,7 +238,6 @@ function renderBenchResult(){
    '<div class="tablewrap"><table class="bres"><thead><tr><th>'+bt("plan")+"</th><th>"+bt("checks")+"</th><th>"+bt("verdict")+"</th></tr></thead><tbody>"+
    bresult.map((r,k)=>"<tr><td>"+(k+1)+". "+bt(r.k)+'</td><td class="m">'+r.n+"</td><td>"+(r.fail?'<b class="bad">'+bt("fail")+"</b><br><span class=\"sub\">"+(r.fail.at!=null?'<span class="ltr">'+esc(r.fail.at)+"</span> · ":"")+bt(r.fail.what)+": "+bt("expected")+' <b class="ltr">'+esc(r.fail.exp==null?bt("floating"):r.fail.exp)+"</b>, "+bt("got")+' <b class="ltr">'+esc(r.fail.act==null?bt("floating"):r.fail.act)+"</b></span>":'<b class="good">'+bt("pass")+"</b>")+"</td></tr>").join("")+"</tbody></table></div>";
 }
-const REALF=["regFloat","pcSolder","marMix","ramBtn","aluFlags","outFloat","outEnable","ctlReset","clkBtn","clkPullup"];
 
 $("benchBody").addEventListener("click",e=>{
   const c=e.target.closest("[data-bm],[data-bv],[data-bk],[data-bt],[data-bact],#bpcb [data-act]");if(!c)return;const m=BM[bm];

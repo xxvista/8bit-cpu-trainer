@@ -58,7 +58,7 @@ function brochureHtml() { // runs inside index.html, so it can use t(), SHOP, KI
     <div class="two">
       <div><h3 class="ltr">8-Bit CPU Trainer</h3><p>${t("kLead")}</p>
         <div class="facts"><div><b>11</b>${t("kF1")}</div><div><b>${TOTALPARTS}</b>${t("kF2")}</div><div><b>82</b>${t("kF3")}</div><div><b>16</b>${t("kF4")}</div></div></div>
-      <img class="ph" src="img/p044.jpg">
+      <img class="ph" style="border:none;height:52mm;object-fit:contain" src="img/kit-illustration.png">
     </div>
     <div><h3>${t("bVersions")}</h3><table>
       ${row(t("kP1"), t("kP1d"), money(SHOP.prices.assembled))}

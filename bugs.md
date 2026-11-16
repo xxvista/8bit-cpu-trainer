@@ -34,6 +34,12 @@ _None._
 - **What happened:** The readout "floating (not driven)" could not wrap, so the page was 387 px (English) and 422 px (French) wide.
 - **Fix:** Readout values in `.bread` may wrap. Found and fixed before release, in the commit "Add a test bench for module-by-module testing" (2026-11-16).
 
+### 5. Page script broke after removing the ★ fault marks
+
+- **Where:** the whole site (found while removing designer references, before any commit)
+- **What happened:** Removing the ★ from the test bench's fault list left `++` in the code, a syntax error, so no page script ran.
+- **Fix:** Corrected in `dev/bench.js`; the browser test and the catalogue script now pass. Fixed in the commit "Replace photos with board illustrations and remove designer references" (2026-11-16).
+
 ## How to report a bug
 
 Add a section under **Open** with: where (page, language, screen size), what happens, what should happen, and the cause if known. Move it to **Fixed** with the commit hash once it is fixed.

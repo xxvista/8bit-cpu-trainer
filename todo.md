@@ -20,7 +20,7 @@
 - [ ] Share the order tracker with Feriel (Share button in Google Sheets), and delete its example row before the first real order
 - [x] Visitor counting: GoatCounter code `xxvista` set; visits show at https://xxvista.goatcounter.com once the site is online
 - [ ] After publishing, open the site once and check the visit appears on the GoatCounter dashboard
-- [ ] Replace the temporary "Inside the kit" photos with photos of a real lab session (`HOMEPHOTOS` in `dev/app.js`)
+- [ ] Assemble the first kit, then add real photos of it (and of a lab session) to the home page, kit page and catalogue
 - [ ] Add real quotes from teachers or students when you have them (`QUOTES` in `dev/app.js`; the section appears by itself)
 - [ ] Test the order form and the "coming soon" contact buttons: WhatsApp and email both open with the message filled in
 - [ ] Test in Firefox and Safari, and on a real phone (Arabic right-to-left layout especially)
@@ -31,13 +31,10 @@
 - [ ] Test bench: link each module's bench from its card on the Modules page, and from the simulator when zoomed into a board
 - [ ] Test bench: a lab exercise that asks students to find an unknown fault with the bench (the fault is hidden, like in the simulator's Faults tab)
 
-- [x] Permission from the designer (Robert Riordan) to use his photos (owner, 2026-11-16); his 8 module photos are on the Modules page with credit
-- [ ] Optional: ask him whether his short videos of each board running can be embedded too (the site links to them for now)
-- [ ] Optional: fault exercises for the other real build mistakes (program counter skipping counts, floating two's-complement input making the display flicker)
+- [ ] Optional: more fault exercises (program counter skipping counts, display flickering)
 
 - [ ] Logic Gates Kit (on hold, owner 2026-11-16): real page (photos, contents, guide, labs, order) and possibly a gate simulator
 - [ ] Arduino Model Kit: real page (photos, contents, guide, labs, order)
 - [ ] One shared order form for several kits, once more than one kit is for sale
 - [ ] Ask a French and an Arabic speaker to proofread `dev/strings.js`
-- [ ] Add photos for the CPU boards that have none yet (`PHOTOS` in `dev/app.js` lists 5 boards)
 - [ ] Add a small automated browser test so changes can be checked before committing

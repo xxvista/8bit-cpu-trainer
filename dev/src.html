@@ -209,12 +209,6 @@ table.uc td.cur{background:var(--accent);color:#fff}
 .lead{font-size:17px;color:var(--muted)}
 .callout{border:1px solid var(--line);border-inline-start:5px solid var(--warn);border-radius:10px;background:var(--soft);padding:10px 14px;margin:14px 0}
 .twocol{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:36px;align-items:start}
-.modphoto{margin:0}.modphoto img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;border-radius:10px}.modphoto figcaption{font-size:12px;color:var(--muted);margin-top:4px}
-.modsrc{margin-top:8px}.modsrc a{color:var(--accent)}
-details.buildnote{margin-top:auto;border:1px solid #f1d77a;background:#fffbea;border-radius:10px;padding:0 12px}
-details.buildnote summary{cursor:pointer;padding:9px 0;font-weight:600;font-size:14px}
-details.buildnote p{font-size:14px;margin:0 0 8px}
-details.buildnote a{display:inline-block;font-size:13px;font-weight:600;color:var(--accent);margin-bottom:10px}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;margin-top:16px}
 .card{background:var(--page);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px}
 .card h3{font-size:22px;font-weight:600;text-transform:uppercase}
@@ -338,7 +332,13 @@ body:not([data-view="cpu"]) header.top{max-width:1160px;margin:0 auto}
 #soonBody{padding:48px 0 24px}
 .homehero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);grid-template-areas:"text img" "facts facts";gap:48px 64px;align-items:center;padding:72px 0 24px}
 .herotext{grid-area:text}
-.heroimg{grid-area:img;width:100%;height:auto;display:block;border-radius:20px;box-shadow:0 20px 50px -24px rgba(17,24,39,.45)}
+.heroimg{grid-area:img;margin:0}
+.heroimg img{width:100%;height:auto;display:block}
+.heroimg figcaption,.bdraw+figcaption{font-size:13px;color:var(--muted);margin-top:8px;text-align:center}
+.bdraw{background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:14px;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center}
+.bdraw svg{width:100%;height:100%;display:block}
+.kitcard .pic img.illus{object-fit:contain;padding:14px}
+.hero img.illus,.hero > img{object-fit:contain;border:none}
 .homehero h2{font-size:64px;line-height:1;font-weight:700;text-transform:uppercase;margin-top:20px}
 .homehero .lead{margin:22px 0 32px;max-width:52ch;font-size:19px;line-height:1.6}
 .homehero .facts{grid-area:facts;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin:0;padding-top:32px;border-top:1px solid var(--line)}
@@ -636,7 +636,7 @@ table.bres td{vertical-align:top;padding:8px}
 <section class="view" id="view-guide"><div class="twocol"><div id="guideBody"></div><div class="prose" id="guideSide"></div></div></section>
 
 <section class="view" id="view-modules">
-  <div class="prose"><h2 data-t="modTitle"></h2><p class="lead" data-t="modLead"></p><p class="sub modsrc" data-t="modSrc"></p></div>
+  <div class="prose"><h2 data-t="modTitle"></h2><p class="lead" data-t="modLead"></p></div>
   <div class="cards" id="modCards"></div>
 </section>
 
