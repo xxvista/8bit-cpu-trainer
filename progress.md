@@ -14,7 +14,7 @@ A startup that designs and sells hands-on electronics kits for learning, each wi
 
 ## Status
 
-The website works offline: open `index.html` in a browser. It opens on a home page where visitors choose a kit. Latest work (test bench) is on branch `claude/sleepy-noether-bbtr9v`, not yet merged into `main`.
+The website works offline: open `index.html` in a browser. It opens on a home page where visitors choose a kit. All work is merged into `main`.
 
 ## Site map
 
@@ -89,6 +89,7 @@ The company name in the header always goes back home.
 - 2026-11-16: The designer gave permission to use his photos. His 8 module photos (resized to 1,400 px, 1.1 MB in total) replace the module-card photos, with a credit line. Our own kit photos stay on the home and kit pages.
 - 2026-11-16: Merged the simulator redesign, build notes, new faults and the designer's photos into `main`.
 - 2026-11-16: Added the Test bench page (module-by-module testing). Code in `dev/bench.js`; the page start-up moved to `dev/start.js` so it runs after the bench code. The board drawing function takes an id prefix so a second live copy of a board can be on the page.
+- 2026-11-16: Merged the test bench into `main`.
 
 ## Not done yet
 
