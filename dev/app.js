@@ -145,21 +145,23 @@ const waLink=msg=>"https://wa.me/"+SHOP.whatsapp+"?text="+encodeURIComponent(msg
 const mailLink=(sub,msg)=>"mailto:"+SHOP.email+"?subject="+encodeURIComponent(sub)+"&body="+encodeURIComponent(msg);
 function renderHome(){
   const kit=id=>KITS.find(k=>k.id===id);
-  const step=(lbl,k,txt)=>{const live=k.status==="live";return'<a class="pathstep'+(live?" live":"")+'" href="#'+(live?"simulator":k.id)+'"><span class="plbl">'+lbl+"</span><b"+(k.id==="cpu"?' class="ltr"':"")+">"+k.name()+"</b><span>"+txt+'</span><span class="badge '+(live?"ok":"soon")+'">'+t(live?"hAvail":"hSoon")+"</span></a>";};
+  const head=(title,intro)=>'<div class="hhead"><h2>'+title+"</h2>"+(intro?'<p class="lead">'+intro+"</p>":"")+"</div>";
+  const step=(lbl,k,txt)=>{const live=k.status==="live";return'<a class="pathstep'+(live?" live":"")+'" href="#'+(live?"simulator":k.id)+'"><span class="plbl">'+lbl+"</span><b"+(k.id==="cpu"?' class="ltr"':"")+">"+k.name()+"</b><span class=\"ptxt\">"+txt+'</span><span class="badge '+(live?"ok":"soon")+'">'+t(live?"hAvail":"hSoon")+"</span></a>";};
   $("homeBody").innerHTML=
-   '<div class="homehero"><div><span class="eyebrow">'+t("hMade")+"</span><h2>"+t("hTitle")+'</h2><p class="lead">'+t("hLead")+'</p><div class="ctas"><button type="button" class="btn primary big" data-scroll="hKits">'+t("hSeeKits")+'</button><button type="button" class="btn big" data-scroll="hContactBox">'+t("hContact")+'</button></div>'+
-     '<div class="facts"><div><b>3</b>'+t("hF1")+"</div><div><b>3</b>"+t("hF2")+"</div><div><b>58</b>"+t("hF3")+'</div></div></div><img src="img/p044.jpg" alt="'+esc(t("kPhotos"))+'"></div>'+
-   '<section class="hsec who"><h2 class="sec">'+t("hWho")+'</h2><div class="whogrid"><p class="lead">'+t("hWhoP")+'</p><div><b class="forlbl">'+t("hFor")+'</b><div class="audience">'+[1,2,3,4].map(i=>"<span>"+t("hAud"+i)+"</span>").join("")+"</div></div></div></section>"+
-   '<section class="hsec" id="hKits"><h2 class="sec">'+t("hChoose")+'</h2><div class="kits">'+KITS.map(k=>{const live=k.status==="live";
+   '<section class="homehero"><div class="herotext"><span class="eyebrow">'+t("hMade")+"</span><h2>"+t("hTitle")+'</h2><p class="lead">'+t("hLead")+'</p><div class="ctas"><button type="button" class="btn primary big" data-scroll="hKits">'+t("hSeeKits")+'</button><button type="button" class="btn big" data-scroll="hContactBox">'+t("hContact")+'</button></div></div>'+
+     '<img class="heroimg" src="img/p044.jpg" alt="'+esc(t("kPhotos"))+'">'+
+     '<div class="facts"><div><b>3</b><span>'+t("hF1")+"</span></div><div><b>3</b><span>"+t("hF2")+"</span></div><div><b>58</b><span>"+t("hF3")+"</span></div></div></section>"+
+   '<section class="hsec who"><h2>'+t("hWho")+'</h2><div><p class="whotext">'+t("hWhoP")+'</p><b class="forlbl">'+t("hFor")+'</b><div class="audience">'+[1,2,3,4].map(i=>"<span>"+t("hAud"+i)+"</span>").join("")+"</div></div></section>"+
+   '<section class="hsec" id="hKits">'+head(t("hChoose"))+'<div class="kits">'+KITS.map(k=>{const live=k.status==="live";
      return'<article class="kitcard'+(live?" live":"")+'"><a class="pic" href="#'+(live?"simulator":k.id)+'" tabindex="-1">'+kitPic(k)+'</a><div class="body"><span class="badge '+(live?"ok":"soon")+'">'+t(live?"hAvail":"hSoon")+"</span><h3"+(k.id==="cpu"?' class="ltr"':"")+">"+k.name()+"</h3><p>"+k.desc()+"</p>"+(live&&k.id==="cpu"?'<div class="fromprice">'+t("hFrom",'<b class="ltr">'+money(Math.min(SHOP.prices.assembled,SHOP.prices.solder))+"</b>")+"</div>":"")+'<div class="ctas">'+
        (live?'<a class="btn primary" href="#simulator">'+t("hExplore")+'</a><a class="btn" href="#kit">'+t("hOrder")+"</a>":'<a class="btn" href="#'+k.id+'">'+t("hMore")+"</a>")+"</div></div></article>";}).join("")+"</div></section>"+
-   '<section class="hsec"><h2 class="sec">'+t("hPath")+'</h2><p class="lead secl">'+t("hPathL")+'</p><div class="path">'+
+   '<section class="hsec band">'+head(t("hPath"),t("hPathL"))+'<div class="path">'+
      step(t("hStep",1),kit("gates"),t("hPath1"))+'<span class="arrow" aria-hidden="true">→</span>'+step(t("hStep",2),kit("cpu"),t("hPath2"))+'<span class="arrow plus" aria-hidden="true">+</span>'+step(t("hAlong"),kit("arduino"),t("hPath3"))+"</div></section>"+
-   '<section class="hsec"><h2 class="sec">'+t("hWhy")+'</h2><div class="why">'+[1,2,3,4].map(i=>'<div class="whyitem"><span class="ico">'+svgI(WHYICONS[i-1])+"</span><h3>"+t("hW"+i)+"</h3><p>"+t("hW"+i+"d")+"</p></div>").join("")+"</div></section>"+
-   '<section class="hsec"><h2 class="sec">'+t("hPhotos")+'</h2><div class="gallery">'+HOMEPHOTOS.map(ph=>'<figure><img src="'+ph.src+'" alt="'+esc(t(ph.cap))+'" loading="lazy"><figcaption>'+t(ph.cap)+"</figcaption></figure>").join("")+"</div></section>"+
-   (QUOTES.length?'<section class="hsec"><h2 class="sec">'+t("hQuotes")+'</h2><div class="quotes">'+QUOTES.map(q=>"<figure><blockquote>"+tr(q.text)+"</blockquote><figcaption><b>"+esc(q.name)+"</b><span>"+tr(q.role)+"</span></figcaption></figure>").join("")+"</div></section>":"")+
-   '<section class="hsec"><h2 class="sec">'+t("hHow")+'</h2><ol class="how">'+[1,2,3].map(i=>'<li><span class="hn">'+i+"</span><h3>"+t("hHow"+i)+"</h3><p>"+t("hHow"+i+"d")+"</p></li>").join("")+'</ol><div class="ctas" style="margin-top:16px"><a class="btn primary big" target="_blank" rel="noopener" href="'+waLink(t("hQuoteMsg"))+'">'+t("hQuote")+'</a><a class="btn big" href="#kit">'+t("hOrder")+" · 8-Bit CPU</a>"+catLink()+"</div></section>"+
-   '<section class="hsec"><h2 class="sec">'+t("hFaq")+'</h2><div class="faq">'+[1,2,3,4,5].map(i=>"<details><summary>"+t("hQ"+i)+"</summary><p>"+t("hA"+i)+"</p></details>").join("")+"</div></section>"+
+   '<section class="hsec">'+head(t("hWhy"))+'<div class="why">'+[1,2,3,4].map(i=>'<div class="whyitem"><span class="ico">'+svgI(WHYICONS[i-1])+"</span><h3>"+t("hW"+i)+"</h3><p>"+t("hW"+i+"d")+"</p></div>").join("")+"</div></section>"+
+   '<section class="hsec">'+head(t("hPhotos"))+'<div class="hgallery">'+HOMEPHOTOS.map(ph=>'<figure><img src="'+ph.src+'" alt="'+esc(t(ph.cap))+'" loading="lazy"><figcaption>'+t(ph.cap)+"</figcaption></figure>").join("")+"</div></section>"+
+   (QUOTES.length?'<section class="hsec">'+head(t("hQuotes"))+'<div class="quotes">'+QUOTES.map(q=>"<figure><blockquote>"+tr(q.text)+"</blockquote><figcaption><b>"+esc(q.name)+"</b><span>"+tr(q.role)+"</span></figcaption></figure>").join("")+"</div></section>":"")+
+   '<section class="hsec band">'+head(t("hHow"))+'<ol class="how">'+[1,2,3].map(i=>'<li><span class="hn">'+i+"</span><h3>"+t("hHow"+i)+"</h3><p>"+t("hHow"+i+"d")+"</p></li>").join("")+'</ol><div class="ctas howctas"><a class="btn primary big" target="_blank" rel="noopener" href="'+waLink(t("hQuoteMsg"))+'">'+t("hQuote")+'</a><a class="btn big" href="#kit">'+t("hOrder")+" · 8-Bit CPU</a>"+catLink()+"</div></section>"+
+   '<section class="hsec faqsec"><h2>'+t("hFaq")+'</h2><div class="faq">'+[1,2,3,4,5].map(i=>"<details><summary>"+t("hQ"+i)+"</summary><p>"+t("hA"+i)+"</p></details>").join("")+"</div></section>"+
    '<section class="ctabox" id="hContactBox"><div><h2>'+t("hCtaT")+'</h2><p class="lead">'+t("hCtaL")+'</p></div><div class="ctas"><a class="btn primary big" target="_blank" rel="noopener" href="'+waLink(t("hHello"))+'">WhatsApp</a><a class="btn big" href="'+mailLink(BRAND,t("hHello"))+'">Email</a></div>'+contactHtml()+"</section>"+
    '<p class="creditline">'+t("credit")+"</p>";
 }
@@ -614,6 +616,7 @@ function route(){
   if(soonId)renderSoon(soonId);
   VIEWS.forEach(x=>$("view-"+x).classList.toggle("active",x===v));
   const cpu=CPUVIEWS.includes(v);$("kitbar").hidden=!cpu;
+  document.body.dataset.view=cpu?"cpu":v;
   document.title=cpu?"8-Bit CPU Trainer · "+BRAND:soonId?KITS.find(k=>k.id===soonId).name()+" · "+BRAND:BRAND;
   document.querySelectorAll("#nav a").forEach(a=>{if(a.getAttribute("href")==="#"+v)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");});
   trackView();

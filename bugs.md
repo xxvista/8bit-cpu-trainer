@@ -22,6 +22,12 @@ _None._
 - **What happened:** The "Demander un devis pour votre établissement" button could not wrap (buttons use `white-space:nowrap`), so the page was 395 px wide.
 - **Fix:** Buttons on the home and coming-soon pages may now wrap their text (`#homeBody .btn` rule in `dev/src.html`). Found and fixed before release, in the commit "Rebuild the home page to present the startup" (2026-11-16).
 
+### 3. Huge kit pictures on phones during the redesign
+
+- **Where:** Home page, kit cards, phones (under 600 px)
+- **What happened:** A tablet rule (`min-height:100%` on the picture) also applied on phones, so each picture filled the whole card.
+- **Fix:** The phone rule resets `min-height`. Found and fixed before release, in the commit "Give the home page more room" (2026-11-16).
+
 ## How to report a bug
 
 Add a section under **Open** with: where (page, language, screen size), what happens, what should happen, and the cause if known. Move it to **Fixed** with the commit hash once it is fixed.
