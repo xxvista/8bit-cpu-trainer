@@ -28,7 +28,8 @@
 
 ## Later
 
-- [ ] Ask the designer (Robert Riordan) for permission before using any of his photos or videos on the site; for now the site only links to them
+- [x] Permission from the designer (Robert Riordan) to use his photos (owner, 2026-11-16); his 8 module photos are on the Modules page with credit
+- [ ] Optional: ask him whether his short videos of each board running can be embedded too (the site links to them for now)
 - [ ] Optional: fault exercises for the other real build mistakes (program counter skipping counts, floating two's-complement input making the display flicker)
 
 - [ ] Logic Gates Kit (on hold, owner 2026-11-16): real page (photos, contents, guide, labs, order) and possibly a gate simulator

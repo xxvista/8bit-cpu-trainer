@@ -209,6 +209,7 @@ table.uc td.cur{background:var(--accent);color:#fff}
 .lead{font-size:17px;color:var(--muted)}
 .callout{border:1px solid var(--line);border-inline-start:5px solid var(--warn);border-radius:10px;background:var(--soft);padding:10px 14px;margin:14px 0}
 .twocol{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:36px;align-items:start}
+.modphoto{margin:0}.modphoto img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;border-radius:10px}.modphoto figcaption{font-size:12px;color:var(--muted);margin-top:4px}
 .modsrc{margin-top:8px}.modsrc a{color:var(--accent)}
 details.buildnote{margin-top:auto;border:1px solid #f1d77a;background:#fffbea;border-radius:10px;padding:0 12px}
 details.buildnote summary{cursor:pointer;padding:9px 0;font-weight:600;font-size:14px}
@@ -741,7 +742,7 @@ const U={
  exGroup:["Examples","Exemples","أمثلة"],myGroup:["My programs","Mes programmes","برامجي"],
  // views
  modTitle:["Module catalog","Catalogue des modules","فهرس البطاقات"],modLead:["Each board drawn from its PCB file, with what it does, the chips on it and what its LEDs show.","Chaque carte dessinée d'après son fichier PCB, avec son rôle, ses circuits et ce que montrent ses LED.","كل بطاقة مرسومة من ملف الدارة المطبوعة، مع دورها ودوائرها وما تُظهره مصابيحها."],
- dtChips:["Chips","Circuits","الدوائر"],dtLeds:["LEDs","LED","المصابيح"],dtWatch:["Watch","À observer","لاحِظ"],photo:["Photo of the built card","Photo de la carte montée","صورة البطاقة المركّبة"],
+ dtChips:["Chips","Circuits","الدوائر"],dtLeds:["LEDs","LED","المصابيح"],dtWatch:["Watch","À observer","لاحِظ"],photo:["Photo of the built card","Photo de la carte montée","صورة البطاقة المركّبة"],photoBy:["Photo: Robert Riordan, the original designer","Photo : Robert Riordan, concepteur d'origine","الصورة: روبرت ريوردان، المصمّم الأصلي"],
  labsTitle:["Lab exercises","Travaux pratiques","الأعمال التطبيقية"],labsLead:["Six guided sessions, each built on the one before. Open a lab in the simulator, predict what will happen, step through it, then repeat it on the kit.","Six séances guidées, chacune s'appuyant sur la précédente. Ouvrez un TP dans le simulateur, prévoyez le résultat, avancez pas à pas, puis refaites-le sur le kit.","ست حصص موجَّهة، كل واحدة تُبنى على سابقتها. افتح العمل في المحاكي، توقّع ما سيحدث، تقدّم خطوة بخطوة، ثم أعده على الطقم."],
  lab:["LAB","TP","عمل تطبيقي"],openSim:["Open in simulator","Ouvrir dans le simulateur","فتح في المحاكي"],
  chTitle:["Challenges","Défis","تحدّيات"],chLead:["Write the program in the simulator's Program tab, then come back and check it. The checker runs your program and looks at the display.","Écrivez le programme dans l'onglet Programme du simulateur, puis revenez le vérifier. Le vérificateur exécute votre programme et lit l'afficheur.","اكتب البرنامج في تبويب البرنامج بالمحاكي ثم عد للتحقق منه. المدقّق يشغّل برنامجك ويقرأ الشاشة."],
@@ -1312,6 +1313,8 @@ const SIGS=["MI","RI","RO","II","IO","PCO","PCE","JMP","AI","AO","BI","EO","SUB"
 const sigName=k=>SIGT[k][LI][0],sigDesc=k=>SIGT[k][LI][1];
 const ISA=[["0000","NOP"],["0001","LDA n"],["0010","STA n"],["0011","LDB n"],["0100","ADD"],["0101","SUB"],["0110","JMP n"],["0111","JMPC n"],["1000","JMPZ n"],["1110","OUT"],["1111","HLT"]];
 const MODORDER=["bus","clk","pc","mar","ram","reg","alu","out","ctl"];
+/* the original designer's photos of each module (used with his permission, given to the owner in 2026) */
+const RRPHOTO={clk:"img/rr-clk.jpg",pc:"img/rr-pc.jpg",mar:"img/rr-mar.jpg",reg:"img/rr-reg.jpg",ram:"img/rr-ram.jpg",alu:"img/rr-alu.jpg",ctl:"img/rr-ctl.jpg",out:"img/rr-out.jpg"};
 const BUILDURL={clk:"clock",pc:"program-counter",mar:"mar",reg:"registers",ram:"ram",alu:"alu",ctl:"control",out:"output",bus:"bus"};
 const LABEX=["fetch","add","sub","count3","down","mul"];
 const haltTxt=x=>x.st.halted?t("chHalt"):t("chNoHalt");
@@ -1727,7 +1730,7 @@ function renderStatic(){
     SIGS.map(k=>"<tr><td><code>"+k+"</code> "+sigName(k)+"</td><td>"+sigDesc(k)+".</td></tr>").join("")+"</tbody></table></div><h3>"+G.fl+"</h3><p>"+G.flP+"</p>";
   $("modCards").innerHTML=MODORDER.map(b=>{const B=PCB[b],m=MODT[b][LI];
     const svg=b==="bus"?'<svg viewBox="-2 -2 '+(B.h+4)+" "+(B.w+4)+'"><g transform="translate(0 '+B.w+') rotate(-90)">'+drawBoard(b,b,false)+"</g></svg>":'<svg viewBox="-2 -2 '+(B.w+4)+" "+(B.h+4)+'">'+drawBoard(b,b==="reg"?"a":b,false)+"</svg>";
-    return'<article class="card"><div dir="ltr">'+svg+"</div><h3>"+m[0]+'</h3><div class="slot" dir="auto">'+m[1]+" · "+B.w.toFixed(0)+" × "+B.h.toFixed(0)+" mm</div><p>"+m[2]+"</p><dl><dt>"+t("dtChips")+"</dt><dd>"+m[3]+"</dd><dt>"+t("dtLeds")+"</dt><dd>"+m[4]+"</dd><dt>"+t("dtWatch")+"</dt><dd>"+m[5]+"</dd></dl>"+(PHOTOS[b]?'<img src="'+PHOTOS[b]+'" alt="'+esc(t("photo"))+'" loading="lazy">':"")+""+(BUILD[b]?'<details class="buildnote"><summary>'+t("bnTitle")+"</summary><p>"+BUILD[b][LI]+'</p><a href="https://robert-riordan-ucd.github.io/this-is-rob/posts/8-bit-cpu/'+BUILDURL[b]+'/" target="_blank" rel="noopener">'+t("bnLink")+" ↗</a></details>":"")+"</article>";}).join("");
+    return'<article class="card"><div dir="ltr">'+svg+"</div><h3>"+m[0]+'</h3><div class="slot" dir="auto">'+m[1]+" · "+B.w.toFixed(0)+" × "+B.h.toFixed(0)+" mm</div><p>"+m[2]+"</p><dl><dt>"+t("dtChips")+"</dt><dd>"+m[3]+"</dd><dt>"+t("dtLeds")+"</dt><dd>"+m[4]+"</dd><dt>"+t("dtWatch")+"</dt><dd>"+m[5]+"</dd></dl>"+(RRPHOTO[b]?'<figure class="modphoto"><img src="'+RRPHOTO[b]+'" alt="'+esc(t("photo"))+'" loading="lazy"><figcaption>'+t("photoBy")+"</figcaption></figure>":"")+""+(BUILD[b]?'<details class="buildnote"><summary>'+t("bnTitle")+"</summary><p>"+BUILD[b][LI]+'</p><a href="https://robert-riordan-ucd.github.io/this-is-rob/posts/8-bit-cpu/'+BUILDURL[b]+'/" target="_blank" rel="noopener">'+t("bnLink")+" ↗</a></details>":"")+"</article>";}).join("");
   $("labCards").innerHTML=LABT.map((l,i)=>{const L=l[LI],e=EXAMPLES.find(x=>x.id===LABEX[i]);
     return'<article class="card"><div class="num">'+t("lab")+" "+(i+1)+"</div><h3>"+L[0]+"</h3><p>"+L[1]+"</p><pre>"+esc(e.src)+"</pre><ul>"+L[2].map(s=>"<li>"+s+"</li>").join("")+'</ul><button class="btn primary" data-lab="'+e.id+'">'+t("openSim")+"</button></article>";}).join("");
   $("chCards").innerHTML=CHT.map((c,i)=>'<article class="card"><div class="num">'+t("challenge")+" "+(i+1)+"</div><h3>"+c[LI][0]+"</h3><p>"+c[LI][1]+'</p><div class="result" id="chR'+i+'" role="status"></div><button class="btn" data-ch="'+i+'">'+t("chCheck")+"</button></article>").join("");

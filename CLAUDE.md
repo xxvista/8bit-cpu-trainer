@@ -16,7 +16,7 @@ After any change to prices or to text the catalogue uses, run `node dev/brochure
 
 - Kits: 8-Bit CPU Trainer (available), Logic Gates Kit and Arduino Model Kit (placeholders, "coming soon"). The kit list is `KITS` in `dev/app.js`.
 - Prices: `SHOP.prices` in `dev/app.js` (assembled 49,000 DA, solder kit 39,000 DA). Keep the Prices tab of the order tracker Google Sheet in step when they change.
-- The designer's blog photos and videos are not ours: link to them, don't copy them into `img/`, unless the owner gets permission.
+- The original designer, Robert Riordan, gave the owner permission to use his photos (owner, 2026-11-16). His module photos are `img/rr-*.jpg` (`RRPHOTO` in `dev/app.js`); always keep the "Photo: Robert Riordan" credit. They show his boards, so don't present them as photos of our kit.
 - Quotes (`QUOTES`) must be real quotes from real people. Never invent them; the section stays hidden while the list is empty.
 - Company name is a placeholder: `BRAND` in `dev/app.js` (and the `<title>` in `dev/src.html`).
 - All visible text is in `dev/strings.js` in English, French and Arabic (right-to-left). Every new string needs all three.

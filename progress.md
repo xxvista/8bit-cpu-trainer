@@ -41,6 +41,7 @@ The company name in the header always goes back home.
 | Simulator controls | Player-style control bar (Reset, Step back, Clock pulse, One instruction, Run/Pause) above the board; pinned to the bottom of the screen on phones | `dev/src.html`, `dev/app.js` |
 | Data path | Animated yellow line from the board driving the bus, along the bus, to every board storing the byte, with the value on a tag | `drawFlow` in `dev/app.js` |
 | Step tracker | T0–T5 bar under the explanation (fetch vs execute, current and finished steps, unused steps dimmed) | `render` in `dev/app.js` |
+| Designer's photos | Robert Riordan's photo of each module on the Modules page, credited, used with his permission | `RRPHOTO` in `dev/app.js`, `img/rr-*.jpg` |
 | Real build notes | "From the real build" note on each module card: what went wrong on the designer's boards and how it was fixed, with a link to his page for that board | `BUILD` in `dev/strings.js` |
 | Brand | Placeholder name "Electronics Kits Lab", changed in one place | `BRAND` in `dev/app.js`, `<title>` in `dev/src.html` |
 | CPU simulator | SAP-1 CPU: microcode, ALU, flags, 16-byte RAM, assembler with labels, disassembler, step / instruction / run / back / reset, speed control | `dev/app.js` |
@@ -82,6 +83,7 @@ The company name in the header always goes back home.
 - 2026-11-16: Home page redesign for more space: centred 1,160 px column (header aligned to it), 88 px between sections (64 px on phones), larger section titles, soft background bands for the learning path and ordering, no boxes around "Why our kits", equal-size photo row, two-column FAQ with +/− markers, dark contact box. Phone header on one row. Kit cards side by side on tablets. Checked at 1440, 820 and 390 px, English and Arabic.
 - 2026-11-16: Merged the home page redesign into `main`.
 - 2026-11-16: Compared the site with the designer's repository and blog. The Bootloader board in the repository is unfinished (empty board file, not in the blog), so it was not added. Added his build notes (summarised, 3 languages) to the module cards with links to his pages, and 2 new faults based on real mistakes. Simulator redesign: control bar with icons, the whole computer fits the first screen on desktop and stays in view, yellow data-path line, T0–T5 step tracker, tabs as a segmented control, first-visit tip, "Whole computer" only shown when zoomed. Phones: control bar pinned at the bottom, kit menu on one row, only the boards involved in the current step are labelled. Checked at 1440, 1280 and 390 px in English and Arabic.
+- 2026-11-16: The designer gave permission to use his photos. His 8 module photos (resized to 1,400 px, 1.1 MB in total) replace the module-card photos, with a credit line. Our own kit photos stay on the home and kit pages.
 
 ## Not done yet
 
