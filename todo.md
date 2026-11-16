@@ -2,7 +2,7 @@
 
 ## Before launch
 
-- [ ] Fix the bug in [bugs.md](bugs.md) (French guide scrolls sideways on phones)
+- [x] Fix the bug in [bugs.md](bugs.md) (French guide scrolls sideways on phones)
 - [ ] Set kit prices in the `SHOP` object in `dev/app.js` (`prices.assembled`, `prices.solder`, in DA), then rebuild
 - [ ] Test the order form: email link and WhatsApp link both open with the order filled in
 - [ ] Test in Firefox and Safari, and on a real phone (Arabic right-to-left layout especially)

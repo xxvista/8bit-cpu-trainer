@@ -4,7 +4,7 @@ Last updated: 2026-11-16
 
 ## Status
 
-The website is built and works offline: open `index.html` in a browser. The whole project so far is one commit (`f89695f`, "Add 8-Bit CPU Trainer website"). `main` and the working branch point at the same commit.
+The website is built and works offline: open `index.html` in a browser. The site was added in commit `f89695f`. Work since then is on branch `claude/sleepy-noether-bbtr9v` (not yet merged into `main`): these notes files and the fix for the French guide on phones.
 
 ## Done
 
@@ -25,6 +25,7 @@ The website is built and works offline: open `index.html` in a browser. The whol
 
 - [x] All 7 pages load in all 3 languages, desktop (1280 px) and phone (375 px)
 - [x] No JavaScript errors, no broken images, no missing translations
+- [x] No page scrolls sideways on phones (French guide fixed)
 - [x] All 7 example programs assemble and give the expected output (`count3` loops on purpose and never halts)
 - [x] Step, Run and Reset work
 - [x] `index.html` matches a fresh build of `dev/`
