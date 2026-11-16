@@ -14,7 +14,7 @@ A startup that designs and sells hands-on electronics kits for learning, each wi
 
 ## Status
 
-The website works offline: open `index.html` in a browser. It opens on a home page where visitors choose a kit. Latest work (Faults tab removed, Bouira university and incubator wording) is on branch `claude/sleepy-noether-bbtr9v`, not yet merged into `main`.
+The website works offline: open `index.html` in a browser. It opens on a home page where visitors choose a kit. All work is merged into `main`.
 
 ## Site map
 
@@ -93,6 +93,7 @@ The company name in the header always goes back home.
 - 2026-11-16: Removed the Test bench page (automatic tests and faults) and its menu item. Its module-by-module simulation moved to the top of the Modules page, now with a data-bus strip you can set by clicking the wires, flow arrows, and "Simulate this module" buttons on the catalogue cards. Old `#bench` links open the Modules page. Hackathon deck and Q&A: removed imported training benches, open-source mentions and the test bench slide; added Market and Roadmap slides.
 - 2026-11-16: Merged the module simulator with data bus into `main`.
 - 2026-11-16: Removed the simulator's Faults tab (fault-finding exercise) and its texts, on the owner's request. About page: the kit was designed by Abdellah Abdelkafi and Feriel Hamouchi, two Algerian electronics engineers from Université Akli Mohand Oulhadj de Bouira, developed with the Incubateur de l'Université de Bouira (was: final-year project at Sétif). Home "Who we are" keeps "two Algerian electronics engineers" and adds the incubator. Catalogue PDFs remade.
+- 2026-11-16: Merged the Faults tab removal and the Bouira university and incubator wording into `main`.
 
 ## Not done yet
 
