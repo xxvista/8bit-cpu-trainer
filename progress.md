@@ -14,13 +14,13 @@ A startup that designs and sells hands-on electronics kits for learning, each wi
 
 ## Status
 
-The website works offline: open `index.html` in a browser. It opens on a home page where visitors choose a kit. All work is merged into `main`.
+The website works offline: open `index.html` in a browser. It opens on a home page where visitors choose a kit. Latest work is on branch `claude/sleepy-noether-bbtr9v`; `main` has everything up to the first multi-kit home page.
 
 ## Site map
 
 | Address | Page |
 |---|---|
-| `#home` (or no address) | Home: company intro, who it's for, 3 kit cards |
+| `#home` (or no address) | Home: banner with photo, who we are, kit cards, learning path, why our kits, how ordering works, FAQ, contact |
 | `#gates`, `#arduino` | Coming-soon pages for the 2 future kits |
 | `#simulator`, `#guide`, `#modules`, `#labs`, `#course`, `#about`, `#kit` | 8-Bit CPU Trainer pages, with their own menu bar |
 
@@ -30,7 +30,7 @@ The company name in the header always goes back home.
 
 | Area | What exists | Where |
 |---|---|---|
-| Home page | Intro, audience tags, 3 kit cards (photo for the CPU kit, drawn icons for the other two) | `renderHome` in `dev/app.js` |
+| Home page | Presents the startup: banner ("Designed and made in Algeria", headline, photo, 3 key facts), who we are, 3 kit cards, learning path (Logic Gates → CPU, Arduino alongside), 4 reasons to choose us, 3-step ordering with a "quote for your school" WhatsApp button, 5-question FAQ, contact box | `renderHome` in `dev/app.js`, `h…` strings in `dev/strings.js` |
 | Coming-soon pages | Kit name, description, planned contents, WhatsApp and email buttons with a pre-written message | `renderSoon` in `dev/app.js` |
 | Brand | Placeholder name "Electronics Kits Lab", changed in one place | `BRAND` in `dev/app.js`, `<title>` in `dev/src.html` |
 | CPU simulator | SAP-1 CPU: microcode, ALU, flags, 16-byte RAM, assembler with labels, disassembler, step / instruction / run / back / reset, speed control | `dev/app.js` |
@@ -59,6 +59,7 @@ The company name in the header always goes back home.
 - 2026-11-16: Added progress, bugs and to-do notes. Fixed French guide scrolling sideways on phones.
 - 2026-11-16: New startup vision: home page to choose between 3 kits; Logic Gates and Arduino Model kits added as "coming soon" placeholders; placeholder company name; CPU pages moved under their own menu bar. Added `CLAUDE.md` with the rule to always update these notes.
 - 2026-11-16: Merged everything into `main`.
+- 2026-11-16: Rebuilt the home page to present the startup (see Home page above). Fixed a long French button making the phone page scroll sideways.
 
 ## Not done yet
 

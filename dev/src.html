@@ -288,11 +288,49 @@ a.brand:hover h1{color:var(--accent)}
 .kitbar[hidden]{display:none}
 .kitname{font-family:var(--f-display);font-size:22px;font-weight:700;text-transform:uppercase;text-decoration:none;color:var(--ink)}
 .kitname span{color:var(--accent)}
-.homehero{max-width:72ch;padding:18px 0 6px}
-.homehero h2{font-size:44px;font-weight:700;text-transform:uppercase}
-.homehero .lead{margin-top:10px}
-.audience{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.homehero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:36px;align-items:center;padding:22px 0 8px}
+.homehero h2{font-size:52px;font-weight:700;text-transform:uppercase;margin-top:10px}
+.homehero .lead{margin:12px 0 18px;max-width:60ch}
+.homehero img{width:100%;height:auto;display:block;border-radius:14px;border:1px solid var(--line)}
+.eyebrow{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:3px 12px}
+.hsec{scroll-margin-top:16px}
+#homeBody .btn,#soonBody .btn{white-space:normal;text-align:center}
+.secl{margin-top:6px;max-width:70ch}
+.whogrid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:32px;align-items:start;margin-top:10px}
+.forlbl{display:block;font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:8px}
+.audience{display:flex;flex-wrap:wrap;gap:8px}
 .audience span{background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:3px 12px;font-size:13px;font-weight:600;color:var(--muted)}
+.path{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr);gap:12px;align-items:stretch;margin-top:16px}
+.pathstep{border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:6px;text-decoration:none;color:inherit;background:var(--page)}
+.pathstep:hover{border-color:var(--ink)}
+.pathstep.live{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.pathstep .plbl{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--accent)}
+.pathstep b{font-family:var(--f-display);font-size:21px;text-transform:uppercase;line-height:1.1}
+.pathstep span:not(.plbl):not(.badge){font-size:14px;color:var(--muted)}
+.pathstep .badge{margin-top:auto}
+.path .arrow{align-self:center;font-size:26px;color:var(--muted);font-weight:700}
+[dir="rtl"] .path .arrow:not(.plus){transform:scaleX(-1)}
+.why{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:16px}
+.whyitem{border:1px solid var(--line);border-radius:12px;padding:16px;background:var(--soft)}
+.whyitem .ico{display:inline-flex;width:40px;height:40px;border-radius:10px;background:var(--accent-soft);color:var(--accent);align-items:center;justify-content:center}
+.whyitem .ico svg{width:22px;height:22px}
+.whyitem h3{font-size:19px;font-weight:600;text-transform:uppercase;margin:10px 0 4px}
+.whyitem p{font-size:14px;color:var(--muted)}
+.how{list-style:none;padding:0;margin:16px 0 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;counter-reset:none}
+.how li{border-top:3px solid var(--accent);padding-top:12px}
+.how .hn{font-family:var(--f-display);font-size:30px;font-weight:700;color:var(--accent);line-height:1}
+.how h3{font-size:20px;font-weight:600;text-transform:uppercase;margin:4px 0}
+.how p{font-size:14px;color:var(--muted)}
+.faq{margin-top:12px;max-width:820px}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;padding:12px 0;font-weight:600;font-size:16px}
+.faq details p{padding:0 0 14px;color:var(--muted);max-width:70ch}
+.ctabox{margin-top:40px;border-radius:16px;background:var(--accent-soft);border:1px solid var(--line);padding:24px;display:grid;grid-template-columns:minmax(0,1.3fr) auto;gap:12px 24px;align-items:center;scroll-margin-top:16px}
+.ctabox h2{font-size:32px;font-weight:700;text-transform:uppercase}
+.ctabox .lead{margin-top:6px}
+.ctabox .contact{grid-column:1/-1}
+@media (max-width:900px){.homehero,.whogrid,.ctabox{grid-template-columns:minmax(0,1fr)}.homehero img{order:-1}.path{grid-template-columns:minmax(0,1fr)}.path .arrow{transform:rotate(90deg);justify-self:center}[dir="rtl"] .path .arrow:not(.plus){transform:rotate(90deg)}.how{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:520px){.homehero h2{font-size:34px}.ctabox h2{font-size:26px}}
 .kits{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:22px}
 .kitcard{border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;background:var(--page)}
 .kitcard.live{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
@@ -315,7 +353,7 @@ a.brand:hover h1{color:var(--accent)}
 .soonpage .contact{margin-top:14px}
 .badge{display:inline-block}
 .backlink{display:inline-block;margin-bottom:14px;color:var(--accent);font-weight:600;text-decoration:none}
-@media (max-width:760px){.soonpage{grid-template-columns:minmax(0,1fr)}.homehero h2{font-size:32px}.soonpage h2{font-size:30px}}
+@media (max-width:760px){.soonpage{grid-template-columns:minmax(0,1fr)}.soonpage h2{font-size:30px}}
 </style>
 </head>
 <body data-board="green">

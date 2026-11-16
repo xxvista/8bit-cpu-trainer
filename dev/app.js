@@ -121,16 +121,36 @@ const KITS=[
 ];
 function renderBrand(){const w=BRAND.trim().split(/\s+/),last=w.pop();$("brandName").innerHTML=(w.length?esc(w.join(" "))+" ":"")+"<span>"+esc(last)+"</span>";}
 function kitPic(k){return k.img?'<img src="'+k.img+'" alt="'+esc(k.name())+'" loading="lazy">':ICONS[k.id];}
+const WHYICONS=[
+ '<path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
+ '<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20v3H6.5"/>',
+ '<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4M7 12l3-3 2 2 4-4"/>',
+ '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 11h7M8.5 14h4"/>'
+];
+const svgI=d=>'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+d+"</svg>";
+const waLink=msg=>"https://wa.me/"+SHOP.whatsapp+"?text="+encodeURIComponent(msg);
+const mailLink=(sub,msg)=>"mailto:"+SHOP.email+"?subject="+encodeURIComponent(sub)+"&body="+encodeURIComponent(msg);
 function renderHome(){
-  $("homeBody").innerHTML='<div class="homehero"><h2>'+t("hTitle")+'</h2><p class="lead">'+t("hLead")+'</p><div class="audience">'+[1,2,3,4].map(i=>"<span>"+t("hAud"+i)+"</span>").join("")+"</div></div>"+
-   '<h2 class="sec">'+t("hChoose")+'</h2><div class="kits">'+KITS.map(k=>{const live=k.status==="live";
+  const kit=id=>KITS.find(k=>k.id===id);
+  const step=(lbl,k,txt)=>{const live=k.status==="live";return'<a class="pathstep'+(live?" live":"")+'" href="#'+(live?"simulator":k.id)+'"><span class="plbl">'+lbl+"</span><b"+(k.id==="cpu"?' class="ltr"':"")+">"+k.name()+"</b><span>"+txt+'</span><span class="badge '+(live?"ok":"soon")+'">'+t(live?"hAvail":"hSoon")+"</span></a>";};
+  $("homeBody").innerHTML=
+   '<div class="homehero"><div><span class="eyebrow">'+t("hMade")+"</span><h2>"+t("hTitle")+'</h2><p class="lead">'+t("hLead")+'</p><div class="ctas"><button type="button" class="btn primary big" data-scroll="hKits">'+t("hSeeKits")+'</button><button type="button" class="btn big" data-scroll="hContactBox">'+t("hContact")+'</button></div>'+
+     '<div class="facts"><div><b>3</b>'+t("hF1")+"</div><div><b>3</b>"+t("hF2")+"</div><div><b>58</b>"+t("hF3")+'</div></div></div><img src="img/p044.jpg" alt="'+esc(t("kPhotos"))+'"></div>'+
+   '<section class="hsec who"><h2 class="sec">'+t("hWho")+'</h2><div class="whogrid"><p class="lead">'+t("hWhoP")+'</p><div><b class="forlbl">'+t("hFor")+'</b><div class="audience">'+[1,2,3,4].map(i=>"<span>"+t("hAud"+i)+"</span>").join("")+"</div></div></div></section>"+
+   '<section class="hsec" id="hKits"><h2 class="sec">'+t("hChoose")+'</h2><div class="kits">'+KITS.map(k=>{const live=k.status==="live";
      return'<article class="kitcard'+(live?" live":"")+'"><a class="pic" href="#'+(live?"simulator":k.id)+'" tabindex="-1">'+kitPic(k)+'</a><div class="body"><span class="badge '+(live?"ok":"soon")+'">'+t(live?"hAvail":"hSoon")+"</span><h3"+(k.id==="cpu"?' class="ltr"':"")+">"+k.name()+"</h3><p>"+k.desc()+'</p><div class="ctas">'+
-       (live?'<a class="btn primary" href="#simulator">'+t("hExplore")+'</a><a class="btn" href="#kit">'+t("hOrder")+"</a>":'<a class="btn" href="#'+k.id+'">'+t("hMore")+"</a>")+"</div></div></article>";}).join("")+"</div>"+
+       (live?'<a class="btn primary" href="#simulator">'+t("hExplore")+'</a><a class="btn" href="#kit">'+t("hOrder")+"</a>":'<a class="btn" href="#'+k.id+'">'+t("hMore")+"</a>")+"</div></div></article>";}).join("")+"</div></section>"+
+   '<section class="hsec"><h2 class="sec">'+t("hPath")+'</h2><p class="lead secl">'+t("hPathL")+'</p><div class="path">'+
+     step(t("hStep",1),kit("gates"),t("hPath1"))+'<span class="arrow" aria-hidden="true">→</span>'+step(t("hStep",2),kit("cpu"),t("hPath2"))+'<span class="arrow plus" aria-hidden="true">+</span>'+step(t("hAlong"),kit("arduino"),t("hPath3"))+"</div></section>"+
+   '<section class="hsec"><h2 class="sec">'+t("hWhy")+'</h2><div class="why">'+[1,2,3,4].map(i=>'<div class="whyitem"><span class="ico">'+svgI(WHYICONS[i-1])+"</span><h3>"+t("hW"+i)+"</h3><p>"+t("hW"+i+"d")+"</p></div>").join("")+"</div></section>"+
+   '<section class="hsec"><h2 class="sec">'+t("hHow")+'</h2><ol class="how">'+[1,2,3].map(i=>'<li><span class="hn">'+i+"</span><h3>"+t("hHow"+i)+"</h3><p>"+t("hHow"+i+"d")+"</p></li>").join("")+'</ol><div class="ctas" style="margin-top:16px"><a class="btn primary big" target="_blank" rel="noopener" href="'+waLink(t("hQuoteMsg"))+'">'+t("hQuote")+'</a><a class="btn big" href="#kit">'+t("hOrder")+" · 8-Bit CPU</a></div></section>"+
+   '<section class="hsec"><h2 class="sec">'+t("hFaq")+'</h2><div class="faq">'+[1,2,3,4,5].map(i=>"<details><summary>"+t("hQ"+i)+"</summary><p>"+t("hA"+i)+"</p></details>").join("")+"</div></section>"+
+   '<section class="ctabox" id="hContactBox"><div><h2>'+t("hCtaT")+'</h2><p class="lead">'+t("hCtaL")+'</p></div><div class="ctas"><a class="btn primary big" target="_blank" rel="noopener" href="'+waLink(t("hHello"))+'">WhatsApp</a><a class="btn big" href="'+mailLink(BRAND,t("hHello"))+'">Email</a></div>'+contactHtml()+"</section>"+
    '<p class="creditline">'+t("credit")+"</p>";
 }
 function renderSoon(id){
   const k=KITS.find(x=>x.id===id);if(!k)return;const msg=t("sMsg",k.name());
-  $("soonBody").innerHTML='<a class="backlink" href="#home">← '+t("sBack")+'</a><div class="soonpage"><div><span class="badge soon">'+t("hSoon")+"</span><h2>"+k.name()+'</h2><p class="lead">'+k.desc()+"</p><p style=\"margin-top:14px\">"+t("sPlanned")+"</p><ul>"+[1,2,3,4].map(i=>"<li>"+t("sP"+i)+"</li>").join("")+"</ul><p>"+t("sNotify")+'</p><div class="ctas" style="margin-top:12px"><a class="btn primary big" target="_blank" rel="noopener" href="https://wa.me/'+SHOP.whatsapp+"?text="+encodeURIComponent(msg)+'">WhatsApp</a><a class="btn big" href="mailto:'+SHOP.email+"?subject="+encodeURIComponent(k.name())+"&body="+encodeURIComponent(msg)+'">Email</a></div>'+contactHtml()+'</div><div class="pic">'+ICONS[k.id]+"</div></div>";
+  $("soonBody").innerHTML='<a class="backlink" href="#home">← '+t("sBack")+'</a><div class="soonpage"><div><span class="badge soon">'+t("hSoon")+"</span><h2>"+k.name()+'</h2><p class="lead">'+k.desc()+"</p><p style=\"margin-top:14px\">"+t("sPlanned")+"</p><ul>"+[1,2,3,4].map(i=>"<li>"+t("sP"+i)+"</li>").join("")+"</ul><p>"+t("sNotify")+'</p><div class="ctas" style="margin-top:12px"><a class="btn primary big" target="_blank" rel="noopener" href="'+waLink(msg)+'">WhatsApp</a><a class="btn big" href="'+mailLink(k.name(),msg)+'">Email</a></div>'+contactHtml()+'</div><div class="pic">'+ICONS[k.id]+"</div></div>";
 }
 
 const SHOP={email:"abdelkafiabdellah419@gmail.com",whatsapp:"213666020037",phone:"0666 02 00 37",currency:"DA",prices:{assembled:null,solder:null}};
@@ -558,6 +578,7 @@ function setLang(i,save){
 }
 $("lang").onchange=e=>setLang(+e.target.value,true);
 
+$("homeBody").addEventListener("click",e=>{const b=e.target.closest("[data-scroll]");if(b)$(b.dataset.scroll).scrollIntoView({behavior:"smooth",block:"start"});});
 const CPUVIEWS=["simulator","guide","modules","labs","course","about","kit"];
 const VIEWS=["home","soon",...CPUVIEWS];
 let soonId=null;

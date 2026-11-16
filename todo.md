@@ -4,6 +4,8 @@
 
 - [ ] Company name, to replace the placeholder "Electronics Kits Lab" (`BRAND` in `dev/app.js` and `<title>` in `dev/src.html`)
 - [ ] Logo (none yet)
+- [ ] Check the home page claims are true, or correct them in `dev/strings.js`: "small Algerian team of engineers and teachers" (`hWhoP`), delivery to all 58 wilayas (`hF3`, `hHow3d`, `hA1`), "we sell spare parts and boards separately" (`hA5`), "we usually reply within a day" (`hCtaL`)
+- [ ] A real photo of the team or workshop for the "Who we are" section (optional)
 - [ ] What exactly goes in the Logic Gates Kit and the Arduino Model Kit (boards, parts, lessons), so their placeholder text can be replaced
 
 ## Before launch
