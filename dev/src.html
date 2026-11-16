@@ -59,15 +59,41 @@ nav a[aria-current="page"]{color:var(--ink);background:var(--page);box-shadow:0 
 select,input[type=text]{background:var(--page);border:1px solid var(--line);padding:6px 9px;border-radius:8px;max-width:100%}
 input[type=range]{accent-color:var(--accent)}
 
-.sim{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(360px,1fr);gap:20px;align-items:start}
-.stage{position:relative;background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:12px}
-.stagebar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin-bottom:10px;font-size:13px;color:var(--muted)}
+.sim{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(380px,1fr);gap:24px;align-items:start}
+.stage{position:sticky;top:12px;background:var(--soft);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:12px}
+.stagehead{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px}
+.transport{display:flex;gap:6px;flex-wrap:wrap}
+.tbtn{display:inline-flex;align-items:center;gap:7px;height:40px;padding:0 13px;border-radius:10px;border:1px solid var(--line);background:var(--page);font-weight:600;font-size:14px;cursor:pointer;white-space:nowrap;color:var(--ink)}
+.tbtn:hover:not(:disabled){border-color:var(--ink)}
+.tbtn:disabled{opacity:.4;cursor:not-allowed}
+.tbtn svg,.tbtn .ico svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.tbtn .ico{display:inline-flex}
+.tbtn .sm{display:none}
+.tbtn.primary{background:var(--accent);border-color:var(--accent);color:#fff;padding:0 16px}
+.tbtn.primary:hover:not(:disabled){filter:brightness(1.1);border-color:var(--accent)}
+.tbtn.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.tbtn kbd{font-size:10.5px;padding:0 5px;background:var(--soft);color:var(--muted);border-color:transparent;box-shadow:none}
+.tbtn.primary kbd,.tbtn.on kbd{background:rgba(255,255,255,.2);color:#fff}
+.tipbar{display:flex;align-items:flex-start;gap:10px;background:#fff8db;border:1px solid #f1d77a;border-radius:10px;padding:9px 12px;font-size:14px}
+.tipbar[hidden]{display:none}
+.tipbar span{flex:1}
+.tipbar button{background:none;border:none;font-size:20px;line-height:1;cursor:pointer;color:var(--muted);padding:0 2px}
+.pcbwrap{margin:0 auto;width:100%}
+.stagebar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;font-size:13px;color:var(--muted)}
+.stagebar .btn[hidden]{display:none}
 .stagebar label{display:flex;align-items:center;gap:6px}
 .swatches{display:flex;gap:5px}
 .swatches button{width:20px;height:20px;border-radius:50%;border:2px solid var(--page);box-shadow:0 0 0 1px var(--line);cursor:pointer;padding:0}
 .swatches button[aria-pressed="true"]{box-shadow:0 0 0 2px var(--accent)}
 .spacer{flex:1}
 .pcbwrap{position:relative}
+#pcb .flow path{fill:none;stroke-linecap:round;stroke-linejoin:round}
+#pcb .flow .under{stroke:rgba(0,0,0,.55);stroke-width:3.4}
+#pcb .flow .line{stroke:#ffd23f;stroke-width:1.9;stroke-dasharray:3.2 2.2}
+#pcb .flow .tag rect{fill:#ffd23f;stroke:rgba(0,0,0,.6);stroke-width:.4}
+#pcb .flow .tag text{font-family:var(--f-mono);font-size:5.2px;font-weight:700;fill:#111;text-anchor:middle;dominant-baseline:central}
+@media (prefers-reduced-motion:no-preference){#pcb .flow .line{animation:flowdash .55s linear infinite}}
+@keyframes flowdash{to{stroke-dashoffset:-5.4}}
 svg#pcb{display:block;width:100%;height:auto;user-select:none;-webkit-user-select:none}
 .pill{position:absolute;transform:translate(-50%,-100%);background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:999px;padding:1px 9px;font-size:12px;font-weight:600;white-space:nowrap;pointer-events:none;box-shadow:0 1px 4px rgba(17,24,39,.18);display:flex;gap:7px;align-items:center}
 .pill b{font-family:var(--f-mono);font-weight:600;color:var(--accent)}
@@ -119,9 +145,8 @@ svg#pcb{display:block;width:100%;height:auto;user-select:none;-webkit-user-selec
 @media (prefers-reduced-motion:no-preference){.led,.halo,.seg{transition:fill .1s,opacity .1s}}
 
 /* Side panel */
-.side{position:sticky;top:12px;display:flex;flex-direction:column;gap:12px}
-.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.speed{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);width:100%}
+.side{display:flex;flex-direction:column;gap:14px;min-width:0}
+.speed{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);flex:1 1 200px;min-width:180px}
 .speed input{flex:1}
 .now{border:1px solid var(--line);border-inline-start:5px solid var(--accent);border-radius:10px;padding:12px 14px;background:var(--page)}
 .now.halted{border-inline-start-color:var(--bad)}
@@ -130,9 +155,17 @@ svg#pcb{display:block;width:100%;height:auto;user-select:none;-webkit-user-selec
 .now .phase strong{font-family:var(--f-display);font-size:24px;font-weight:700;text-transform:uppercase}
 .now .phase span{font-family:var(--f-mono);font-size:12.5px;color:var(--muted)}
 .now p{margin-top:4px}
-.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);overflow-x:auto}
-.tabs button{background:none;border:none;border-bottom:2px solid transparent;padding:8px 12px;font-weight:600;font-size:14px;color:var(--muted);cursor:pointer;white-space:nowrap}
-.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.tsteps{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px;margin-top:12px}
+.tsteps span{position:relative;height:26px;border-radius:6px;background:var(--soft);border:1px solid var(--line);font-family:var(--f-mono);font-size:11.5px;font-weight:600;color:var(--muted);display:flex;align-items:center;justify-content:center}
+.tsteps span.f{background:#eef2ff}
+.tsteps span.no{opacity:.45}
+.tsteps span.done{background:var(--accent-soft);border-color:#b9c7f5;color:var(--accent)}
+.tsteps span.cur{background:var(--accent);border-color:var(--accent);color:#fff}
+.tsteps i{font-style:normal;font-size:11.5px;color:var(--muted);text-align:center;border-top:2px solid var(--line);padding-top:3px;margin-top:2px}
+.tabs{display:flex;flex-wrap:wrap;gap:2px;background:var(--soft);padding:4px;border-radius:12px}
+.tabs button{flex:1 1 auto;background:none;border:none;border-radius:9px;padding:7px 10px;font-weight:600;font-size:13.5px;color:var(--muted);cursor:pointer;white-space:nowrap}
+.tabs button:hover{color:var(--ink)}
+.tabs button[aria-selected="true"]{color:var(--ink);background:var(--page);box-shadow:0 1px 3px rgba(17,24,39,.14)}
 .tab{display:none;padding-top:12px}
 .tab.active{display:block}
 .sub{color:var(--muted);font-size:13px;margin-bottom:8px}
@@ -176,6 +209,11 @@ table.uc td.cur{background:var(--accent);color:#fff}
 .lead{font-size:17px;color:var(--muted)}
 .callout{border:1px solid var(--line);border-inline-start:5px solid var(--warn);border-radius:10px;background:var(--soft);padding:10px 14px;margin:14px 0}
 .twocol{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:36px;align-items:start}
+.modsrc{margin-top:8px}.modsrc a{color:var(--accent)}
+details.buildnote{margin-top:auto;border:1px solid #f1d77a;background:#fffbea;border-radius:10px;padding:0 12px}
+details.buildnote summary{cursor:pointer;padding:9px 0;font-weight:600;font-size:14px}
+details.buildnote p{font-size:14px;margin:0 0 8px}
+details.buildnote a{display:inline-block;font-size:13px;font-weight:600;color:var(--accent);margin-bottom:10px}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;margin-top:16px}
 .card{background:var(--page);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px}
 .card h3{font-size:22px;font-weight:600;text-transform:uppercase}
@@ -420,6 +458,26 @@ body:not([data-view="cpu"]) header.top{max-width:1160px;margin:0 auto}
 .badge{display:inline-block}
 .backlink{display:inline-block;margin-bottom:14px;color:var(--accent);font-weight:600;text-decoration:none}
 @media (max-width:760px){.soonpage{grid-template-columns:minmax(0,1fr)}.soonpage h2{font-size:30px}}
+
+/* simulator: tablets and phones */
+@media (max-width:1050px){.stage{position:static}}
+@media (max-width:760px){
+  .kitbar{flex-wrap:nowrap;overflow:hidden;gap:12px}
+  .kitbar .kitname{font-size:18px;flex:none}
+  .kitbar nav{overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none;min-width:0}
+  .kitbar nav::-webkit-scrollbar{display:none}
+  .kitbar nav a{white-space:nowrap;padding:7px 11px}
+  .stage{padding:10px;border-radius:14px}
+  .transport{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--page);border-top:1px solid var(--line);box-shadow:0 -6px 20px -10px rgba(17,24,39,.3);padding:8px 10px calc(8px + env(safe-area-inset-bottom));flex-wrap:nowrap;gap:6px}
+  .tbtn{flex:1 1 0;flex-direction:column;justify-content:center;height:54px;padding:0 4px;gap:3px;font-size:11px;min-width:0}
+  .tbtn span:not(.ico){overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  .tbtn.primary{flex:1.3 1 0;padding:0 4px}
+  .tbtn kbd,.tbtn .lg{display:none}
+  .tbtn .sm{display:inline}
+  #view-simulator{padding-bottom:84px}
+  .stagebar .hint,.stagebar .swlbl{display:none}
+  .pill:not(.drive):not(.latch){display:none}
+}
 </style>
 </head>
 <body data-board="green">
@@ -451,26 +509,29 @@ body:not([data-view="cpu"]) header.top{max-width:1160px;margin:0 auto}
 <section class="view" id="view-simulator">
  <div class="sim">
   <div class="stage" id="stage">
-    <div class="stagebar">
-      <span data-t="stageHint"></span>
-      <span class="spacer"></span>
-      <label><input type="checkbox" id="labels" checked> <span data-t="labels"></span></label>
-      <span data-t="boardColour"></span>
-      <div class="swatches" id="swatches"></div>
-      <button class="btn small" id="bWhole" disabled data-t="whole"></button>
-    </div>
-    <div class="pcbwrap" id="pcbwrap" dir="ltr"><svg id="pcb" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The assembled 8-bit computer, drawn from its PCB files"></svg></div>
-  </div>
-  <div class="side">
-    <div class="controls">
-      <button class="btn primary" id="bStep"><span data-t="pulse"></span> <kbd>Space</kbd></button>
-      <button class="btn" id="bIns"><span data-t="oneIns"></span> <kbd>Enter</kbd></button>
-      <button class="btn" id="bRun"><span id="runLbl"></span> <kbd>R</kbd></button>
-      <button class="btn" id="bBack"><span data-t="back"></span> <kbd>Bksp</kbd></button>
-      <button class="btn" id="bReset" data-t="reset"></button>
+    <div class="stagehead">
+      <div class="transport" id="transport" role="toolbar" aria-label="Simulator controls">
+        <button class="tbtn" id="bReset"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4v6h6"/><path d="M5.5 15a7 7 0 1 0 1.6-7.3L4 10"/></svg><span data-t="reset"></span></button>
+        <button class="tbtn" id="bBack"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 6l-6 6 6 6"/><path d="M19 6l-6 6 6 6"/></svg><span class="lg" data-t="back"></span><span class="sm" data-t="backS"></span><kbd>Bksp</kbd></button>
+        <button class="tbtn primary" id="bStep"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 15h4V8h5v8h5V9h4"/></svg><span data-t="pulse"></span><kbd>Space</kbd></button>
+        <button class="tbtn" id="bIns"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l8 7-8 7z"/><path d="M17 5v14"/></svg><span class="lg" data-t="oneIns"></span><span class="sm" data-t="oneInsS"></span><kbd>Enter</kbd></button>
+        <button class="tbtn" id="bRun"><span class="ico" id="runIco"></span><span id="runLbl"></span><kbd>R</kbd></button>
+      </div>
       <div class="speed"><label for="speed" data-t="speed"></label><input type="range" id="speed" min="1" max="60" value="5"><span id="speedV" class="ltr">5 Hz</span></div>
     </div>
-    <div class="now" id="now"><div class="phase"><strong id="phase"></strong><span id="phaseSub"></span><span class="fbadge" id="fbadge" hidden></span></div><p id="nowText"></p></div>
+    <div class="pcbwrap" id="pcbwrap" dir="ltr"><svg id="pcb" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The assembled 8-bit computer, drawn from its PCB files"></svg></div>
+    <div class="stagebar">
+      <span class="hint" data-t="stageHint"></span>
+      <span class="spacer"></span>
+      <button class="btn small" id="bWhole" hidden data-t="whole"></button>
+      <label><input type="checkbox" id="labels" checked> <span data-t="labels"></span></label>
+      <span class="swlbl" data-t="boardColour"></span>
+      <div class="swatches" id="swatches"></div>
+    </div>
+  </div>
+  <div class="side">
+    <div class="tipbar" id="tipbar" hidden><span data-t="simTip"></span><button type="button" id="tipClose" aria-label="Close">×</button></div>
+    <div class="now" id="now"><div class="phase"><strong id="phase"></strong><span id="phaseSub"></span><span class="fbadge" id="fbadge" hidden></span></div><p id="nowText"></p><div class="tsteps" id="tsteps" dir="ltr"></div></div>
     <div>
       <div class="tabs" role="tablist" id="tabs">
         <button role="tab" data-tab="state" aria-selected="true" data-t="tState"></button>
@@ -521,7 +582,7 @@ body:not([data-view="cpu"]) header.top{max-width:1160px;margin:0 auto}
 <section class="view" id="view-guide"><div class="twocol"><div id="guideBody"></div><div class="prose" id="guideSide"></div></div></section>
 
 <section class="view" id="view-modules">
-  <div class="prose"><h2 data-t="modTitle"></h2><p class="lead" data-t="modLead"></p></div>
+  <div class="prose"><h2 data-t="modTitle"></h2><p class="lead" data-t="modLead"></p><p class="sub modsrc" data-t="modSrc"></p></div>
   <div class="cards" id="modCards"></div>
 </section>
 

@@ -28,6 +28,9 @@
 
 ## Later
 
+- [ ] Ask the designer (Robert Riordan) for permission before using any of his photos or videos on the site; for now the site only links to them
+- [ ] Optional: fault exercises for the other real build mistakes (program counter skipping counts, floating two's-complement input making the display flicker)
+
 - [ ] Logic Gates Kit (on hold, owner 2026-11-16): real page (photos, contents, guide, labs, order) and possibly a gate simulator
 - [ ] Arduino Model Kit: real page (photos, contents, guide, labs, order)
 - [ ] One shared order form for several kits, once more than one kit is for sale

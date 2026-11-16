@@ -28,6 +28,7 @@ function view(st){ // cw: what the Control card drives (its LEDs); eff: what act
   if(cw&S.IO){bus=st.ir;src="ir";}
   if(cw&S.AO){bus=st.a;src="a";}
   if(cw&S.EO){bus=al.res;src="alu";}
+  if(st.fault==="bFloat"){if(src)bus|=st.b;else{bus=st.b;src="b";}} // B's output enable floats: B always drives the bus
   return{cw,eff,bus,src,al};
 }
 function tick(st){
@@ -35,7 +36,7 @@ function tick(st){
   const {eff:cw,bus,al}=view(st);
   if(cw&S.HLT){st.halted=true;return st;}
   if(cw&S.RI)st.ram[st.mar]=bus;
-  if(cw&S.MI)st.mar=bus&15;
+  if(cw&S.MI)st.mar=st.fault==="marMix"?(bus&12)|((typeof dipA==="number"?dipA:0)&3):bus&15; // wrong selector footprint
   if(cw&S.II)st.ir=bus;
   if(cw&S.FI){st.cf=al.c;st.zf=al.z;}
   if(cw&S.AI)st.a=bus;
@@ -186,6 +187,7 @@ const SIGS=["MI","RI","RO","II","IO","PCO","PCE","JMP","AI","AO","BI","EO","SUB"
 const sigName=k=>SIGT[k][LI][0],sigDesc=k=>SIGT[k][LI][1];
 const ISA=[["0000","NOP"],["0001","LDA n"],["0010","STA n"],["0011","LDB n"],["0100","ADD"],["0101","SUB"],["0110","JMP n"],["0111","JMPC n"],["1000","JMPZ n"],["1110","OUT"],["1111","HLT"]];
 const MODORDER=["bus","clk","pc","mar","ram","reg","alu","out","ctl"];
+const BUILDURL={clk:"clock",pc:"program-counter",mar:"mar",reg:"registers",ram:"ram",alu:"alu",ctl:"control",out:"output",bus:"bus"};
 const LABEX=["fetch","add","sub","count3","down","mul"];
 const haltTxt=x=>x.st.halted?t("chHalt"):t("chNoHalt");
 const CHECKS=[
@@ -284,12 +286,33 @@ let vb=FULL.slice(),zoomed=null,ledEls=null;
 function buildPcb(){
   let s='<g>'+drawBoard("bus","bus",true)+"</g>";
   ORDER.forEach(k=>{const r=RECTS[k];s+='<g transform="translate('+r.x+" "+r.y+')">'+drawBoard(r.t,k,true)+"</g>";});
+  s+='<g class="flow" id="flow"></g>';
   $("pcb").innerHTML=s;ledEls=null;
   document.querySelectorAll("#pcbwrap .pill").forEach(e=>e.remove());
   $("pcbwrap").insertAdjacentHTML("beforeend",Object.keys(RECTS).map(k=>'<div class="pill" dir="auto" id="P-'+k+'"></div>').join(""));
   setVB(vb);
 }
-function setVB(v){vb=v.slice();$("pcb").setAttribute("viewBox",vb.join(" "));placePills();}
+function setVB(v){vb=v.slice();$("pcb").setAttribute("viewBox",vb.join(" "));
+  fitBoard();placePills();}
+function fitBoard(){ // on wide screens the whole computer fits in the window height, next to the side panel
+  const sg=$("stage"),w=$("pcbwrap");if(!sg.offsetParent)return;
+  if(window.innerWidth<=1050){w.style.maxWidth="";return;}
+  const other=sg.offsetHeight-w.offsetHeight;
+  const top=sg.getBoundingClientRect().top+window.scrollY; // fit in the first screen, without scrolling
+  w.style.maxWidth=Math.max(340,(window.innerHeight-16-top-other)*vb[2]/vb[3])+"px";}
+window.addEventListener("resize",()=>{fitBoard();});
+/* the yellow line: from the board driving the bus, along the bus, to every board that stores the byte */
+const BUSX=PCB.bus.w/2;
+function boardEnd(k){const r=RECTS[k],left=r.x+r.w/2<BUSX;return{x:left?r.x+r.w-16:r.x+16,y:r.y+r.h/2,left};}
+function drawFlow(src,dsts,val){
+  const g=$("flow");if(!g)return;if(!src){g.innerHTML="";return;}
+  const a=boardEnd(src),ends=dsts.map(boardEnd),ys=[a.y,...ends.map(e=>e.y)],y0=Math.min(...ys),y1=Math.max(...ys);
+  let d="M"+a.x+" "+a.y+"H"+BUSX;if(y0<a.y)d+="M"+BUSX+" "+a.y+"V"+y0;if(y1>a.y)d+="M"+BUSX+" "+a.y+"V"+y1;
+  ends.forEach(e=>{d+="M"+BUSX+" "+e.y+"H"+e.x;});
+  const heads=ends.map(e=>{const s=e.left?1:-1;return'<polygon points="'+(e.x-s*1.2)+","+e.y+" "+(e.x+s*3.2)+","+(e.y-2.6)+" "+(e.x+s*3.2)+","+(e.y+2.6)+'" fill="#ffd23f" stroke="rgba(0,0,0,.6)" stroke-width=".4"/>';}).join("");
+  const w=4+String(val).length*3.4;
+  g.innerHTML='<path class="under" d="'+d+'"/><path class="line" d="'+d+'"/>'+heads+'<g class="tag"><rect x="'+(BUSX-w/2)+'" y="'+(a.y-4)+'" width="'+w+'" height="8" rx="2"/><text x="'+BUSX+'" y="'+a.y+'">'+val+"</text></g>";
+}
 function placePills(){
   for(const k in RECTS){const r=RECTS[k],el=$("P-"+k);if(!el)continue;
     const cx=r.x+r.w/2,cy=k==="bus"?r.y+20:r.y+3.5;
@@ -299,7 +322,7 @@ function placePills(){
 function zoomTo(k){
   if(!k||zoomed===k){zoomed=null;setVB(FULL);}
   else{zoomed=k;const r=RECTS[k],m=7;let w=r.w+2*m,h=r.h+2*m+6;const ar=FULL[2]/FULL[3];if(w/h<ar)w=h*ar;setVB([r.x+r.w/2-w/2,r.y-m-6,w,h]);}
-  $("stage").classList.toggle("zoomed",!!zoomed);$("bWhole").disabled=!zoomed;
+  $("stage").classList.toggle("zoomed",!!zoomed);$("bWhole").hidden=!zoomed;
 }
 
 /* ---------- simulator ---------- */
@@ -307,7 +330,7 @@ let fault=null,faultTries=0;
 const fresh=ram=>{const s=newState(ram);s.fault=fault;return s;};
 let st=newState(),timer=null,hist=[],trace=[],bps=new Set(),prog=false,dipA=0,dipD=0,flash={},note="";
 const SPEEDS=[1,2,5,10,20,40,60];
-const SRCKEY={pc:"sPc",ram:"sRam",ir:"sIr",a:"sA",alu:"sAlu"};
+const SRCKEY={pc:"sPc",ram:"sRam",ir:"sIr",a:"sA",alu:"sAlu",b:"sB"};
 const bin=(v,n)=>v.toString(2).padStart(n,"0");
 const bin8=v=>bin(v,8).replace(/(....)(....)/,"$1 $2");
 const addr=()=>prog?dipA:st.mar;
@@ -347,6 +370,10 @@ function render(){
   for(const k in io){const o=$("O-"+k);if(o){o.classList.toggle("drive",!!io[k][0]);o.classList.toggle("latch",!io[k][0]&&!!io[k][1]);}
     const p=$("P-"+k);if(!p)continue;p.className="pill"+(io[k][0]?" drive":io[k][1]?" latch":"");
     p.innerHTML=t(CARDKEY[k])+" <b class='ltr'>"+pv[k]+"</b>"+(io[k][0]?"<i>"+t("pDrive")+"</i>":io[k][1]?"<i>"+t("pStore")+"</i>":"");}
+  {const src=Object.keys(io).find(k=>io[k][0]);drawFlow(prog||st.halted?null:src,Object.keys(io).filter(k=>io[k][1]&&!io[k][0]),bus);}
+  {let h="";for(let s=0;s<6;s++){const has=s<2||!!microcode(op,s,st.cf,st.zf),live=!prog&&!st.halted;
+     h+='<span class="'+(s<2?"f ":"")+(has?"":"no ")+(live&&s===st.step?"cur":live&&s<st.step?"done":"")+'">T'+s+"</span>";}
+   $("tsteps").innerHTML=h+'<i style="grid-column:1/3">'+t("phFetch")+'</i><i style="grid-column:3/7">'+t("phExec")+"</i>";}
   $("phase").textContent=prog?t("phProg"):st.halted?t("phHalt"):st.step<2?t("phFetch"):t("phExec");
   $("phaseSub").textContent=prog?t("subIgn"):t("subStep",st.step)+(st.step>=2?" · "+name:"")+" · "+t("subPulse",st.ticks);
   $("now").className="now"+(prog?" prog":st.halted?" halted":"");
@@ -363,7 +390,8 @@ function render(){
     return'<tr class="'+(cur?"cur":"")+'"><td><b>'+OPS[k]+"</b></td>"+c+'<td class="'+(cur&&st.step>=4&&!prog?"cur":"")+'">·</td></tr>';}).join("");
   $("trBody").innerHTML=trace.length?trace.slice(-150).reverse().map(x=>"<tr><td>"+x.n+"</td><td>T"+x.s+"</td><td>"+(x.i||t("fetchW"))+"</td><td>"+(x.c||"·")+"</td><td>"+x.b+"</td></tr>").join(""):'<tr><td colspan="5" class="empty" style="font-family:var(--f-body)">'+t("noPulses")+"</td></tr>";
   $("bStep").disabled=$("bIns").disabled=st.halted||prog;
-  $("runLbl").textContent=timer?t("pause"):t("run");$("bRun").disabled=(st.halted||prog)&&!timer;
+  $("runLbl").textContent=timer?t("pause"):t("run");$("bRun").classList.toggle("on",!!timer);
+  $("runIco").innerHTML=timer?'<svg viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></svg>':'<svg viewBox="0 0 24 24"><path d="M7 5l12 7-12 7z"/></svg>';$("bRun").disabled=(st.halted||prog)&&!timer;
   $("bBack").disabled=!hist.length;
   $("fbadge").hidden=!fault;$("fbadge").textContent=t("fActive");
   if($("tab-timing").classList.contains("active"))renderTiming();
@@ -463,6 +491,8 @@ $("faultBody").addEventListener("click",e=>{
 });
 $("labels").onchange=e=>$("stage").classList.toggle("nolabels",!e.target.checked);
 $("bWhole").onclick=()=>zoomTo(null);
+try{if(!localStorage.getItem("cpuTrainer.tipSeen"))$("tipbar").hidden=false;}catch(e){$("tipbar").hidden=false;}
+$("tipClose").onclick=()=>{$("tipbar").hidden=true;fitBoard();try{localStorage.setItem("cpuTrainer.tipSeen","1");}catch(e){}};
 $("pcb").addEventListener("click",e=>{
   const a=e.target.closest("[data-act]");
   if(a){const act=a.dataset.act;note="";
@@ -572,7 +602,7 @@ function renderStatic(){
     SIGS.map(k=>"<tr><td><code>"+k+"</code> "+sigName(k)+"</td><td>"+sigDesc(k)+".</td></tr>").join("")+"</tbody></table></div><h3>"+G.fl+"</h3><p>"+G.flP+"</p>";
   $("modCards").innerHTML=MODORDER.map(b=>{const B=PCB[b],m=MODT[b][LI];
     const svg=b==="bus"?'<svg viewBox="-2 -2 '+(B.h+4)+" "+(B.w+4)+'"><g transform="translate(0 '+B.w+') rotate(-90)">'+drawBoard(b,b,false)+"</g></svg>":'<svg viewBox="-2 -2 '+(B.w+4)+" "+(B.h+4)+'">'+drawBoard(b,b==="reg"?"a":b,false)+"</svg>";
-    return'<article class="card"><div dir="ltr">'+svg+"</div><h3>"+m[0]+'</h3><div class="slot" dir="auto">'+m[1]+" · "+B.w.toFixed(0)+" × "+B.h.toFixed(0)+" mm</div><p>"+m[2]+"</p><dl><dt>"+t("dtChips")+"</dt><dd>"+m[3]+"</dd><dt>"+t("dtLeds")+"</dt><dd>"+m[4]+"</dd><dt>"+t("dtWatch")+"</dt><dd>"+m[5]+"</dd></dl>"+(PHOTOS[b]?'<img src="'+PHOTOS[b]+'" alt="'+esc(t("photo"))+'" loading="lazy">':"")+"</article>";}).join("");
+    return'<article class="card"><div dir="ltr">'+svg+"</div><h3>"+m[0]+'</h3><div class="slot" dir="auto">'+m[1]+" · "+B.w.toFixed(0)+" × "+B.h.toFixed(0)+" mm</div><p>"+m[2]+"</p><dl><dt>"+t("dtChips")+"</dt><dd>"+m[3]+"</dd><dt>"+t("dtLeds")+"</dt><dd>"+m[4]+"</dd><dt>"+t("dtWatch")+"</dt><dd>"+m[5]+"</dd></dl>"+(PHOTOS[b]?'<img src="'+PHOTOS[b]+'" alt="'+esc(t("photo"))+'" loading="lazy">':"")+""+(BUILD[b]?'<details class="buildnote"><summary>'+t("bnTitle")+"</summary><p>"+BUILD[b][LI]+'</p><a href="https://robert-riordan-ucd.github.io/this-is-rob/posts/8-bit-cpu/'+BUILDURL[b]+'/" target="_blank" rel="noopener">'+t("bnLink")+" ↗</a></details>":"")+"</article>";}).join("");
   $("labCards").innerHTML=LABT.map((l,i)=>{const L=l[LI],e=EXAMPLES.find(x=>x.id===LABEX[i]);
     return'<article class="card"><div class="num">'+t("lab")+" "+(i+1)+"</div><h3>"+L[0]+"</h3><p>"+L[1]+"</p><pre>"+esc(e.src)+"</pre><ul>"+L[2].map(s=>"<li>"+s+"</li>").join("")+'</ul><button class="btn primary" data-lab="'+e.id+'">'+t("openSim")+"</button></article>";}).join("");
   $("chCards").innerHTML=CHT.map((c,i)=>'<article class="card"><div class="num">'+t("challenge")+" "+(i+1)+"</div><h3>"+c[LI][0]+"</h3><p>"+c[LI][1]+'</p><div class="result" id="chR'+i+'" role="status"></div><button class="btn" data-ch="'+i+'">'+t("chCheck")+"</button></article>").join("");
@@ -621,6 +651,7 @@ function route(){
   document.querySelectorAll("#nav a").forEach(a=>{if(a.getAttribute("href")==="#"+v)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");});
   trackView();
   render();
+  if(v==="simulator")fitBoard();
 }
 window.addEventListener("hashchange",()=>{route();window.scrollTo(0,0);});
 function boot(data){

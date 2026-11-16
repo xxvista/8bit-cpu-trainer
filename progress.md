@@ -14,7 +14,7 @@ A startup that designs and sells hands-on electronics kits for learning, each wi
 
 ## Status
 
-The website works offline: open `index.html` in a browser. It opens on a home page where visitors choose a kit. All work is merged into `main`.
+The website works offline: open `index.html` in a browser. It opens on a home page where visitors choose a kit. Latest work (simulator redesign, build notes, new faults) is on branch `claude/sleepy-noether-bbtr9v`, not yet merged into `main`.
 
 ## Site map
 
@@ -38,10 +38,14 @@ The company name in the header always goes back home.
 | Home photos | "Inside the kit" gallery with 4 kit photos (temporary, until there are lab-session photos) | `HOMEPHOTOS` in `dev/app.js` |
 | Visitor counting | GoatCounter (site code `xxvista`), counts page views and clicks (WhatsApp, email, catalogue, order form) | `ANALYTICS` in `dev/app.js` |
 | Order tracker | Google Sheet with Orders, Summary and Prices tabs, dropdowns and automatic totals: [Order tracker](https://docs.google.com/spreadsheets/d/1AN_my6Cz8LivtA_cFfjyjDTp47ep2JEO9SjNs_zl_BI/edit) | Google Drive |
+| Simulator controls | Player-style control bar (Reset, Step back, Clock pulse, One instruction, Run/Pause) above the board; pinned to the bottom of the screen on phones | `dev/src.html`, `dev/app.js` |
+| Data path | Animated yellow line from the board driving the bus, along the bus, to every board storing the byte, with the value on a tag | `drawFlow` in `dev/app.js` |
+| Step tracker | T0–T5 bar under the explanation (fetch vs execute, current and finished steps, unused steps dimmed) | `render` in `dev/app.js` |
+| Real build notes | "From the real build" note on each module card: what went wrong on the designer's boards and how it was fixed, with a link to his page for that board | `BUILD` in `dev/strings.js` |
 | Brand | Placeholder name "Electronics Kits Lab", changed in one place | `BRAND` in `dev/app.js`, `<title>` in `dev/src.html` |
 | CPU simulator | SAP-1 CPU: microcode, ALU, flags, 16-byte RAM, assembler with labels, disassembler, step / instruction / run / back / reset, speed control | `dev/app.js` |
 | CPU board drawing | Boards drawn from the KiCad PCB outlines and parts, with board-colour options | `dev/app.js`, `dev/pcbdata.js`, `dev/bom.json` |
-| CPU teaching panels | State, Program, RAM, Microcode, Timing, Faults, Trace | `dev/src.html`, `dev/app.js` |
+| CPU teaching panels | State, Program, RAM, Microcode, Timing, Faults (9 faults, 2 taken from the real build: MAR address bits from the switches, Register B always on the bus), Trace | `dev/src.html`, `dev/app.js` |
 | CPU example programs | 7 programs: count by 3, add, subtract, count down, carry, multiply, fetch cycle | `EXAMPLES` in `dev/app.js` |
 | CPU content pages | User guide, module catalog, lab exercises, course map, about | `dev/src.html`, `dev/strings.js` |
 | CPU order page | Order form that sends by email or WhatsApp | `SHOP` in `dev/app.js` |
@@ -77,6 +81,7 @@ The company name in the header always goes back home.
 - 2026-11-16: Merged prices, catalogue, visitor counting and order tracker work into `main`.
 - 2026-11-16: Home page redesign for more space: centred 1,160 px column (header aligned to it), 88 px between sections (64 px on phones), larger section titles, soft background bands for the learning path and ordering, no boxes around "Why our kits", equal-size photo row, two-column FAQ with +/− markers, dark contact box. Phone header on one row. Kit cards side by side on tablets. Checked at 1440, 820 and 390 px, English and Arabic.
 - 2026-11-16: Merged the home page redesign into `main`.
+- 2026-11-16: Compared the site with the designer's repository and blog. The Bootloader board in the repository is unfinished (empty board file, not in the blog), so it was not added. Added his build notes (summarised, 3 languages) to the module cards with links to his pages, and 2 new faults based on real mistakes. Simulator redesign: control bar with icons, the whole computer fits the first screen on desktop and stays in view, yellow data-path line, T0–T5 step tracker, tabs as a segmented control, first-visit tip, "Whole computer" only shown when zoomed. Phones: control bar pinned at the bottom, kit menu on one row, only the boards involved in the current step are labelled. Checked at 1440, 1280 and 390 px in English and Arabic.
 
 ## Not done yet
 
