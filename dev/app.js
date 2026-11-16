@@ -109,6 +109,18 @@ const $=id=>document.getElementById(id);
 /* ---------- company name: placeholder, change it here (the last word is shown in the accent colour) ---------- */
 const BRAND="Electronics Kits Lab";
 
+/* ---------- visitor counting with GoatCounter (free, no cookies). Put your site code here, e.g. "mykits"
+   for https://mykits.goatcounter.com. Empty = no counting. ---------- */
+const ANALYTICS={goatcounter:""};
+
+/* ---------- quotes from teachers and students. The section stays hidden while this list is empty.
+   Example entry: {text:["English","Français","العربية"],name:"Full name",role:["Lecturer, University of X","Enseignant, Université de X","أستاذ، جامعة X"]} ---------- */
+const QUOTES=[];
+
+/* ---------- photos on the home page. TEMPORARY: kit close-ups until there are photos of lab sessions.
+   Replace src with new files in img/ and the caption key with a new string in strings.js ---------- */
+const HOMEPHOTOS=[{src:"img/p043.jpg",cap:"hPh1"},{src:"img/p041.jpg",cap:"hPh2"},{src:"img/p040.jpg",cap:"hPh3"},{src:"img/p027.jpg",cap:"hPh4"}];
+
 /* ---------- kits shown on the home page. status "soon" = placeholder page with a contact button ---------- */
 const ICONS={
  gates:'<svg viewBox="0 0 120 80" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M38 12h22a28 28 0 0 1 0 56H38z"/><path d="M10 28h28M10 52h28M88 40h22"/><circle cx="10" cy="28" r="3" fill="currentColor"/><circle cx="10" cy="52" r="3" fill="currentColor"/><circle cx="110" cy="40" r="3" fill="currentColor"/></svg>',
@@ -128,6 +140,7 @@ const WHYICONS=[
  '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 11h7M8.5 14h4"/>'
 ];
 const svgI=d=>'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+d+"</svg>";
+const catLink=()=>'<a class="btn big" data-ev="catalogue-'+["en","fr","ar"][LI]+'" href="brochure/catalogue-'+["en","fr","ar"][LI]+'.pdf" download>'+t("hCat")+"</a>";
 const waLink=msg=>"https://wa.me/"+SHOP.whatsapp+"?text="+encodeURIComponent(msg);
 const mailLink=(sub,msg)=>"mailto:"+SHOP.email+"?subject="+encodeURIComponent(sub)+"&body="+encodeURIComponent(msg);
 function renderHome(){
@@ -138,12 +151,14 @@ function renderHome(){
      '<div class="facts"><div><b>3</b>'+t("hF1")+"</div><div><b>3</b>"+t("hF2")+"</div><div><b>58</b>"+t("hF3")+'</div></div></div><img src="img/p044.jpg" alt="'+esc(t("kPhotos"))+'"></div>'+
    '<section class="hsec who"><h2 class="sec">'+t("hWho")+'</h2><div class="whogrid"><p class="lead">'+t("hWhoP")+'</p><div><b class="forlbl">'+t("hFor")+'</b><div class="audience">'+[1,2,3,4].map(i=>"<span>"+t("hAud"+i)+"</span>").join("")+"</div></div></div></section>"+
    '<section class="hsec" id="hKits"><h2 class="sec">'+t("hChoose")+'</h2><div class="kits">'+KITS.map(k=>{const live=k.status==="live";
-     return'<article class="kitcard'+(live?" live":"")+'"><a class="pic" href="#'+(live?"simulator":k.id)+'" tabindex="-1">'+kitPic(k)+'</a><div class="body"><span class="badge '+(live?"ok":"soon")+'">'+t(live?"hAvail":"hSoon")+"</span><h3"+(k.id==="cpu"?' class="ltr"':"")+">"+k.name()+"</h3><p>"+k.desc()+'</p><div class="ctas">'+
+     return'<article class="kitcard'+(live?" live":"")+'"><a class="pic" href="#'+(live?"simulator":k.id)+'" tabindex="-1">'+kitPic(k)+'</a><div class="body"><span class="badge '+(live?"ok":"soon")+'">'+t(live?"hAvail":"hSoon")+"</span><h3"+(k.id==="cpu"?' class="ltr"':"")+">"+k.name()+"</h3><p>"+k.desc()+"</p>"+(live&&k.id==="cpu"?'<div class="fromprice">'+t("hFrom",'<b class="ltr">'+money(Math.min(SHOP.prices.assembled,SHOP.prices.solder))+"</b>")+"</div>":"")+'<div class="ctas">'+
        (live?'<a class="btn primary" href="#simulator">'+t("hExplore")+'</a><a class="btn" href="#kit">'+t("hOrder")+"</a>":'<a class="btn" href="#'+k.id+'">'+t("hMore")+"</a>")+"</div></div></article>";}).join("")+"</div></section>"+
    '<section class="hsec"><h2 class="sec">'+t("hPath")+'</h2><p class="lead secl">'+t("hPathL")+'</p><div class="path">'+
      step(t("hStep",1),kit("gates"),t("hPath1"))+'<span class="arrow" aria-hidden="true">→</span>'+step(t("hStep",2),kit("cpu"),t("hPath2"))+'<span class="arrow plus" aria-hidden="true">+</span>'+step(t("hAlong"),kit("arduino"),t("hPath3"))+"</div></section>"+
    '<section class="hsec"><h2 class="sec">'+t("hWhy")+'</h2><div class="why">'+[1,2,3,4].map(i=>'<div class="whyitem"><span class="ico">'+svgI(WHYICONS[i-1])+"</span><h3>"+t("hW"+i)+"</h3><p>"+t("hW"+i+"d")+"</p></div>").join("")+"</div></section>"+
-   '<section class="hsec"><h2 class="sec">'+t("hHow")+'</h2><ol class="how">'+[1,2,3].map(i=>'<li><span class="hn">'+i+"</span><h3>"+t("hHow"+i)+"</h3><p>"+t("hHow"+i+"d")+"</p></li>").join("")+'</ol><div class="ctas" style="margin-top:16px"><a class="btn primary big" target="_blank" rel="noopener" href="'+waLink(t("hQuoteMsg"))+'">'+t("hQuote")+'</a><a class="btn big" href="#kit">'+t("hOrder")+" · 8-Bit CPU</a></div></section>"+
+   '<section class="hsec"><h2 class="sec">'+t("hPhotos")+'</h2><div class="gallery">'+HOMEPHOTOS.map(ph=>'<figure><img src="'+ph.src+'" alt="'+esc(t(ph.cap))+'" loading="lazy"><figcaption>'+t(ph.cap)+"</figcaption></figure>").join("")+"</div></section>"+
+   (QUOTES.length?'<section class="hsec"><h2 class="sec">'+t("hQuotes")+'</h2><div class="quotes">'+QUOTES.map(q=>"<figure><blockquote>"+tr(q.text)+"</blockquote><figcaption><b>"+esc(q.name)+"</b><span>"+tr(q.role)+"</span></figcaption></figure>").join("")+"</div></section>":"")+
+   '<section class="hsec"><h2 class="sec">'+t("hHow")+'</h2><ol class="how">'+[1,2,3].map(i=>'<li><span class="hn">'+i+"</span><h3>"+t("hHow"+i)+"</h3><p>"+t("hHow"+i+"d")+"</p></li>").join("")+'</ol><div class="ctas" style="margin-top:16px"><a class="btn primary big" target="_blank" rel="noopener" href="'+waLink(t("hQuoteMsg"))+'">'+t("hQuote")+'</a><a class="btn big" href="#kit">'+t("hOrder")+" · 8-Bit CPU</a>"+catLink()+"</div></section>"+
    '<section class="hsec"><h2 class="sec">'+t("hFaq")+'</h2><div class="faq">'+[1,2,3,4,5].map(i=>"<details><summary>"+t("hQ"+i)+"</summary><p>"+t("hA"+i)+"</p></details>").join("")+"</div></section>"+
    '<section class="ctabox" id="hContactBox"><div><h2>'+t("hCtaT")+'</h2><p class="lead">'+t("hCtaL")+'</p></div><div class="ctas"><a class="btn primary big" target="_blank" rel="noopener" href="'+waLink(t("hHello"))+'">WhatsApp</a><a class="btn big" href="'+mailLink(BRAND,t("hHello"))+'">Email</a></div>'+contactHtml()+"</section>"+
    '<p class="creditline">'+t("credit")+"</p>";
@@ -153,7 +168,7 @@ function renderSoon(id){
   $("soonBody").innerHTML='<a class="backlink" href="#home">← '+t("sBack")+'</a><div class="soonpage"><div><span class="badge soon">'+t("hSoon")+"</span><h2>"+k.name()+'</h2><p class="lead">'+k.desc()+"</p><p style=\"margin-top:14px\">"+t("sPlanned")+"</p><ul>"+[1,2,3,4].map(i=>"<li>"+t("sP"+i)+"</li>").join("")+"</ul><p>"+t("sNotify")+'</p><div class="ctas" style="margin-top:12px"><a class="btn primary big" target="_blank" rel="noopener" href="'+waLink(msg)+'">WhatsApp</a><a class="btn big" href="'+mailLink(k.name(),msg)+'">Email</a></div>'+contactHtml()+'</div><div class="pic">'+ICONS[k.id]+"</div></div>";
 }
 
-const SHOP={email:"abdelkafiabdellah419@gmail.com",whatsapp:"213666020037",phone:"0666 02 00 37",currency:"DA",prices:{assembled:null,solder:null}};
+const SHOP={email:"abdelkafiabdellah419@gmail.com",whatsapp:"213666020037",phone:"0666 02 00 37",currency:"DA",prices:{assembled:49000,solder:39000}};
 const PHOTOS={pc:"img/p027.jpg",reg:"img/p040.jpg",alu:"img/p041.jpg",mar:"img/p042.jpg",ctl:"img/p043.jpg"};
 
 const EXAMPLES=[
@@ -493,7 +508,7 @@ function renderKit(){
     BOM[b].map(r=>"<tr><td class='m'>"+r[0]+"</td><td class='m'>"+esc(r[1])+"</td><td class='m' style='white-space:normal'>"+esc(r[2])+"</td></tr>").join("")+"</tbody></table></div></details>").join("");
   const f=(id,key,type,req)=>'<label for="f-'+id+'">'+t(key)+(req?" *":"")+'<input id="f-'+id+'" data-f="'+id+'" type="'+type+'" value="'+esc(order[id])+'"'+(id==="phone"||id==="email"?' dir="ltr"':"")+"></label>";
   $("kitBody").innerHTML=
-   '<div class="hero"><div><h2>'+t("kTitle")+'</h2><p class="lead">'+t("kLead")+'</p><div class="facts"><div><b>11</b>'+t("kF1")+"</div><div><b>"+TOTALPARTS+"</b>"+t("kF2")+"</div><div><b>82</b>"+t("kF3")+"</div><div><b>16</b>"+t("kF4")+'</div></div><div class="ctas"><a class="btn primary big" href="#kit" data-go="order">'+t("kOrderCta")+'</a><a class="btn big" href="#simulator">'+t("kTry")+'</a></div></div><img src="img/p044.jpg" alt="'+esc(t("kPhotos"))+'"></div>'+
+   '<div class="hero"><div><h2>'+t("kTitle")+'</h2><p class="lead">'+t("kLead")+'</p><div class="facts"><div><b>11</b>'+t("kF1")+"</div><div><b>"+TOTALPARTS+"</b>"+t("kF2")+"</div><div><b>82</b>"+t("kF3")+"</div><div><b>16</b>"+t("kF4")+'</div></div><div class="ctas"><a class="btn primary big" href="#kit" data-go="order">'+t("kOrderCta")+'</a><a class="btn big" href="#simulator">'+t("kTry")+'</a>'+catLink()+'</div></div><img src="img/p044.jpg" alt="'+esc(t("kPhotos"))+'"></div>'+
    '<h2 class="sec">'+t("kChoose")+'</h2><div class="products">'+
      '<div class="product'+(order.qa?" sel":"")+'"><h3>'+t("kP1")+"</h3><p>"+t("kP1d")+"</p>"+priceHtml("assembled")+stepper("qa")+"</div>"+
      '<div class="product'+(order.qs?" sel":"")+'"><h3>'+t("kP2")+"</h3><p>"+t("kP2d")+"</p>"+priceHtml("solder")+stepper("qs")+"</div>"+
@@ -543,7 +558,7 @@ $("kitBody").addEventListener("click",e=>{
 $("kitBody").addEventListener("submit",e=>{e.preventDefault();const er=$("orderErr");
   if(!order.qa&&!order.qs){er.textContent=t("fErrQty");return;}
   if(!order.name.trim()||!order.phone.trim()||!order.city.trim()){er.textContent=t("fErrReq");return;}
-  er.textContent="";order.text=buildOrderText();$("orderSum").innerHTML=orderSumHtml();$("orderSum").scrollIntoView({behavior:"smooth",block:"nearest"});});
+  er.textContent="";order.text=buildOrderText();track("order-form-made",1);$("orderSum").innerHTML=orderSumHtml();$("orderSum").scrollIntoView({behavior:"smooth",block:"nearest"});});
 
 /* ---------- static views, rebuilt on language change ---------- */
 function renderStatic(){
@@ -579,6 +594,15 @@ function setLang(i,save){
 $("lang").onchange=e=>setLang(+e.target.value,true);
 
 $("homeBody").addEventListener("click",e=>{const b=e.target.closest("[data-scroll]");if(b)$(b.dataset.scroll).scrollIntoView({behavior:"smooth",block:"start"});});
+/* ---------- visitor counting ---------- */
+function track(path,ev){try{if(window.goatcounter&&window.goatcounter.count)window.goatcounter.count({path,title:path,event:!!ev});}catch(e){}}
+let lastTracked="";
+function trackView(){const p="/"+(location.hash.replace("#","")||"home");if(p===lastTracked)return;lastTracked=p;track(p);}
+if(ANALYTICS.goatcounter){const g=document.createElement("script");g.async=true;g.src="https://gc.zgo.at/count.js";
+  g.dataset.goatcounter="https://"+ANALYTICS.goatcounter+".goatcounter.com/count";g.dataset.goatcounterSettings='{"no_onload":true}';
+  g.onload=()=>{lastTracked="";trackView();};document.head.appendChild(g);}
+document.addEventListener("click",e=>{const a=e.target.closest("a,button");if(!a)return;const h=a.getAttribute("href")||"",where=location.hash.replace("#","")||"home";
+  if(h.startsWith("https://wa.me"))track("whatsapp-"+where,1);else if(h.startsWith("mailto:"))track("email-"+where,1);else if(a.dataset.ev)track(a.dataset.ev,1);});
 const CPUVIEWS=["simulator","guide","modules","labs","course","about","kit"];
 const VIEWS=["home","soon",...CPUVIEWS];
 let soonId=null;
@@ -592,6 +616,7 @@ function route(){
   const cpu=CPUVIEWS.includes(v);$("kitbar").hidden=!cpu;
   document.title=cpu?"8-Bit CPU Trainer · "+BRAND:soonId?KITS.find(k=>k.id===soonId).name()+" · "+BRAND:BRAND;
   document.querySelectorAll("#nav a").forEach(a=>{if(a.getAttribute("href")==="#"+v)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");});
+  trackView();
   render();
 }
 window.addEventListener("hashchange",()=>{route();window.scrollTo(0,0);});

@@ -12,7 +12,11 @@ After every change, before committing:
 
 A startup website selling electronics teaching kits. One static page (`index.html`), built from `dev/` with `python3 dev/build.py`. Never edit `index.html` by hand; edit `dev/` and rebuild. Commit both.
 
+After any change to prices or to text the catalogue uses, run `node dev/brochure.js` and commit the new PDFs in `brochure/`.
+
 - Kits: 8-Bit CPU Trainer (available), Logic Gates Kit and Arduino Model Kit (placeholders, "coming soon"). The kit list is `KITS` in `dev/app.js`.
+- Prices: `SHOP.prices` in `dev/app.js` (assembled 49,000 DA, solder kit 39,000 DA). Keep the Prices tab of the order tracker Google Sheet in step when they change.
+- Quotes (`QUOTES`) must be real quotes from real people. Never invent them; the section stays hidden while the list is empty.
 - Company name is a placeholder: `BRAND` in `dev/app.js` (and the `<title>` in `dev/src.html`).
 - All visible text is in `dev/strings.js` in English, French and Arabic (right-to-left). Every new string needs all three.
 

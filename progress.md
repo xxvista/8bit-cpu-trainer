@@ -8,13 +8,13 @@ A startup that designs and sells hands-on electronics kits for learning, each wi
 
 | Kit | Status |
 |---|---|
-| 8-Bit CPU Trainer | Available: full website section with simulator, guide, labs and order form |
+| 8-Bit CPU Trainer | Available: assembled 49,000 DA, solder-it-yourself kit 39,000 DA, classroom pack on quote |
 | Logic Gates Kit | Placeholder: "coming soon" page with WhatsApp / email contact |
 | Arduino Model Kit | Placeholder: "coming soon" page with WhatsApp / email contact |
 
 ## Status
 
-The website works offline: open `index.html` in a browser. It opens on a home page where visitors choose a kit. Latest work is on branch `claude/sleepy-noether-bbtr9v`; `main` is one change behind (the team description).
+The website works offline: open `index.html` in a browser. It opens on a home page where visitors choose a kit. Latest work is on branch `claude/sleepy-noether-bbtr9v`; `main` does not have it yet (team description, prices, catalogue, visitor counting).
 
 ## Site map
 
@@ -32,6 +32,12 @@ The company name in the header always goes back home.
 |---|---|---|
 | Home page | Presents the startup: banner ("Designed and made in Algeria", headline, photo, 3 key facts), who we are, 3 kit cards, learning path (Logic Gates → CPU, Arduino alongside), 4 reasons to choose us, 3-step ordering with a "quote for your school" WhatsApp button, 5-question FAQ, contact box | `renderHome` in `dev/app.js`, `h…` strings in `dev/strings.js` |
 | Coming-soon pages | Kit name, description, planned contents, WhatsApp and email buttons with a pre-written message | `renderSoon` in `dev/app.js` |
+| Prices | Assembled 49,000 DA, solder kit 39,000 DA; home page card shows "From 39,000 DA" | `SHOP.prices` in `dev/app.js` |
+| PDF catalogue | 2-page A4 catalogue in English, French and Arabic, made from the site's text and prices; download buttons on the home page and the CPU kit page | `dev/brochure.js`, `brochure/catalogue-*.pdf` |
+| Quotes section | Built but hidden until real quotes are added | `QUOTES` in `dev/app.js` |
+| Home photos | "Inside the kit" gallery with 4 kit photos (temporary, until there are lab-session photos) | `HOMEPHOTOS` in `dev/app.js` |
+| Visitor counting | GoatCounter, counts page views and clicks (WhatsApp, email, catalogue, order form). Off until a site code is set | `ANALYTICS` in `dev/app.js` |
+| Order tracker | Google Sheet with Orders, Summary and Prices tabs, dropdowns and automatic totals: [Order tracker](https://docs.google.com/spreadsheets/d/1AN_my6Cz8LivtA_cFfjyjDTp47ep2JEO9SjNs_zl_BI/edit) | Google Drive |
 | Brand | Placeholder name "Electronics Kits Lab", changed in one place | `BRAND` in `dev/app.js`, `<title>` in `dev/src.html` |
 | CPU simulator | SAP-1 CPU: microcode, ALU, flags, 16-byte RAM, assembler with labels, disassembler, step / instruction / run / back / reset, speed control | `dev/app.js` |
 | CPU board drawing | Boards drawn from the KiCad PCB outlines and parts, with board-colour options | `dev/app.js`, `dev/pcbdata.js`, `dev/bom.json` |
@@ -49,8 +55,11 @@ The company name in the header always goes back home.
 - [x] No JavaScript errors, no broken images, no missing translations
 - [x] No page scrolls sideways on phones
 - [x] Kit menu bar shows only on the CPU pages; browser tab title changes per page
+- [x] Catalogue: 2 pages in each language, nothing cut off (the script checks this)
+- [x] Order tracker: totals tested with list price, agreed price and missing price
 - [x] All 7 CPU example programs give the expected output; Step, Run and Reset work
 - [ ] Order form and "coming soon" buttons actually open WhatsApp / email (not tested)
+- [ ] Visitor counting (no GoatCounter code yet)
 - [ ] Other browsers (only Chromium tested)
 
 ## Log
@@ -62,6 +71,7 @@ The company name in the header always goes back home.
 - 2026-11-16: Rebuilt the home page to present the startup (see Home page above). Fixed a long French button making the phone page scroll sideways.
 - 2026-11-16: Merged the new home page into `main`.
 - 2026-11-16: "Who we are" now says the team is two Algerian electronics engineers (was "engineers and teachers").
+- 2026-11-16: Prices set (49,000 / 39,000 DA). Added the PDF catalogue in 3 languages, temporary kit photos on the home page, a hidden quotes section, GoatCounter visitor counting (waiting for a code) and the Google Sheet order tracker.
 
 ## Not done yet
 

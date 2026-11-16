@@ -26,6 +26,8 @@ The page is built from the files in `dev/`:
 
 After editing, run `python3 dev/build.py` and commit the new `index.html`.
 
+If you changed prices or any text used in the catalogue, also run `node dev/brochure.js` (needs Playwright) to remake `brochure/catalogue-en.pdf`, `-fr.pdf` and `-ar.pdf`. It stops with an error if a page no longer fits on A4.
+
 ## Credits
 
 The board design is based on the open-hardware 8-Bit PCB CPU project, released under the CERN Open Hardware Licence version 2, Permissive (CERN-OHL-P), which converts [Ben Eater's SAP-1 breadboard computer](https://eater.net/8bit) to printed circuit boards. The SAP-1 architecture comes from Malvino and Brown, *Digital Computer Electronics*.
