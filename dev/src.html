@@ -297,7 +297,6 @@ svg.tm{display:block;font-family:var(--f-mono)}
 .tm .tmbox{fill:var(--soft);stroke:var(--line)}.tm .tmbox.bus{fill:#fff6d6;stroke:#e8c96a}
 .tm .tmv{font-size:8.5px;fill:var(--ink)}
 .tm .tmcur{fill:#fff1c2;opacity:.6}
-.fbadge{background:#fff3e0;color:#9a5b00;border:1px solid #e9b25a;border-radius:999px;font-size:12px;font-weight:600;padding:0 9px;font-family:var(--f-body)}
 details.faq{border-bottom:1px solid var(--line);padding:8px 0}
 details.faq summary{cursor:pointer;font-weight:600}
 details.faq p{margin:6px 0 2px;color:var(--muted)}
@@ -597,7 +596,7 @@ body:not([data-view="cpu"]) header.top{max-width:1160px;margin:0 auto}
   </div>
   <div class="side">
     <div class="tipbar" id="tipbar" hidden><span data-t="simTip"></span><button type="button" id="tipClose" aria-label="Close">×</button></div>
-    <div class="now" id="now"><div class="phase"><strong id="phase"></strong><span id="phaseSub"></span><span class="fbadge" id="fbadge" hidden></span></div><p id="nowText"></p><div class="tsteps" id="tsteps" dir="ltr"></div></div>
+    <div class="now" id="now"><div class="phase"><strong id="phase"></strong><span id="phaseSub"></span></div><p id="nowText"></p><div class="tsteps" id="tsteps" dir="ltr"></div></div>
     <div>
       <div class="tabs" role="tablist" id="tabs">
         <button role="tab" data-tab="state" aria-selected="true" data-t="tState"></button>
@@ -606,7 +605,6 @@ body:not([data-view="cpu"]) header.top{max-width:1160px;margin:0 auto}
         <button role="tab" data-tab="ucode" data-t="tUcode"></button>
         <button role="tab" data-tab="trace" data-t="tTrace"></button>
         <button role="tab" data-tab="timing" data-t="tTiming"></button>
-        <button role="tab" data-tab="faults" data-t="tFaults"></button>
       </div>
       <div class="tab active" id="tab-state">
         <div class="tablewrap"><table class="regs"><tbody id="regBody"></tbody></table></div>
@@ -635,7 +633,6 @@ body:not([data-view="cpu"]) header.top{max-width:1160px;margin:0 auto}
         <p class="sub" data-t="tmHelp"></p>
         <div class="tmwrap" id="tmBox" dir="ltr"></div>
       </div>
-      <div class="tab" id="tab-faults"><div id="faultBody"></div></div>
       <div class="tab" id="tab-trace">
         <p class="sub" data-t="trHelp"></p>
         <div class="tablewrap" style="max-height:420px;overflow-y:auto"><table class="mono"><thead><tr><th>#</th><th data-t="thStep"></th><th data-t="thInstr"></th><th data-t="thLines"></th><th data-t="thBus"></th></tr></thead><tbody id="trBody"></tbody></table></div>

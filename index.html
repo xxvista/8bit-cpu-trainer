@@ -297,7 +297,6 @@ svg.tm{display:block;font-family:var(--f-mono)}
 .tm .tmbox{fill:var(--soft);stroke:var(--line)}.tm .tmbox.bus{fill:#fff6d6;stroke:#e8c96a}
 .tm .tmv{font-size:8.5px;fill:var(--ink)}
 .tm .tmcur{fill:#fff1c2;opacity:.6}
-.fbadge{background:#fff3e0;color:#9a5b00;border:1px solid #e9b25a;border-radius:999px;font-size:12px;font-weight:600;padding:0 9px;font-family:var(--f-body)}
 details.faq{border-bottom:1px solid var(--line);padding:8px 0}
 details.faq summary{cursor:pointer;font-weight:600}
 details.faq p{margin:6px 0 2px;color:var(--muted)}
@@ -597,7 +596,7 @@ body:not([data-view="cpu"]) header.top{max-width:1160px;margin:0 auto}
   </div>
   <div class="side">
     <div class="tipbar" id="tipbar" hidden><span data-t="simTip"></span><button type="button" id="tipClose" aria-label="Close">×</button></div>
-    <div class="now" id="now"><div class="phase"><strong id="phase"></strong><span id="phaseSub"></span><span class="fbadge" id="fbadge" hidden></span></div><p id="nowText"></p><div class="tsteps" id="tsteps" dir="ltr"></div></div>
+    <div class="now" id="now"><div class="phase"><strong id="phase"></strong><span id="phaseSub"></span></div><p id="nowText"></p><div class="tsteps" id="tsteps" dir="ltr"></div></div>
     <div>
       <div class="tabs" role="tablist" id="tabs">
         <button role="tab" data-tab="state" aria-selected="true" data-t="tState"></button>
@@ -606,7 +605,6 @@ body:not([data-view="cpu"]) header.top{max-width:1160px;margin:0 auto}
         <button role="tab" data-tab="ucode" data-t="tUcode"></button>
         <button role="tab" data-tab="trace" data-t="tTrace"></button>
         <button role="tab" data-tab="timing" data-t="tTiming"></button>
-        <button role="tab" data-tab="faults" data-t="tFaults"></button>
       </div>
       <div class="tab active" id="tab-state">
         <div class="tablewrap"><table class="regs"><tbody id="regBody"></tbody></table></div>
@@ -635,7 +633,6 @@ body:not([data-view="cpu"]) header.top{max-width:1160px;margin:0 auto}
         <p class="sub" data-t="tmHelp"></p>
         <div class="tmwrap" id="tmBox" dir="ltr"></div>
       </div>
-      <div class="tab" id="tab-faults"><div id="faultBody"></div></div>
       <div class="tab" id="tab-trace">
         <p class="sub" data-t="trHelp"></p>
         <div class="tablewrap" style="max-height:420px;overflow-y:auto"><table class="mono"><thead><tr><th>#</th><th data-t="thStep"></th><th data-t="thInstr"></th><th data-t="thLines"></th><th data-t="thBus"></th></tr></thead><tbody id="trBody"></tbody></table></div>
@@ -688,7 +685,7 @@ const U={
  hSeeKits:["See our kits","Voir nos kits","شاهد أطقمنا"],hContact:["Contact us","Nous contacter","اتصل بنا"],
  hF1:["kits, more coming","kits, d'autres à venir","أطقم، والمزيد قادم"],hF2:["languages: English, French, Arabic","langues : français, arabe, anglais","لغات: العربية والفرنسية والإنجليزية"],hF3:["wilayas, delivery everywhere","wilayas, livraison partout","ولاية، توصيل إلى كل مكان"],
  hWho:["Who we are","Qui sommes-nous","من نحن"],
- hWhoP:["We are two Algerian electronics engineers. We think students understand electronics best when they hold it in their hands: when they see the signal on an LED, wire the board, and fix it when it doesn't work. So we design teaching kits that are built to be opened, studied and repaired, and we write the lessons that go with them.","Nous sommes deux ingénieurs algériens en électronique. Nous pensons qu'on comprend le mieux l'électronique en la tenant en main : en voyant le signal sur une LED, en câblant la carte et en la réparant quand elle ne marche pas. Nous concevons donc des kits pédagogiques faits pour être ouverts, étudiés et réparés, avec les cours qui les accompagnent.","نحن مهندسان جزائريان في الإلكترونيات. نؤمن أن الطالب يفهم الإلكترونيات أفضل حين يمسكها بيديه: حين يرى الإشارة على مصباح LED، ويوصل البطاقة، ويصلحها حين لا تعمل. لذلك نصمّم أطقماً تعليمية صُنعت لتُفتح وتُدرس وتُصلح، ونكتب الدروس التي ترافقها."],
+ hWhoP:["We are two Algerian electronics engineers, working with the Incubateur de l'Université de Bouira. We think students understand electronics best when they hold it in their hands: when they see the signal on an LED, wire the board, and fix it when it doesn't work. So we design teaching kits that are built to be opened, studied and repaired, and we write the lessons that go with them.","Nous sommes deux ingénieurs algériens en électronique, accompagnés par l'Incubateur de l'Université de Bouira. Nous pensons qu'on comprend le mieux l'électronique en la tenant en main : en voyant le signal sur une LED, en câblant la carte et en la réparant quand elle ne marche pas. Nous concevons donc des kits pédagogiques faits pour être ouverts, étudiés et réparés, avec les cours qui les accompagnent.","نحن مهندسان جزائريان في الإلكترونيات، نعمل مع حاضنة جامعة البويرة. نؤمن أن الطالب يفهم الإلكترونيات أفضل حين يمسكها بيديه: حين يرى الإشارة على مصباح LED، ويوصل البطاقة، ويصلحها حين لا تعمل. لذلك نصمّم أطقماً تعليمية صُنعت لتُفتح وتُدرس وتُصلح، ونكتب الدروس التي ترافقها."],
  hFor:["Made for","Pour","موجّه إلى"],
  hAud1:["Universities","Universités","الجامعات"],hAud2:["Technical schools","Écoles techniques","المدارس التقنية"],hAud3:["High schools","Lycées","الثانويات"],hAud4:["Hobbyists","Passionnés","الهواة"],
  hChoose:["Choose a kit","Choisissez un kit","اختر طقماً"],
@@ -1106,37 +1103,26 @@ const GUIDE2=[ // right column headings and notes
 
 /* ---------- added: timing, faults, about ---------- */
 Object.assign(U,{
- tTiming:["Timing","Chronogramme","المخطط الزمني"],tFaults:["Faults","Pannes","الأعطال"],navAbout:["About","À propos","من نحن"],
+ tTiming:["Timing","Chronogramme","المخطط الزمني"],navAbout:["About","À propos","من نحن"],
  tmHelp:["The last 32 clock pulses, as a logic analyser would show them. Each column is one pulse; a raised line means the signal was on.","Les 32 dernières impulsions, comme sur un analyseur logique. Chaque colonne est une impulsion ; une ligne haute indique un signal actif.","آخر 32 نبضة كما يعرضها محلّل منطقي. كل عمود نبضة؛ الخط المرتفع يعني أن الإشارة كانت مفعّلة."],
- fIntro:["The simulator can hide one hardware fault, as if a cable or a chip on the kit were bad. Run programs, compare what the LEDs show with what should happen, then name the fault.","Le simulateur peut cacher une panne matérielle, comme un câble ou un circuit défectueux sur le kit. Exécutez des programmes, comparez les LED avec le comportement attendu, puis identifiez la panne.","يمكن للمحاكي أن يخفي عطلاً في العتاد، كأن يكون كابل أو دائرة في الطقم معطوباً. شغّل برامج، قارن ما تُظهره المصابيح بما يجب أن يحدث، ثم سمِّ العطل."],
- fStart:["Insert a random fault","Insérer une panne au hasard","أدخل عطلاً عشوائياً"],
- fNone:["No fault is active. The computer works normally.","Aucune panne active. L'ordinateur fonctionne normalement.","لا يوجد عطل مفعّل. الحاسوب يعمل بشكل عادي."],
- fActive:["Fault active","Panne active","عطل مفعّل"],
- fOn:["A fault is hidden in the computer. Attempts so far: {0}.","Une panne est cachée dans l'ordinateur. Essais : {0}.","هناك عطل مخفي في الحاسوب. المحاولات حتى الآن: {0}."],
- fTip:["Start with Add two numbers, then Count down to zero. Watch the control LEDs and check that every card that should store a value really changes.","Commencez par Additionner deux nombres, puis Compte à rebours. Observez les LED de commande et vérifiez que chaque carte censée mémoriser une valeur change vraiment.","ابدأ بجمع عددين ثم العدّ التنازلي. راقب مصابيح التحكم وتأكّد أن كل بطاقة يُفترض أن تخزّن قيمة تتغيّر فعلاً."],
- fGuess:["Your diagnosis","Votre diagnostic","تشخيصك"],fPick:["Choose a fault…","Choisir une panne…","اختر عطلاً…"],
- fCheck:["Check my diagnosis","Vérifier mon diagnostic","تحقّق من تشخيصي"],
- fRight:["Correct, found in {0} attempts. The fault is repaired.","Exact, trouvée en {0} essais. La panne est réparée.","صحيح، وُجد في {0} محاولات. تم إصلاح العطل."],
- fWrong:["Not this one. Keep testing: which card does not do what the control LEDs ask?","Ce n'est pas celle-ci. Continuez : quelle carte ne fait pas ce que demandent les LED de commande ?","ليس هذا. واصل الاختبار: أي بطاقة لا تنفّذ ما تطلبه مصابيح التحكم؟"],
- fReveal:["Reveal and repair","Révéler et réparer","اكشف وأصلح"],
- fWas:["The fault was: {0}. It is repaired.","La panne était : {0}. Elle est réparée.","كان العطل: {0}. تم إصلاحه."]
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 });
-const FAULTS={
- aRev:["Register A to ALU cable plugged in reversed","Câble Registre A vers UAL branché à l'envers","كابل المسجّل A إلى وحدة الحساب موصول بالعكس"],
- bShift:["Register B to ALU cable shifted by one pin","Câble Registre B vers UAL décalé d'une broche","كابل المسجّل B إلى وحدة الحساب مُزاح بدبوس واحد"],
- fiDead:["Flags-in (FI) control line broken","Ligne de commande FI (entrée indicateurs) coupée","خط التحكم FI (دخول الرايات) مقطوع"],
- biDead:["B-in (BI) control line broken","Ligne de commande BI (entrée B) coupée","خط التحكم BI (دخول B) مقطوع"],
- jmpDead:["PC-load (JMP) control line broken","Ligne de commande JMP (chargement du CO) coupée","خط التحكم JMP (تحميل PC) مقطوع"],
- op0:["Instruction register to Control cable: lowest opcode wire broken","Câble Registre d'instruction vers Commande : fil du bit de poids faible du code coupé","كابل مسجّل التعليمة إلى التحكم: سلك أدنى بت في رمز العملية مقطوع"],
- ram7:["RAM data bit 7 stuck at 0","Bit de donnée 7 de la RAM bloqué à 0","بت المعطى 7 في الذاكرة عالق عند 0"],
- marMix:["MAR: wrong selector footprint, the two lowest address bits come from the program switches","MAR : mauvaise empreinte du sélecteur, les deux bits d'adresse de poids faible viennent des interrupteurs de programmation","MAR: بصمة خاطئة للمُنتقي، فيأتي أدنى بتّين من العنوان من مفاتيح البرمجة"],
- bFloat:["Register B: output-enable pin left unconnected, B always drives the bus","Registre B : broche de validation de sortie non connectée, B pilote toujours le bus","المسجّل B: دبوس تفعيل الخرج غير موصول، فيقود B الناقل دائماً"]
-};
 const ABOUT=[
 `<h2>About</h2>
 <p class="lead">8-Bit CPU Trainer is a teaching kit and website for computer-architecture courses: a real 8-bit computer on printed circuit boards, and a simulator that behaves exactly like it.</p>
 <h3>Who makes it</h3>
-<p>The kit was designed by Abdellah Abdelkafi and Feriel Hamouchi as an engineering final-year project at Université Ferhat Abbas Sétif 1 (2025–2026). It is now offered to universities, schools, training centres and makers.</p>
+<p>The kit was designed by Abdellah Abdelkafi and Feriel Hamouchi, two Algerian electronics engineers from Université Akli Mohand Oulhadj de Bouira. The project is developed with the Incubateur de l'Université de Bouira. It is now offered to universities, schools, training centres and makers.</p>
 <h3>How ordering works</h3>
 <ol><li>Fill in the order request on the <a href="#kit">Buy the kit</a> page and send it by WhatsApp or email.</li><li>We reply with the price, availability and delivery details for your wilaya.</li><li>You confirm and pay by the method you chose: cash on delivery, bank or CCP transfer, or a purchase order for institutions.</li><li>The kit is delivered. Assembled kits are tested with a running program before they leave.</li></ol>
 <h3>Questions</h3>
@@ -1150,7 +1136,7 @@ const ABOUT=[
 `<h2>À propos</h2>
 <p class="lead">8-Bit CPU Trainer est un kit pédagogique et un site web pour les cours d'architecture des ordinateurs : un véritable ordinateur 8 bits sur circuits imprimés, et un simulateur qui se comporte exactement comme lui.</p>
 <h3>Qui le fabrique</h3>
-<p>Le kit a été conçu par Abdellah Abdelkafi et Feriel Hamouchi dans le cadre d'un projet de fin d'études d'ingénieur à l'Université Ferhat Abbas Sétif 1 (2025–2026). Il est aujourd'hui proposé aux universités, écoles, centres de formation et passionnés.</p>
+<p>Le kit a été conçu par Abdellah Abdelkafi et Feriel Hamouchi, deux ingénieurs algériens en électronique de l'Université Akli Mohand Oulhadj de Bouira. Le projet est développé avec l'Incubateur de l'Université de Bouira. Il est aujourd'hui proposé aux universités, écoles, centres de formation et passionnés.</p>
 <h3>Comment commander</h3>
 <ol><li>Remplissez la demande de commande sur la page <a href="#kit">Acheter le kit</a> et envoyez-la par WhatsApp ou par e-mail.</li><li>Nous répondons avec le prix, la disponibilité et les conditions de livraison pour votre wilaya.</li><li>Vous confirmez et payez selon le mode choisi : paiement à la livraison, virement bancaire ou CCP, ou bon de commande pour les établissements.</li><li>Le kit est livré. Les kits montés sont testés avec un programme avant l'expédition.</li></ol>
 <h3>Questions</h3>
@@ -1164,7 +1150,7 @@ const ABOUT=[
 `<h2>من نحن</h2>
 <p class="lead">‏8-Bit CPU Trainer طقم تعليمي وموقع لمقررات بنية الحاسوب: حاسوب حقيقي ذو 8 بتات على دارات مطبوعة، ومحاكٍ يتصرف مثله تماماً.</p>
 <h3>من يصنعه</h3>
-<p>صمّم الطقمَ عبد الله عبد الكافي وفريال حموشي في إطار مشروع نهاية الدراسة في الهندسة بجامعة فرحات عباس سطيف 1 (2025–2026). وهو اليوم متاح للجامعات والمدارس ومراكز التكوين والهواة.</p>
+<p>صمّم الطقمَ عبد الله عبد الكافي وفريال حموشي، مهندسان جزائريان في الإلكترونيات من جامعة أكلي محند أولحاج بالبويرة. ويُطوَّر المشروع مع حاضنة جامعة البويرة. وهو اليوم متاح للجامعات والمدارس ومراكز التكوين والهواة.</p>
 <h3>كيف تطلب</h3>
 <ol><li>املأ استمارة الطلب في صفحة <a href="#kit">اشترِ الطقم</a> وأرسلها عبر واتساب أو البريد الإلكتروني.</li><li>نردّ عليك بالسعر والتوفر وتفاصيل التوصيل إلى ولايتك.</li><li>تؤكّد وتدفع بالطريقة التي اخترتها: الدفع عند الاستلام، أو تحويل بنكي أو عبر CCP، أو سند طلب للمؤسسات.</li><li>يُسلَّم الطقم. الأطقم المركَّبة تُختبر ببرنامج يعمل قبل إرسالها.</li></ol>
 <h3>أسئلة شائعة</h3>
@@ -1623,7 +1609,6 @@ function render(){
   $("runLbl").textContent=timer?t("pause"):t("run");$("bRun").classList.toggle("on",!!timer);
   $("runIco").innerHTML=timer?'<svg viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></svg>':'<svg viewBox="0 0 24 24"><path d="M7 5l12 7-12 7z"/></svg>';$("bRun").disabled=(st.halted||prog)&&!timer;
   $("bBack").disabled=!hist.length;
-  $("fbadge").hidden=!fault;$("fbadge").textContent=t("fActive");
   if($("tab-timing").classList.contains("active"))renderTiming();
 }
 function renderTiming(){
@@ -1651,14 +1636,6 @@ function renderTiming(){
   box.innerHTML='<div class="tmlab">'+lab+'</svg></div><div class="tmscroll" id="tmScroll">'+s+"</svg></div>";
   const sc=$("tmScroll");sc.scrollLeft=sc.scrollWidth;
 }
-function renderFaultTab(){
-  const opts='<option value="">'+t("fPick")+"</option>"+Object.keys(FAULTS).map(k=>'<option value="'+k+'">'+FAULTS[k][LI]+"</option>").join("");
-  $("faultBody").innerHTML='<p class="sub">'+t("fIntro")+'</p><div class="rowf"><button class="btn primary" id="bFault">'+t("fStart")+'</button></div>'+
-    '<div class="callout" id="fStatus" style="margin:10px 0">'+(fault?t("fOn",faultTries):t("fNone"))+"</div>"+
-    (fault?'<p class="sub">'+t("fTip")+'</p><div class="rowf"><label for="fGuess" class="sub" style="margin:0">'+t("fGuess")+'</label><select id="fGuess" style="flex:1;min-width:200px">'+opts+'</select></div><div class="rowf"><button class="btn primary" id="bFCheck">'+t("fCheck")+'</button><button class="btn" id="bFReveal">'+t("fReveal")+"</button></div>":"")+
-    '<div class="result" id="fResult" role="status"></div>';
-}
-function setFault(f){fault=f;st.fault=f;hist=hist.map(h=>{const o=JSON.parse(h);o.fault=f;return JSON.stringify(o);});}
 function doTick(kind){
   if(st.halted||prog)return false;
   const v=view(st),before={step:st.step,ir:st.ir};
@@ -1711,14 +1688,6 @@ $("bCopy").onclick=async()=>{const r=assemble($("src").value);if(r.error){msg("e
 $("ramBody").onclick=e=>{const b=e.target.closest(".bit");if(b){st.ram[+b.dataset.a]^=1<<+b.dataset.k;render();return;}
   const p=e.target.closest(".bp");if(p){const a=+p.dataset.bp;bps.has(a)?bps.delete(a):bps.add(a);render();}};
 $("tabs").onclick=e=>{const b=e.target.closest("button");if(b){showTab(b.dataset.tab);render();}};
-$("faultBody").addEventListener("click",e=>{
-  const id=e.target.id;
-  if(id==="bFault"){const ks=Object.keys(FAULTS).filter(k=>k!==fault);setFault(ks[Math.floor(Math.random()*ks.length)]);faultTries=0;renderFaultTab();render();}
-  else if(id==="bFCheck"){const g=$("fGuess").value,out=$("fResult");if(!g)return;faultTries++;
-    if(g===fault){setFault(null);renderFaultTab();const o=$("fResult");o.className="result ok";o.textContent=t("fRight",faultTries);render();}
-    else{$("fStatus").textContent=t("fOn",faultTries);out.className="result err";out.textContent=t("fWrong");}}
-  else if(id==="bFReveal"){const was=FAULTS[fault][LI];setFault(null);renderFaultTab();const o=$("fResult");o.className="result";o.textContent=t("fWas",was);render();}
-});
 $("labels").onchange=e=>$("stage").classList.toggle("nolabels",!e.target.checked);
 $("bWhole").onclick=()=>zoomTo(null);
 try{if(!localStorage.getItem("cpuTrainer.tipSeen"))$("tipbar").hidden=false;}catch(e){$("tipbar").hidden=false;}
@@ -1839,7 +1808,6 @@ function renderStatic(){
   $("crBody").innerHTML=COURSE.map(r=>"<tr><td>"+r[0][LI]+"</td><td>"+r[1][LI]+"</td><td>"+r[2][LI]+"</td><td class='m'>"+r[3]+"</td></tr>").join("");
   $("plBody").innerHTML=PLAN.map((r,i)=>"<tr><td class='m'>"+(i+1)+"</td><td>"+r[LI][0]+"</td><td>"+r[LI][1]+"</td></tr>").join("");
   $("aboutBody").innerHTML=ABOUT[LI]+contactHtml();
-  renderFaultTab();
   renderKit();
   renderBrand();renderHome();if(soonId)renderSoon(soonId);
   if(typeof renderBench==="function")renderBench();

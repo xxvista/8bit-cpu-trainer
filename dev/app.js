@@ -392,7 +392,6 @@ function render(){
   $("runLbl").textContent=timer?t("pause"):t("run");$("bRun").classList.toggle("on",!!timer);
   $("runIco").innerHTML=timer?'<svg viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></svg>':'<svg viewBox="0 0 24 24"><path d="M7 5l12 7-12 7z"/></svg>';$("bRun").disabled=(st.halted||prog)&&!timer;
   $("bBack").disabled=!hist.length;
-  $("fbadge").hidden=!fault;$("fbadge").textContent=t("fActive");
   if($("tab-timing").classList.contains("active"))renderTiming();
 }
 function renderTiming(){
@@ -420,14 +419,6 @@ function renderTiming(){
   box.innerHTML='<div class="tmlab">'+lab+'</svg></div><div class="tmscroll" id="tmScroll">'+s+"</svg></div>";
   const sc=$("tmScroll");sc.scrollLeft=sc.scrollWidth;
 }
-function renderFaultTab(){
-  const opts='<option value="">'+t("fPick")+"</option>"+Object.keys(FAULTS).map(k=>'<option value="'+k+'">'+FAULTS[k][LI]+"</option>").join("");
-  $("faultBody").innerHTML='<p class="sub">'+t("fIntro")+'</p><div class="rowf"><button class="btn primary" id="bFault">'+t("fStart")+'</button></div>'+
-    '<div class="callout" id="fStatus" style="margin:10px 0">'+(fault?t("fOn",faultTries):t("fNone"))+"</div>"+
-    (fault?'<p class="sub">'+t("fTip")+'</p><div class="rowf"><label for="fGuess" class="sub" style="margin:0">'+t("fGuess")+'</label><select id="fGuess" style="flex:1;min-width:200px">'+opts+'</select></div><div class="rowf"><button class="btn primary" id="bFCheck">'+t("fCheck")+'</button><button class="btn" id="bFReveal">'+t("fReveal")+"</button></div>":"")+
-    '<div class="result" id="fResult" role="status"></div>';
-}
-function setFault(f){fault=f;st.fault=f;hist=hist.map(h=>{const o=JSON.parse(h);o.fault=f;return JSON.stringify(o);});}
 function doTick(kind){
   if(st.halted||prog)return false;
   const v=view(st),before={step:st.step,ir:st.ir};
@@ -480,14 +471,6 @@ $("bCopy").onclick=async()=>{const r=assemble($("src").value);if(r.error){msg("e
 $("ramBody").onclick=e=>{const b=e.target.closest(".bit");if(b){st.ram[+b.dataset.a]^=1<<+b.dataset.k;render();return;}
   const p=e.target.closest(".bp");if(p){const a=+p.dataset.bp;bps.has(a)?bps.delete(a):bps.add(a);render();}};
 $("tabs").onclick=e=>{const b=e.target.closest("button");if(b){showTab(b.dataset.tab);render();}};
-$("faultBody").addEventListener("click",e=>{
-  const id=e.target.id;
-  if(id==="bFault"){const ks=Object.keys(FAULTS).filter(k=>k!==fault);setFault(ks[Math.floor(Math.random()*ks.length)]);faultTries=0;renderFaultTab();render();}
-  else if(id==="bFCheck"){const g=$("fGuess").value,out=$("fResult");if(!g)return;faultTries++;
-    if(g===fault){setFault(null);renderFaultTab();const o=$("fResult");o.className="result ok";o.textContent=t("fRight",faultTries);render();}
-    else{$("fStatus").textContent=t("fOn",faultTries);out.className="result err";out.textContent=t("fWrong");}}
-  else if(id==="bFReveal"){const was=FAULTS[fault][LI];setFault(null);renderFaultTab();const o=$("fResult");o.className="result";o.textContent=t("fWas",was);render();}
-});
 $("labels").onchange=e=>$("stage").classList.toggle("nolabels",!e.target.checked);
 $("bWhole").onclick=()=>zoomTo(null);
 try{if(!localStorage.getItem("cpuTrainer.tipSeen"))$("tipbar").hidden=false;}catch(e){$("tipbar").hidden=false;}
@@ -608,7 +591,6 @@ function renderStatic(){
   $("crBody").innerHTML=COURSE.map(r=>"<tr><td>"+r[0][LI]+"</td><td>"+r[1][LI]+"</td><td>"+r[2][LI]+"</td><td class='m'>"+r[3]+"</td></tr>").join("");
   $("plBody").innerHTML=PLAN.map((r,i)=>"<tr><td class='m'>"+(i+1)+"</td><td>"+r[LI][0]+"</td><td>"+r[LI][1]+"</td></tr>").join("");
   $("aboutBody").innerHTML=ABOUT[LI]+contactHtml();
-  renderFaultTab();
   renderKit();
   renderBrand();renderHome();if(soonId)renderSoon(soonId);
   if(typeof renderBench==="function")renderBench();

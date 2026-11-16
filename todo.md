@@ -6,7 +6,7 @@
 - [x] Team description: two Algerian electronics engineers (`hWhoP`)
 - [x] Delivery to all 58 wilayas confirmed
 - [x] "We usually reply within a day" confirmed. Spare-parts claim removed: you sell two versions (soldered and non-soldered), not separate parts
-- [ ] Decide whether to name the two founders in "Who we are" (currently no names)
+- [x] Founders: named on the About page; home "Who we are" keeps "two Algerian electronics engineers" and names the Incubateur de l'Université de Bouira (owner, 2026-11-16)
 - [ ] A real photo of the team or workshop for the "Who we are" section (optional)
 - [ ] What exactly goes in the Logic Gates Kit and the Arduino Model Kit (boards, parts, lessons), so their placeholder text can be replaced
 
@@ -30,7 +30,6 @@
 
 - [ ] Module simulator: a lab exercise per module ("load 42 into register A and put it back on the bus")
 
-- [ ] Optional: more fault exercises (program counter skipping counts, display flickering)
 
 - [ ] Logic Gates Kit (on hold, owner 2026-11-16): real page (photos, contents, guide, labs, order) and possibly a gate simulator
 - [ ] Arduino Model Kit: real page (photos, contents, guide, labs, order)
