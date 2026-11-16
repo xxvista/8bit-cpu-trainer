@@ -14,7 +14,7 @@ A startup that designs and sells hands-on electronics kits for learning, each wi
 
 ## Status
 
-The website works offline: open `index.html` in a browser. It opens on a home page where visitors choose a kit. Latest work (simulator redesign, build notes, new faults) is on branch `claude/sleepy-noether-bbtr9v`, not yet merged into `main`.
+The website works offline: open `index.html` in a browser. It opens on a home page where visitors choose a kit. All work is merged into `main`.
 
 ## Site map
 
@@ -84,6 +84,7 @@ The company name in the header always goes back home.
 - 2026-11-16: Merged the home page redesign into `main`.
 - 2026-11-16: Compared the site with the designer's repository and blog. The Bootloader board in the repository is unfinished (empty board file, not in the blog), so it was not added. Added his build notes (summarised, 3 languages) to the module cards with links to his pages, and 2 new faults based on real mistakes. Simulator redesign: control bar with icons, the whole computer fits the first screen on desktop and stays in view, yellow data-path line, T0–T5 step tracker, tabs as a segmented control, first-visit tip, "Whole computer" only shown when zoomed. Phones: control bar pinned at the bottom, kit menu on one row, only the boards involved in the current step are labelled. Checked at 1440, 1280 and 390 px in English and Arabic.
 - 2026-11-16: The designer gave permission to use his photos. His 8 module photos (resized to 1,400 px, 1.1 MB in total) replace the module-card photos, with a credit line. Our own kit photos stay on the home and kit pages.
+- 2026-11-16: Merged the simulator redesign, build notes, new faults and the designer's photos into `main`.
 
 ## Not done yet
 
