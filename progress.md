@@ -14,7 +14,7 @@ A startup that designs and sells hands-on electronics kits for learning, each wi
 
 ## Status
 
-The website works offline: open `index.html` in a browser. It opens on a home page where visitors choose a kit. Latest work (test bench removed, module simulator with data bus on the Modules page) is on branch `claude/sleepy-noether-bbtr9v`, not yet merged into `main`.
+The website works offline: open `index.html` in a browser. It opens on a home page where visitors choose a kit. All work is merged into `main`.
 
 ## Site map
 
@@ -91,6 +91,7 @@ The company name in the header always goes back home.
 - 2026-11-16: The kit is not assembled yet, so all real photos were removed from the website and catalogue and replaced by illustrations drawn from the KiCad files. Removed every mention of GitHub, Ben Eater and the original designer from the site (module build notes, his photos and links, the About page question and credits, test bench wording); the About page and footer keep a neutral CERN-OHL-P licence line, and now say the kit was designed (not built) by Abdellah Abdelkafi and Feriel Hamouchi. Catalogue PDFs remade.
 - 2026-11-16: Merged the illustrations and the removal of designer references into `main`.
 - 2026-11-16: Removed the Test bench page (automatic tests and faults) and its menu item. Its module-by-module simulation moved to the top of the Modules page, now with a data-bus strip you can set by clicking the wires, flow arrows, and "Simulate this module" buttons on the catalogue cards. Old `#bench` links open the Modules page. Hackathon deck and Q&A: removed imported training benches, open-source mentions and the test bench slide; added Market and Roadmap slides.
+- 2026-11-16: Merged the module simulator with data bus into `main`.
 
 ## Not done yet
 
