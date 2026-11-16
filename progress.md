@@ -14,7 +14,7 @@ A startup that designs and sells hands-on electronics kits for learning, each wi
 
 ## Status
 
-The website works offline: open `index.html` in a browser. It opens on a home page where visitors choose a kit. Latest work (home page redesign) is on branch `claude/sleepy-noether-bbtr9v`, not yet merged into `main`.
+The website works offline: open `index.html` in a browser. It opens on a home page where visitors choose a kit. All work is merged into `main`.
 
 ## Site map
 
@@ -76,6 +76,7 @@ The company name in the header always goes back home.
 - 2026-11-16: Visitor counting turned on (GoatCounter `xxvista`). Removed the spare-parts claim from the home page and catalogue ("Why our kits" and the FAQ), since only the two kit versions are sold; catalogue PDFs remade.
 - 2026-11-16: Merged prices, catalogue, visitor counting and order tracker work into `main`.
 - 2026-11-16: Home page redesign for more space: centred 1,160 px column (header aligned to it), 88 px between sections (64 px on phones), larger section titles, soft background bands for the learning path and ordering, no boxes around "Why our kits", equal-size photo row, two-column FAQ with +/− markers, dark contact box. Phone header on one row. Kit cards side by side on tablets. Checked at 1440, 820 and 390 px, English and Arabic.
+- 2026-11-16: Merged the home page redesign into `main`.
 
 ## Not done yet
 
