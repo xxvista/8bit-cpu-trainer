@@ -111,7 +111,7 @@ const BRAND="Electronics Kits Lab";
 
 /* ---------- visitor counting with GoatCounter (free, no cookies). Put your site code here, e.g. "mykits"
    for https://mykits.goatcounter.com. Empty = no counting. ---------- */
-const ANALYTICS={goatcounter:""};
+const ANALYTICS={goatcounter:"xxvista"};
 
 /* ---------- quotes from teachers and students. The section stays hidden while this list is empty.
    Example entry: {text:["English","Français","العربية"],name:"Full name",role:["Lecturer, University of X","Enseignant, Université de X","أستاذ، جامعة X"]} ---------- */

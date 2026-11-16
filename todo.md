@@ -5,7 +5,7 @@
 - [x] Company name and logo: keep "Electronics Kits Lab" and no logo for now (owner, 2026-11-16)
 - [x] Team description: two Algerian electronics engineers (`hWhoP`)
 - [x] Delivery to all 58 wilayas confirmed
-- [ ] Confirm the last two home page claims, or correct them in `dev/strings.js`: "we sell spare parts and boards separately" (`hA5`), "we usually reply within a day" (`hCtaL`)
+- [x] "We usually reply within a day" confirmed. Spare-parts claim removed: you sell two versions (soldered and non-soldered), not separate parts
 - [ ] Decide whether to name the two founders in "Who we are" (currently no names)
 - [ ] A real photo of the team or workshop for the "Who we are" section (optional)
 - [ ] What exactly goes in the Logic Gates Kit and the Arduino Model Kit (boards, parts, lessons), so their placeholder text can be replaced
@@ -18,7 +18,8 @@
 - [x] PDF catalogue (`node dev/brochure.js`)
 - [x] Order tracker: [Google Sheet](https://docs.google.com/spreadsheets/d/1AN_my6Cz8LivtA_cFfjyjDTp47ep2JEO9SjNs_zl_BI/edit)
 - [ ] Share the order tracker with Feriel (Share button in Google Sheets), and delete its example row before the first real order
-- [ ] Visitor counting: create a free account at goatcounter.com, then put the site code in `ANALYTICS.goatcounter` in `dev/app.js` and rebuild
+- [x] Visitor counting: GoatCounter code `xxvista` set; visits show at https://xxvista.goatcounter.com once the site is online
+- [ ] After publishing, open the site once and check the visit appears on the GoatCounter dashboard
 - [ ] Replace the temporary "Inside the kit" photos with photos of a real lab session (`HOMEPHOTOS` in `dev/app.js`)
 - [ ] Add real quotes from teachers or students when you have them (`QUOTES` in `dev/app.js`; the section appears by itself)
 - [ ] Test the order form and the "coming soon" contact buttons: WhatsApp and email both open with the message filled in

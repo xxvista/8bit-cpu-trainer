@@ -36,7 +36,7 @@ The company name in the header always goes back home.
 | PDF catalogue | 2-page A4 catalogue in English, French and Arabic, made from the site's text and prices; download buttons on the home page and the CPU kit page | `dev/brochure.js`, `brochure/catalogue-*.pdf` |
 | Quotes section | Built but hidden until real quotes are added | `QUOTES` in `dev/app.js` |
 | Home photos | "Inside the kit" gallery with 4 kit photos (temporary, until there are lab-session photos) | `HOMEPHOTOS` in `dev/app.js` |
-| Visitor counting | GoatCounter, counts page views and clicks (WhatsApp, email, catalogue, order form). Off until a site code is set | `ANALYTICS` in `dev/app.js` |
+| Visitor counting | GoatCounter (site code `xxvista`), counts page views and clicks (WhatsApp, email, catalogue, order form) | `ANALYTICS` in `dev/app.js` |
 | Order tracker | Google Sheet with Orders, Summary and Prices tabs, dropdowns and automatic totals: [Order tracker](https://docs.google.com/spreadsheets/d/1AN_my6Cz8LivtA_cFfjyjDTp47ep2JEO9SjNs_zl_BI/edit) | Google Drive |
 | Brand | Placeholder name "Electronics Kits Lab", changed in one place | `BRAND` in `dev/app.js`, `<title>` in `dev/src.html` |
 | CPU simulator | SAP-1 CPU: microcode, ALU, flags, 16-byte RAM, assembler with labels, disassembler, step / instruction / run / back / reset, speed control | `dev/app.js` |
@@ -59,7 +59,8 @@ The company name in the header always goes back home.
 - [x] Order tracker: totals tested with list price, agreed price and missing price
 - [x] All 7 CPU example programs give the expected output; Step, Run and Reset work
 - [ ] Order form and "coming soon" buttons actually open WhatsApp / email (not tested)
-- [ ] Visitor counting (no GoatCounter code yet)
+- [x] Visitor counting logic: page views and click events recorded (tested with a stand-in script; the real GoatCounter server can't be reached from the test machine)
+- [ ] Visit shows on the GoatCounter dashboard (check after publishing)
 - [ ] Other browsers (only Chromium tested)
 
 ## Log
@@ -72,6 +73,7 @@ The company name in the header always goes back home.
 - 2026-11-16: Merged the new home page into `main`.
 - 2026-11-16: "Who we are" now says the team is two Algerian electronics engineers (was "engineers and teachers").
 - 2026-11-16: Prices set (49,000 / 39,000 DA). Added the PDF catalogue in 3 languages, temporary kit photos on the home page, a hidden quotes section, GoatCounter visitor counting (waiting for a code) and the Google Sheet order tracker.
+- 2026-11-16: Visitor counting turned on (GoatCounter `xxvista`). Removed the spare-parts claim from the home page and catalogue ("Why our kits" and the FAQ), since only the two kit versions are sold; catalogue PDFs remade.
 
 ## Not done yet
 
