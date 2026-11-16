@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>8-Bit CPU Trainer</title>
+<title>Electronics Kits Lab</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;600;700&family=Instrument+Sans:wght@400;500;600&family=Spline+Sans+Mono:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -281,17 +281,57 @@ details.faq p{margin:6px 0 2px;color:var(--muted)}
   .sigs{grid-template-columns:repeat(2,minmax(0,1fr))}
   .pill i{display:none}
 }
+/* home page and kit bar */
+a.brand{text-decoration:none;color:inherit}
+a.brand:hover h1{color:var(--accent)}
+.kitbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 20px;padding:12px 0;border-bottom:1px solid var(--line)}
+.kitbar[hidden]{display:none}
+.kitname{font-family:var(--f-display);font-size:22px;font-weight:700;text-transform:uppercase;text-decoration:none;color:var(--ink)}
+.kitname span{color:var(--accent)}
+.homehero{max-width:72ch;padding:18px 0 6px}
+.homehero h2{font-size:44px;font-weight:700;text-transform:uppercase}
+.homehero .lead{margin-top:10px}
+.audience{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.audience span{background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:3px 12px;font-size:13px;font-weight:600;color:var(--muted)}
+.kits{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:22px}
+.kitcard{border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;background:var(--page)}
+.kitcard.live{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.kitcard .pic{aspect-ratio:4/3;background:var(--soft);display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--line)}
+.kitcard .pic img{width:100%;height:100%;object-fit:cover;display:block}
+.kitcard .pic svg{width:62%;height:auto;color:var(--muted)}
+.kitcard .body{padding:16px;display:flex;flex-direction:column;gap:10px;flex:1}
+.kitcard h3{font-size:24px;font-weight:600;text-transform:uppercase}
+.kitcard p{font-size:14px;color:var(--muted)}
+.kitcard .ctas{margin-top:auto}
+.badge{align-self:flex-start;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;border-radius:999px;padding:2px 10px}
+.badge.ok{background:var(--accent-soft);color:var(--accent)}
+.badge.soon{background:var(--soft);color:var(--muted);border:1px solid var(--line)}
+.soonpage{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.8fr);gap:32px;align-items:center;padding-top:10px}
+.soonpage .pic{background:var(--soft);border:1px solid var(--line);border-radius:14px;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center}
+.soonpage .pic svg{width:60%;height:auto;color:var(--muted)}
+.soonpage h2{font-size:40px;font-weight:700;text-transform:uppercase;margin:10px 0 8px}
+.soonpage ul{margin:14px 0;padding-inline-start:22px}
+.soonpage li{margin-bottom:6px}
+.soonpage .contact{margin-top:14px}
+.badge{display:inline-block}
+.backlink{display:inline-block;margin-bottom:14px;color:var(--accent);font-weight:600;text-decoration:none}
+@media (max-width:760px){.soonpage{grid-template-columns:minmax(0,1fr)}.homehero h2{font-size:32px}.soonpage h2{font-size:30px}}
 </style>
 </head>
 <body data-board="green">
 <div class="wrap">
 <header class="top">
-  <div class="brand">
-    <h1 class="ltr">8-Bit <span>CPU</span> Trainer</h1>
+  <a class="brand" href="#home">
+    <h1 class="ltr" id="brandName"></h1>
     <p data-t="tagline"></p>
-  </div>
+  </a>
   <div class="headtools">
-    <nav id="nav">
+    <select id="lang" aria-label="Language"><option value="0">English</option><option value="1">Français</option><option value="2">العربية</option></select>
+  </div>
+</header>
+<div class="kitbar" id="kitbar">
+  <a class="kitname ltr" href="#simulator">8-Bit <span>CPU</span> Trainer</a>
+  <nav id="nav">
       <a href="#simulator" data-t="navSim"></a>
       <a href="#guide" data-t="navGuide"></a>
       <a href="#modules" data-t="navMod"></a>
@@ -299,10 +339,10 @@ details.faq p{margin:6px 0 2px;color:var(--muted)}
       <a href="#course" data-t="navCourse"></a>
       <a href="#about" data-t="navAbout"></a>
       <a href="#kit" class="cta" data-t="navKit"></a>
-    </nav>
-    <select id="lang" aria-label="Language"><option value="0">English</option><option value="1">Français</option><option value="2">العربية</option></select>
-  </div>
-</header>
+  </nav>
+</div>
+<section class="view" id="view-home"><div id="homeBody"></div></section>
+<section class="view" id="view-soon"><div id="soonBody"></div></section>
 
 <section class="view" id="view-simulator">
  <div class="sim">
@@ -408,7 +448,23 @@ const PLACE={"pc":["pc",[56.2,-0.2]],"a":["reg",[56.2,42.3]],"alu":["alu",[56.0,
 const BOM={"bus":[[8,"LED 5 mm","D1, D2, D3, D4, D5, D6, D7, D8"],[2,"Pin header 1x5","J1, J11"],[8,"Pin header 1x10","J2, J4, J6, J8, J10, J17, J19, J21"],[2,"Pin header 1x7","J9, J12"],[2,"Pin header 1x8","J13, J14"],[1,"Pin header 1x6","J15"],[3,"Pin header 1x3","J16, J18, J20"],[4,"Pin header 1x4","J3, J5, J7, J22"],[1,"USB-C receptacle","J23"],[1,"Pin header 2x3","J24"],[8,"Resistor 10k","R1, R2, R3, R4, R5, R6, R7, R8"],[8,"Resistor 220","R9, R10, R11, R12, R13, R14, R15, R16"],[2,"Resistor 5.1k","R17, R18"]],"clk":[[3,"Capacitor 0.01uF","C1, C4, C7"],[1,"Capacitor 1uF","C2"],[4,"Capacitor 0.1uF","C3, C5, C6, C8"],[3,"LED 5 mm","D1, D2, D3"],[1,"Pin header 1x5","J1"],[8,"Resistor 1k","R1, R2, R3, R4, R6, R7, R8, R9"],[1,"Resistor 1M","R5"],[1,"Potentiometer 1M","RV1"],[1,"Push button","S1"],[1,"Slide switch SPDT","SW1"],[3,"LM555xN","U1, U2, U6"],[1,"74AC32 OR gates","U3"],[1,"74AC14 inverters","U4"],[1,"AND gates (4x)","U5"]],"pc":[[1,"Capacitor 0.1uF","C1"],[4,"LED 5 mm","D1, D2, D3, D4"],[1,"Pin header 1x10","J1"],[1,"Pin header 1x5","J2"],[4,"Resistor 220","R1, R2, R3, R4"],[1,"SN74HCT245N","U1"],[1,"CD74HC163E","U2"]],"mar":[[1,"Capacitor 0.1uF","C1"],[4,"LED 5 mm","D1, D2, D3, D4"],[1,"Pin header 1x5","J1"],[1,"Pin header 1x6","J2"],[1,"Pin header 1x3","J3"],[4,"Resistor 220","R1, R2, R3, R4"],[5,"Resistor 1k","R5, R6, R7, R8, R9"],[1,"Slide switch SPDT","SW1"],[1,"SN74AC14N","U1"],[1,"CD74HCT258E","U2"],[1,"DIP switch, 4-way","U3"],[1,"74LS173","U4"]],"ram":[[1,"Capacitor 0.01uF","C1"],[2,"Capacitor 0.1uF","C2, C3"],[2,"Capacitor 0.1uF","C4, C7"],[4,"Capacitor 22pF","C5, C6, C8, C9"],[8,"LED 5 mm","D1, D2, D3, D4, D5, D6, D7, D8"],[2,"Pin header 1x2","J1, J3"],[2,"Pin header 1x1","J2, J4"],[1,"Pin header 1x5","J5"],[3,"Pin header 1x3","J6, J7, J8"],[1,"Pin header 1x10","J9"],[9,"Resistor 1k","R1, R10, R11, R12, R13, R14, R15, R16, R17"],[3,"Resistor 10k","R18, R19, R20"],[8,"Resistor 220","R2, R3, R4, R5, R6, R7, R8, R9"],[1,"Push button","S1"],[1,"AND gates (4x)","U1"],[3,"CD74HCT258E","U2, U4, U6"],[1,"SN74HCT245N","U3"],[1,"DIP switch, 8-way","U5"],[2,"ATMEGA328-PU","U7, U8"],[2,"Crystal 16MHz","Y1, Y2"]],"reg":[[1,"Capacitor 0.1uF","C1"],[8,"LED 5 mm","D1, D2, D3, D4, D5, D6, D7, D8"],[2,"Pin header 1x10","J1, J3"],[2,"Pin header 1x4","J2, J4"],[2,"Pin header 1x8","J5, J6"],[8,"Resistor 220","R1, R2, R3, R4, R5, R6, R7, R8"],[1,"Resistor 10k","R9"],[1,"SN74HCT245N","U1"],[2,"74LS173","U2, U3"]],"alu":[[1,"Capacitor 0.1uF","C1"],[10,"LED 5 mm","D1, D2, D3, D4, D5, D6, D7, D8, D9, D10"],[1,"Pin header 1x7","J1"],[2,"Pin header 1x8","J2, J3"],[1,"Pin header 1x10","J4"],[10,"Resistor 220","R1, R2, R3, R4, R5, R6, R7, R8, R9, R10"],[2,"SN74F86N","U1, U2"],[1,"SN74HCT245N","U3"],[2,"CD74HCT283E","U4, U5"],[1,"AND gates (4x)","U6"],[1,"NOR gates (4x)","U7"],[1,"74HC74 dual D flip-flop","U8"]],"out":[[1,"Capacitor 0.1uF","C1"],[2,"Capacitor 0.01u","C2, C3"],[1,"Pin header 1x10","J1"],[1,"Pin header 1x4","J2"],[1,"Resistor 100k","R1"],[2,"Resistor 1k","R2, R3"],[2,"74LS173","U1, U2"],[1,"AT28C64B-15PI","U3"],[1,"4-digit 7-segment display","U4"],[1,"NE555P","U5"],[1,"CD74HCT139E","U6"],[1,"CD74HCT73E","U7"]],"ctl":[[1,"Capacitor 0.1u","C1"],[21,"LED 5 mm","D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, D12, D13, D14, D15, D16, D17, D18, D19, D20, D21"],[1,"Pin header 1x3","J1"],[1,"Pin header 1x4","J2"],[2,"Pin header 1x8","J3, J4"],[1,"Pin header 1x7","J5"],[29,"Resistor 1k","R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19, R20, R21, R22, R23, R24, R25, R26, R27, R28, R29"],[1,"Push button","SW1"],[2,"AT28C64B-15PI","U1, U2"],[2,"SN74AC14N","U3, U4"],[1,"74LS163","U5"],[1,"74HCT138","U6"],[1,"74HCT00","U7"]]};
 /* Text in three languages: [English, Français, العربية] */
 const U={
- tagline:["Simulator, user guide, labs and kit for the modular SAP-1 computer","Simulateur, guide, TP et kit pour l'ordinateur modulaire SAP-1","محاكي، دليل استعمال، أعمال تطبيقية وطقم للحاسوب التعليمي SAP-1"],
+ tagline:["Hands-on electronics kits for learning, with simulators and lessons","Kits d'électronique pratiques pour apprendre, avec simulateurs et cours","أطقم إلكترونيات تطبيقية للتعلّم، مع محاكيات ودروس"],
+ hTitle:["Learn electronics by building it","Apprendre l'électronique en la construisant","تعلّم الإلكترونيات ببنائها"],
+ hLead:["We design kits that take students from their first logic gate to a working computer. Each kit comes with boards, parts, a guide and lab exercises, and you can try it in the browser before you buy.","Nous concevons des kits qui mènent de la première porte logique à un ordinateur qui fonctionne. Chaque kit comprend les cartes, les composants, un guide et des TP, et vous pouvez l'essayer dans le navigateur avant de l'acheter.","نصمّم أطقماً تأخذ الطالب من أول بوابة منطقية إلى حاسوب يعمل. يضم كل طقم البطاقات والمكوّنات ودليلاً وأعمالاً تطبيقية، ويمكنك تجربته في المتصفح قبل الشراء."],
+ hAud1:["Universities","Universités","الجامعات"],hAud2:["Technical schools","Écoles techniques","المدارس التقنية"],hAud3:["High schools","Lycées","الثانويات"],hAud4:["Hobbyists","Passionnés","الهواة"],
+ hChoose:["Choose a kit","Choisissez un kit","اختر طقماً"],
+ hAvail:["Available","Disponible","متوفر"],hSoon:["Coming soon","Bientôt","قريباً"],
+ hCpuD:["A modular SAP-1 computer on 11 boards: clock, registers, ALU, RAM, control unit and display. Includes a full simulator, user guide and labs.","Un ordinateur SAP-1 modulaire sur 11 cartes : horloge, registres, UAL, RAM, unité de contrôle et afficheur. Avec simulateur complet, guide et TP.","حاسوب SAP-1 معياري على 11 بطاقة: الساعة والسجلات ووحدة الحساب والذاكرة ووحدة التحكم والشاشة. مع محاكٍ كامل ودليل وأعمال تطبيقية."],
+ hExplore:["Explore the kit","Découvrir le kit","اكتشف الطقم"],hOrder:["Order","Commander","اطلب"],hMore:["Learn more","En savoir plus","اعرف المزيد"],
+ gName:["Logic Gates Kit","Kit Portes logiques","طقم البوابات المنطقية"],
+ gD:["The first step: build and test AND, OR, NOT, XOR gates, then combine them into adders and simple circuits.","La première étape : construire et tester les portes ET, OU, NON, OU exclusif, puis les combiner en additionneurs et circuits simples.","الخطوة الأولى: بناء واختبار البوابات AND وOR وNOT وXOR، ثم تجميعها في دوائر جمع ودوائر بسيطة."],
+ aName:["Arduino Model Kit","Kit Maquette Arduino","طقم مجسّم أردوينو"],
+ aD:["A hands-on model driven by an Arduino board, for learning sensors, motors and programming through real projects.","Une maquette pilotée par une carte Arduino, pour apprendre les capteurs, les moteurs et la programmation par des projets concrets.","مجسّم تطبيقي تتحكم فيه بطاقة أردوينو، لتعلّم الحساسات والمحركات والبرمجة عبر مشاريع حقيقية."],
+ sBack:["All kits","Tous les kits","كل الأطقم"],
+ sPlanned:["This kit is being designed. Planned contents:","Ce kit est en cours de conception. Contenu prévu :","هذا الطقم قيد التصميم. المحتوى المخطط:"],
+ sP1:["Boards and all components","Cartes et tous les composants","البطاقات وكل المكوّنات"],sP2:["Step-by-step user guide","Guide d'utilisation pas à pas","دليل استعمال خطوة بخطوة"],sP3:["Lab exercises for the classroom","TP pour la classe","أعمال تطبيقية للقسم"],sP4:["Online simulator","Simulateur en ligne","محاكٍ على الإنترنت"],
+ sNotify:["Want to know when it's ready, or have ideas for it? Message us.","Vous voulez savoir quand il sera prêt, ou avez des idées ? Écrivez-nous.","تريد أن تعرف متى يكون جاهزاً، أو لديك أفكار له؟ راسلنا."],
+ sMsg:["Hello, please tell me when the {0} is available.","Bonjour, merci de me prévenir quand le {0} sera disponible.","مرحباً، أرجو إعلامي عندما يتوفر {0}."],
  navSim:["Simulator","Simulateur","المحاكي"],navGuide:["User guide","Guide","دليل الاستعمال"],navMod:["Modules","Modules","البطاقات"],navLabs:["Labs","TP","الأعمال التطبيقية"],navCourse:["Course map","Programme","خريطة المقرر"],navKit:["Buy the kit","Acheter le kit","اشترِ الطقم"],
  stageHint:["Click a board to zoom. Buttons and switches on the boards work.","Cliquez sur une carte pour zoomer. Les boutons et interrupteurs des cartes fonctionnent.","انقر على بطاقة للتكبير. الأزرار والمفاتيح على البطاقات تعمل."],
  labels:["Labels","Étiquettes","التسميات"],boardColour:["Board colour","Couleur des cartes","لون البطاقات"],whole:["Whole computer","Vue d'ensemble","الحاسوب كاملاً"],
@@ -948,6 +1004,33 @@ const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"
 const $=id=>document.getElementById(id);
 
 /* ---------- shop settings: edit prices here (numbers in DA, or null for "price on request") ---------- */
+/* ---------- company name: placeholder, change it here (the last word is shown in the accent colour) ---------- */
+const BRAND="Electronics Kits Lab";
+
+/* ---------- kits shown on the home page. status "soon" = placeholder page with a contact button ---------- */
+const ICONS={
+ gates:'<svg viewBox="0 0 120 80" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M38 12h22a28 28 0 0 1 0 56H38z"/><path d="M10 28h28M10 52h28M88 40h22"/><circle cx="10" cy="28" r="3" fill="currentColor"/><circle cx="10" cy="52" r="3" fill="currentColor"/><circle cx="110" cy="40" r="3" fill="currentColor"/></svg>',
+ arduino:'<svg viewBox="0 0 120 84" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="10" width="108" height="66" rx="6"/><rect x="0" y="22" width="18" height="16" rx="2"/><rect x="2" y="50" width="14" height="16" rx="2"/><rect x="48" y="36" width="34" height="18" rx="2"/><path d="M30 10V4M38 10V4M46 10V4M54 10V4M62 10V4M70 10V4M78 10V4M86 10V4M94 10V4M102 10V4M50 82v-6M58 82v-6M66 82v-6M74 82v-6M88 82v-6M96 82v-6M104 82v-6"/><circle cx="100" cy="24" r="4"/></svg>'
+};
+const KITS=[
+ {id:"cpu",status:"live",name:()=>"8-Bit CPU Trainer",desc:()=>t("hCpuD"),img:"img/p044.jpg"},
+ {id:"gates",status:"soon",name:()=>t("gName"),desc:()=>t("gD")},
+ {id:"arduino",status:"soon",name:()=>t("aName"),desc:()=>t("aD")}
+];
+function renderBrand(){const w=BRAND.trim().split(/\s+/),last=w.pop();$("brandName").innerHTML=(w.length?esc(w.join(" "))+" ":"")+"<span>"+esc(last)+"</span>";}
+function kitPic(k){return k.img?'<img src="'+k.img+'" alt="'+esc(k.name())+'" loading="lazy">':ICONS[k.id];}
+function renderHome(){
+  $("homeBody").innerHTML='<div class="homehero"><h2>'+t("hTitle")+'</h2><p class="lead">'+t("hLead")+'</p><div class="audience">'+[1,2,3,4].map(i=>"<span>"+t("hAud"+i)+"</span>").join("")+"</div></div>"+
+   '<h2 class="sec">'+t("hChoose")+'</h2><div class="kits">'+KITS.map(k=>{const live=k.status==="live";
+     return'<article class="kitcard'+(live?" live":"")+'"><a class="pic" href="#'+(live?"simulator":k.id)+'" tabindex="-1">'+kitPic(k)+'</a><div class="body"><span class="badge '+(live?"ok":"soon")+'">'+t(live?"hAvail":"hSoon")+"</span><h3"+(k.id==="cpu"?' class="ltr"':"")+">"+k.name()+"</h3><p>"+k.desc()+'</p><div class="ctas">'+
+       (live?'<a class="btn primary" href="#simulator">'+t("hExplore")+'</a><a class="btn" href="#kit">'+t("hOrder")+"</a>":'<a class="btn" href="#'+k.id+'">'+t("hMore")+"</a>")+"</div></div></article>";}).join("")+"</div>"+
+   '<p class="creditline">'+t("credit")+"</p>";
+}
+function renderSoon(id){
+  const k=KITS.find(x=>x.id===id);if(!k)return;const msg=t("sMsg",k.name());
+  $("soonBody").innerHTML='<a class="backlink" href="#home">← '+t("sBack")+'</a><div class="soonpage"><div><span class="badge soon">'+t("hSoon")+"</span><h2>"+k.name()+'</h2><p class="lead">'+k.desc()+"</p><p style=\"margin-top:14px\">"+t("sPlanned")+"</p><ul>"+[1,2,3,4].map(i=>"<li>"+t("sP"+i)+"</li>").join("")+"</ul><p>"+t("sNotify")+'</p><div class="ctas" style="margin-top:12px"><a class="btn primary big" target="_blank" rel="noopener" href="https://wa.me/'+SHOP.whatsapp+"?text="+encodeURIComponent(msg)+'">WhatsApp</a><a class="btn big" href="mailto:'+SHOP.email+"?subject="+encodeURIComponent(k.name())+"&body="+encodeURIComponent(msg)+'">Email</a></div>'+contactHtml()+'</div><div class="pic">'+ICONS[k.id]+"</div></div>";
+}
+
 const SHOP={email:"abdelkafiabdellah419@gmail.com",whatsapp:"213666020037",phone:"0666 02 00 37",currency:"DA",prices:{assembled:null,solder:null}};
 const PHOTOS={pc:"img/p027.jpg",reg:"img/p040.jpg",alu:"img/p041.jpg",mar:"img/p042.jpg",ctl:"img/p043.jpg"};
 
@@ -1359,6 +1442,7 @@ function renderStatic(){
   $("aboutBody").innerHTML=ABOUT[LI]+contactHtml();
   renderFaultTab();
   renderKit();
+  renderBrand();renderHome();if(soonId)renderSoon(soonId);
 }
 $("labCards").onclick=e=>{const b=e.target.closest("[data-lab]");if(!b)return;openProgram("ex:"+b.dataset.lab,true);showTab("state");location.hash="#simulator";route();window.scrollTo(0,0);};
 $("chCards").onclick=e=>{const b=e.target.closest("[data-ch]");if(!b)return;const i=+b.dataset.ch,out=$("chR"+i),r=assemble($("src").value);
@@ -1372,12 +1456,19 @@ function setLang(i,save){
 }
 $("lang").onchange=e=>setLang(+e.target.value,true);
 
-const VIEWS=["simulator","guide","modules","labs","course","about","kit"];
+const CPUVIEWS=["simulator","guide","modules","labs","course","about","kit"];
+const VIEWS=["home","soon",...CPUVIEWS];
+let soonId=null;
 function route(){
-  let h=location.hash.replace("#","");if(!VIEWS.includes(h))h="simulator";
-  if(h!=="simulator")stop();
-  VIEWS.forEach(v=>$("view-"+v).classList.toggle("active",v===h));
-  document.querySelectorAll("#nav a").forEach(a=>{if(a.getAttribute("href")==="#"+h)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");});
+  let h=location.hash.replace("#","");
+  soonId=KITS.some(k=>k.id===h&&k.status==="soon")?h:null;
+  let v=soonId?"soon":(CPUVIEWS.includes(h)?h:"home");
+  if(v!=="simulator")stop();
+  if(soonId)renderSoon(soonId);
+  VIEWS.forEach(x=>$("view-"+x).classList.toggle("active",x===v));
+  const cpu=CPUVIEWS.includes(v);$("kitbar").hidden=!cpu;
+  document.title=cpu?"8-Bit CPU Trainer · "+BRAND:soonId?KITS.find(k=>k.id===soonId).name()+" · "+BRAND:BRAND;
+  document.querySelectorAll("#nav a").forEach(a=>{if(a.getAttribute("href")==="#"+v)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");});
   render();
 }
 window.addEventListener("hashchange",()=>{route();window.scrollTo(0,0);});

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>8-Bit CPU Trainer</title>
+<title>Electronics Kits Lab</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;600;700&family=Instrument+Sans:wght@400;500;600&family=Spline+Sans+Mono:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -281,17 +281,57 @@ details.faq p{margin:6px 0 2px;color:var(--muted)}
   .sigs{grid-template-columns:repeat(2,minmax(0,1fr))}
   .pill i{display:none}
 }
+/* home page and kit bar */
+a.brand{text-decoration:none;color:inherit}
+a.brand:hover h1{color:var(--accent)}
+.kitbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 20px;padding:12px 0;border-bottom:1px solid var(--line)}
+.kitbar[hidden]{display:none}
+.kitname{font-family:var(--f-display);font-size:22px;font-weight:700;text-transform:uppercase;text-decoration:none;color:var(--ink)}
+.kitname span{color:var(--accent)}
+.homehero{max-width:72ch;padding:18px 0 6px}
+.homehero h2{font-size:44px;font-weight:700;text-transform:uppercase}
+.homehero .lead{margin-top:10px}
+.audience{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.audience span{background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:3px 12px;font-size:13px;font-weight:600;color:var(--muted)}
+.kits{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:22px}
+.kitcard{border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;background:var(--page)}
+.kitcard.live{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.kitcard .pic{aspect-ratio:4/3;background:var(--soft);display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--line)}
+.kitcard .pic img{width:100%;height:100%;object-fit:cover;display:block}
+.kitcard .pic svg{width:62%;height:auto;color:var(--muted)}
+.kitcard .body{padding:16px;display:flex;flex-direction:column;gap:10px;flex:1}
+.kitcard h3{font-size:24px;font-weight:600;text-transform:uppercase}
+.kitcard p{font-size:14px;color:var(--muted)}
+.kitcard .ctas{margin-top:auto}
+.badge{align-self:flex-start;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;border-radius:999px;padding:2px 10px}
+.badge.ok{background:var(--accent-soft);color:var(--accent)}
+.badge.soon{background:var(--soft);color:var(--muted);border:1px solid var(--line)}
+.soonpage{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.8fr);gap:32px;align-items:center;padding-top:10px}
+.soonpage .pic{background:var(--soft);border:1px solid var(--line);border-radius:14px;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center}
+.soonpage .pic svg{width:60%;height:auto;color:var(--muted)}
+.soonpage h2{font-size:40px;font-weight:700;text-transform:uppercase;margin:10px 0 8px}
+.soonpage ul{margin:14px 0;padding-inline-start:22px}
+.soonpage li{margin-bottom:6px}
+.soonpage .contact{margin-top:14px}
+.badge{display:inline-block}
+.backlink{display:inline-block;margin-bottom:14px;color:var(--accent);font-weight:600;text-decoration:none}
+@media (max-width:760px){.soonpage{grid-template-columns:minmax(0,1fr)}.homehero h2{font-size:32px}.soonpage h2{font-size:30px}}
 </style>
 </head>
 <body data-board="green">
 <div class="wrap">
 <header class="top">
-  <div class="brand">
-    <h1 class="ltr">8-Bit <span>CPU</span> Trainer</h1>
+  <a class="brand" href="#home">
+    <h1 class="ltr" id="brandName"></h1>
     <p data-t="tagline"></p>
-  </div>
+  </a>
   <div class="headtools">
-    <nav id="nav">
+    <select id="lang" aria-label="Language"><option value="0">English</option><option value="1">Français</option><option value="2">العربية</option></select>
+  </div>
+</header>
+<div class="kitbar" id="kitbar">
+  <a class="kitname ltr" href="#simulator">8-Bit <span>CPU</span> Trainer</a>
+  <nav id="nav">
       <a href="#simulator" data-t="navSim"></a>
       <a href="#guide" data-t="navGuide"></a>
       <a href="#modules" data-t="navMod"></a>
@@ -299,10 +339,10 @@ details.faq p{margin:6px 0 2px;color:var(--muted)}
       <a href="#course" data-t="navCourse"></a>
       <a href="#about" data-t="navAbout"></a>
       <a href="#kit" class="cta" data-t="navKit"></a>
-    </nav>
-    <select id="lang" aria-label="Language"><option value="0">English</option><option value="1">Français</option><option value="2">العربية</option></select>
-  </div>
-</header>
+  </nav>
+</div>
+<section class="view" id="view-home"><div id="homeBody"></div></section>
+<section class="view" id="view-soon"><div id="soonBody"></div></section>
 
 <section class="view" id="view-simulator">
  <div class="sim">

@@ -1,6 +1,13 @@
-# 8-Bit CPU Trainer
+# Electronics Kits Lab
 
-Website for the 8-bit SAP-1 computer teaching kit: a simulator drawn from the real PCB files, a user guide, a module catalog, lab exercises, a course map and a kit order page. English, French and Arabic.
+_(placeholder company name)_
+
+Website for a startup selling hands-on electronics teaching kits, in English, French and Arabic. The home page lets visitors choose a kit:
+
+- **8-Bit CPU Trainer** (available): a simulator drawn from the real PCB files, a user guide, a module catalog, lab exercises, a course map and a kit order page.
+- **Logic Gates Kit** and **Arduino Model Kit**: coming soon (placeholder pages with a contact button).
+
+Project status: see [progress.md](progress.md), [todo.md](todo.md) and [bugs.md](bugs.md).
 
 ## Use it
 
@@ -12,7 +19,7 @@ The page is built from the files in `dev/`:
 
 | File | What it holds |
 |---|---|
-| `dev/app.js` | Simulator, board drawing, order form. Prices, email and WhatsApp number are in the `SHOP` object near the top. |
+| `dev/app.js` | Home page, kit list (`KITS`), company name (`BRAND`), simulator, board drawing, order form. Prices, email and WhatsApp number are in the `SHOP` object near the top. |
 | `dev/strings.js` | All text in English, French and Arabic |
 | `dev/src.html` | Page layout and styles |
 | `dev/pcbdata.js`, `dev/bom.json` | Board outlines, parts and parts lists extracted from the KiCad files |

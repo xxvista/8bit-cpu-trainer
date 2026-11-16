@@ -106,6 +106,33 @@ const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"
 const $=id=>document.getElementById(id);
 
 /* ---------- shop settings: edit prices here (numbers in DA, or null for "price on request") ---------- */
+/* ---------- company name: placeholder, change it here (the last word is shown in the accent colour) ---------- */
+const BRAND="Electronics Kits Lab";
+
+/* ---------- kits shown on the home page. status "soon" = placeholder page with a contact button ---------- */
+const ICONS={
+ gates:'<svg viewBox="0 0 120 80" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M38 12h22a28 28 0 0 1 0 56H38z"/><path d="M10 28h28M10 52h28M88 40h22"/><circle cx="10" cy="28" r="3" fill="currentColor"/><circle cx="10" cy="52" r="3" fill="currentColor"/><circle cx="110" cy="40" r="3" fill="currentColor"/></svg>',
+ arduino:'<svg viewBox="0 0 120 84" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="10" width="108" height="66" rx="6"/><rect x="0" y="22" width="18" height="16" rx="2"/><rect x="2" y="50" width="14" height="16" rx="2"/><rect x="48" y="36" width="34" height="18" rx="2"/><path d="M30 10V4M38 10V4M46 10V4M54 10V4M62 10V4M70 10V4M78 10V4M86 10V4M94 10V4M102 10V4M50 82v-6M58 82v-6M66 82v-6M74 82v-6M88 82v-6M96 82v-6M104 82v-6"/><circle cx="100" cy="24" r="4"/></svg>'
+};
+const KITS=[
+ {id:"cpu",status:"live",name:()=>"8-Bit CPU Trainer",desc:()=>t("hCpuD"),img:"img/p044.jpg"},
+ {id:"gates",status:"soon",name:()=>t("gName"),desc:()=>t("gD")},
+ {id:"arduino",status:"soon",name:()=>t("aName"),desc:()=>t("aD")}
+];
+function renderBrand(){const w=BRAND.trim().split(/\s+/),last=w.pop();$("brandName").innerHTML=(w.length?esc(w.join(" "))+" ":"")+"<span>"+esc(last)+"</span>";}
+function kitPic(k){return k.img?'<img src="'+k.img+'" alt="'+esc(k.name())+'" loading="lazy">':ICONS[k.id];}
+function renderHome(){
+  $("homeBody").innerHTML='<div class="homehero"><h2>'+t("hTitle")+'</h2><p class="lead">'+t("hLead")+'</p><div class="audience">'+[1,2,3,4].map(i=>"<span>"+t("hAud"+i)+"</span>").join("")+"</div></div>"+
+   '<h2 class="sec">'+t("hChoose")+'</h2><div class="kits">'+KITS.map(k=>{const live=k.status==="live";
+     return'<article class="kitcard'+(live?" live":"")+'"><a class="pic" href="#'+(live?"simulator":k.id)+'" tabindex="-1">'+kitPic(k)+'</a><div class="body"><span class="badge '+(live?"ok":"soon")+'">'+t(live?"hAvail":"hSoon")+"</span><h3"+(k.id==="cpu"?' class="ltr"':"")+">"+k.name()+"</h3><p>"+k.desc()+'</p><div class="ctas">'+
+       (live?'<a class="btn primary" href="#simulator">'+t("hExplore")+'</a><a class="btn" href="#kit">'+t("hOrder")+"</a>":'<a class="btn" href="#'+k.id+'">'+t("hMore")+"</a>")+"</div></div></article>";}).join("")+"</div>"+
+   '<p class="creditline">'+t("credit")+"</p>";
+}
+function renderSoon(id){
+  const k=KITS.find(x=>x.id===id);if(!k)return;const msg=t("sMsg",k.name());
+  $("soonBody").innerHTML='<a class="backlink" href="#home">← '+t("sBack")+'</a><div class="soonpage"><div><span class="badge soon">'+t("hSoon")+"</span><h2>"+k.name()+'</h2><p class="lead">'+k.desc()+"</p><p style=\"margin-top:14px\">"+t("sPlanned")+"</p><ul>"+[1,2,3,4].map(i=>"<li>"+t("sP"+i)+"</li>").join("")+"</ul><p>"+t("sNotify")+'</p><div class="ctas" style="margin-top:12px"><a class="btn primary big" target="_blank" rel="noopener" href="https://wa.me/'+SHOP.whatsapp+"?text="+encodeURIComponent(msg)+'">WhatsApp</a><a class="btn big" href="mailto:'+SHOP.email+"?subject="+encodeURIComponent(k.name())+"&body="+encodeURIComponent(msg)+'">Email</a></div>'+contactHtml()+'</div><div class="pic">'+ICONS[k.id]+"</div></div>";
+}
+
 const SHOP={email:"abdelkafiabdellah419@gmail.com",whatsapp:"213666020037",phone:"0666 02 00 37",currency:"DA",prices:{assembled:null,solder:null}};
 const PHOTOS={pc:"img/p027.jpg",reg:"img/p040.jpg",alu:"img/p041.jpg",mar:"img/p042.jpg",ctl:"img/p043.jpg"};
 
@@ -517,6 +544,7 @@ function renderStatic(){
   $("aboutBody").innerHTML=ABOUT[LI]+contactHtml();
   renderFaultTab();
   renderKit();
+  renderBrand();renderHome();if(soonId)renderSoon(soonId);
 }
 $("labCards").onclick=e=>{const b=e.target.closest("[data-lab]");if(!b)return;openProgram("ex:"+b.dataset.lab,true);showTab("state");location.hash="#simulator";route();window.scrollTo(0,0);};
 $("chCards").onclick=e=>{const b=e.target.closest("[data-ch]");if(!b)return;const i=+b.dataset.ch,out=$("chR"+i),r=assemble($("src").value);
@@ -530,12 +558,19 @@ function setLang(i,save){
 }
 $("lang").onchange=e=>setLang(+e.target.value,true);
 
-const VIEWS=["simulator","guide","modules","labs","course","about","kit"];
+const CPUVIEWS=["simulator","guide","modules","labs","course","about","kit"];
+const VIEWS=["home","soon",...CPUVIEWS];
+let soonId=null;
 function route(){
-  let h=location.hash.replace("#","");if(!VIEWS.includes(h))h="simulator";
-  if(h!=="simulator")stop();
-  VIEWS.forEach(v=>$("view-"+v).classList.toggle("active",v===h));
-  document.querySelectorAll("#nav a").forEach(a=>{if(a.getAttribute("href")==="#"+h)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");});
+  let h=location.hash.replace("#","");
+  soonId=KITS.some(k=>k.id===h&&k.status==="soon")?h:null;
+  let v=soonId?"soon":(CPUVIEWS.includes(h)?h:"home");
+  if(v!=="simulator")stop();
+  if(soonId)renderSoon(soonId);
+  VIEWS.forEach(x=>$("view-"+x).classList.toggle("active",x===v));
+  const cpu=CPUVIEWS.includes(v);$("kitbar").hidden=!cpu;
+  document.title=cpu?"8-Bit CPU Trainer · "+BRAND:soonId?KITS.find(k=>k.id===soonId).name()+" · "+BRAND:BRAND;
+  document.querySelectorAll("#nav a").forEach(a=>{if(a.getAttribute("href")==="#"+v)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");});
   render();
 }
 window.addEventListener("hashchange",()=>{route();window.scrollTo(0,0);});
