@@ -14,7 +14,7 @@ A startup that designs and sells hands-on electronics kits for learning, each wi
 
 ## Status
 
-The website works offline: open `index.html` in a browser. It opens on a home page where visitors choose a kit. Work is on branch `claude/sleepy-noether-bbtr9v`, not yet merged into `main`.
+The website works offline: open `index.html` in a browser. It opens on a home page where visitors choose a kit. All work is merged into `main`.
 
 ## Site map
 
@@ -58,6 +58,7 @@ The company name in the header always goes back home.
 - 2026-11-16: Site added (8-Bit CPU Trainer only).
 - 2026-11-16: Added progress, bugs and to-do notes. Fixed French guide scrolling sideways on phones.
 - 2026-11-16: New startup vision: home page to choose between 3 kits; Logic Gates and Arduino Model kits added as "coming soon" placeholders; placeholder company name; CPU pages moved under their own menu bar. Added `CLAUDE.md` with the rule to always update these notes.
+- 2026-11-16: Merged everything into `main`.
 
 ## Not done yet
 
