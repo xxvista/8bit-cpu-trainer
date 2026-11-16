@@ -14,7 +14,7 @@ A startup that designs and sells hands-on electronics kits for learning, each wi
 
 ## Status
 
-The website works offline: open `index.html` in a browser. It opens on a home page where visitors choose a kit. Latest work is on branch `claude/sleepy-noether-bbtr9v`; `main` does not have it yet (team description, prices, catalogue, visitor counting).
+The website works offline: open `index.html` in a browser. It opens on a home page where visitors choose a kit. All work is merged into `main`.
 
 ## Site map
 
@@ -74,6 +74,7 @@ The company name in the header always goes back home.
 - 2026-11-16: "Who we are" now says the team is two Algerian electronics engineers (was "engineers and teachers").
 - 2026-11-16: Prices set (49,000 / 39,000 DA). Added the PDF catalogue in 3 languages, temporary kit photos on the home page, a hidden quotes section, GoatCounter visitor counting (waiting for a code) and the Google Sheet order tracker.
 - 2026-11-16: Visitor counting turned on (GoatCounter `xxvista`). Removed the spare-parts claim from the home page and catalogue ("Why our kits" and the FAQ), since only the two kit versions are sold; catalogue PDFs remade.
+- 2026-11-16: Merged prices, catalogue, visitor counting and order tracker work into `main`.
 
 ## Not done yet
 
