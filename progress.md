@@ -14,7 +14,7 @@ A startup that designs and sells hands-on electronics kits for learning, each wi
 
 ## Status
 
-The website works offline: open `index.html` in a browser. It opens on a home page where visitors choose a kit. All work is merged into `main`.
+The website works offline: open `index.html` in a browser. It opens on a home page where visitors choose a kit. Latest work (test bench removed, module simulator with data bus on the Modules page) is on branch `claude/sleepy-noether-bbtr9v`, not yet merged into `main`.
 
 ## Site map
 
@@ -22,7 +22,7 @@ The website works offline: open `index.html` in a browser. It opens on a home pa
 |---|---|
 | `#home` (or no address) | Home: banner with photo, who we are, kit cards, learning path, why our kits, how ordering works, FAQ, contact |
 | `#gates`, `#arduino` | Coming-soon pages for the 2 future kits |
-| `#simulator`, `#bench`, `#guide`, `#modules`, `#labs`, `#course`, `#about`, `#kit` | 8-Bit CPU Trainer pages, with their own menu bar |
+| `#simulator`, `#guide`, `#modules`, `#labs`, `#course`, `#about`, `#kit` | 8-Bit CPU Trainer pages, with their own menu bar |
 
 The company name in the header always goes back home.
 
@@ -38,7 +38,7 @@ The company name in the header always goes back home.
 | Home board row | "Inside the kit" row of 4 board drawings | `HOMEBOARDS` in `dev/app.js` |
 | Visitor counting | GoatCounter (site code `xxvista`), counts page views and clicks (WhatsApp, email, catalogue, order form) | `ANALYTICS` in `dev/app.js` |
 | Order tracker | Google Sheet with Orders, Summary and Prices tabs, dropdowns and automatic totals: [Order tracker](https://docs.google.com/spreadsheets/d/1AN_my6Cz8LivtA_cFfjyjDTp47ep2JEO9SjNs_zl_BI/edit) | Google Drive |
-| Test bench | New CPU page: pick a module (Clock, PC, MAR, RAM, Register A/B/IR, ALU, Output, Control), drive its inputs by hand (bus switches, control lines, modes), pulse the clock or reset, and read its outputs on the live board drawing. Automatic test runs a test plan step by step with PASS/FAIL, expected and actual values. 20 insertable faults | `dev/bench.js`, `BT` in `dev/strings.js` |
+| Module simulator | Top of the Modules page: pick a module (Clock, PC, MAR, RAM, Register A/B/IR, ALU, Output, Control), set its control lines, pulse the clock and read its outputs on the live board drawing. A data-bus strip under the board shows the 8 wires: you set them by clicking unless the module drives the bus; an arrow says whether the module stores from or puts onto the bus. Each catalogue card has a "Simulate this module" button | `dev/bench.js` |
 | Simulator controls | Player-style control bar (Reset, Step back, Clock pulse, One instruction, Run/Pause) above the board; pinned to the bottom of the screen on phones | `dev/src.html`, `dev/app.js` |
 | Data path | Animated yellow line from the board driving the bus, along the bus, to every board storing the byte, with the value on a tag | `drawFlow` in `dev/app.js` |
 | Step tracker | T0–T5 bar under the explanation (fetch vs execute, current and finished steps, unused steps dimmed) | `render` in `dev/app.js` |
@@ -62,8 +62,7 @@ The company name in the header always goes back home.
 - [x] Kit menu bar shows only on the CPU pages; browser tab title changes per page
 - [x] Catalogue: 2 pages in each language, nothing cut off (the script checks this)
 - [x] Order tracker: totals tested with list price, agreed price and missing price
-- [x] Test bench: every module passes its automatic test on a good board, and each of the 20 faults makes at least one step fail (checked with a script); the ALU test runs all 65,536 sums and differences in about 30 ms
-- [x] Test bench fits a 375 px phone for all 8 modules in all 3 languages
+- [x] Module simulator: register stores 74 from the bus and drives it back, PC jumps to 5 from the bus, clock shows "not on the data bus", card buttons open the right module; fits a 390 px phone in Arabic
 - [x] All 7 CPU example programs give the expected output; Step, Run and Reset work
 - [ ] Order form and "coming soon" buttons actually open WhatsApp / email (not tested)
 - [x] Visitor counting logic: page views and click events recorded (tested with a stand-in script; the real GoatCounter server can't be reached from the test machine)
@@ -91,6 +90,7 @@ The company name in the header always goes back home.
 - 2026-11-16: Merged the test bench into `main`.
 - 2026-11-16: The kit is not assembled yet, so all real photos were removed from the website and catalogue and replaced by illustrations drawn from the KiCad files. Removed every mention of GitHub, Ben Eater and the original designer from the site (module build notes, his photos and links, the About page question and credits, test bench wording); the About page and footer keep a neutral CERN-OHL-P licence line, and now say the kit was designed (not built) by Abdellah Abdelkafi and Feriel Hamouchi. Catalogue PDFs remade.
 - 2026-11-16: Merged the illustrations and the removal of designer references into `main`.
+- 2026-11-16: Removed the Test bench page (automatic tests and faults) and its menu item. Its module-by-module simulation moved to the top of the Modules page, now with a data-bus strip you can set by clicking the wires, flow arrows, and "Simulate this module" buttons on the catalogue cards. Old `#bench` links open the Modules page. Hackathon deck and Q&A: removed imported training benches, open-source mentions and the test bench slide; added Market and Roadmap slides.
 
 ## Not done yet
 

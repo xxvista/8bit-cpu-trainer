@@ -28,8 +28,7 @@
 
 ## Later
 
-- [ ] Test bench: link each module's bench from its card on the Modules page, and from the simulator when zoomed into a board
-- [ ] Test bench: a lab exercise that asks students to find an unknown fault with the bench (the fault is hidden, like in the simulator's Faults tab)
+- [ ] Module simulator: a lab exercise per module ("load 42 into register A and put it back on the bus")
 
 - [ ] Optional: more fault exercises (program counter skipping counts, display flickering)
 

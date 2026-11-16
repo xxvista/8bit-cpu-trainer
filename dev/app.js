@@ -230,7 +230,7 @@ function sevenSeg(x,y,w,h,id){
   const segs=[hz(L,R,T),vt(R,T,M),vt(R,M,B),hz(L,R,B),vt(L,M,B),vt(L,T,M),hz(L,R,M)];
   return segs.map((p,i)=>'<polygon class="seg" id="'+id+"-"+i+'" points="'+p+'"/>').join("");
 }
-function drawBoard(type,inst,live,pfx=""){ // pfx: id prefix for a second live copy (the test bench)
+function drawBoard(type,inst,live,pfx=""){ // pfx: id prefix for a second live copy (the module simulator)
   const B=PCB[type];let s="";
   const tipA=h=>' data-tip="'+esc(h)+'"';
   s+='<rect class="mask" data-card="'+inst+'" x="0" y="0" width="'+B.w+'" height="'+B.h+'" rx="1.6"/>';
@@ -601,7 +601,7 @@ function renderStatic(){
     SIGS.map(k=>"<tr><td><code>"+k+"</code> "+sigName(k)+"</td><td>"+sigDesc(k)+".</td></tr>").join("")+"</tbody></table></div><h3>"+G.fl+"</h3><p>"+G.flP+"</p>";
   $("modCards").innerHTML=MODORDER.map(b=>{const B=PCB[b],m=MODT[b][LI];
     const svg=b==="bus"?'<svg viewBox="-2 -2 '+(B.h+4)+" "+(B.w+4)+'"><g transform="translate(0 '+B.w+') rotate(-90)">'+drawBoard(b,b,false)+"</g></svg>":'<svg viewBox="-2 -2 '+(B.w+4)+" "+(B.h+4)+'">'+drawBoard(b,b==="reg"?"a":b,false)+"</svg>";
-    return'<article class="card"><div dir="ltr">'+svg+"</div><h3>"+m[0]+'</h3><div class="slot" dir="auto">'+m[1]+" · "+B.w.toFixed(0)+" × "+B.h.toFixed(0)+" mm</div><p>"+m[2]+"</p><dl><dt>"+t("dtChips")+"</dt><dd>"+m[3]+"</dd><dt>"+t("dtLeds")+"</dt><dd>"+m[4]+"</dd><dt>"+t("dtWatch")+"</dt><dd>"+m[5]+"</dd></dl>"+"</article>";}).join("");
+    return'<article class="card"><div dir="ltr">'+svg+"</div><h3>"+m[0]+'</h3><div class="slot" dir="auto">'+m[1]+" · "+B.w.toFixed(0)+" × "+B.h.toFixed(0)+" mm</div><p>"+m[2]+"</p><dl><dt>"+t("dtChips")+"</dt><dd>"+m[3]+"</dd><dt>"+t("dtLeds")+"</dt><dd>"+m[4]+"</dd><dt>"+t("dtWatch")+"</dt><dd>"+m[5]+"</dd></dl>"+(BENCHMODS.includes(b)?'<button type="button" class="btn small simthis" data-sim="'+b+'">'+bt("simThis")+"</button>":"")+"</article>";}).join("");
   $("labCards").innerHTML=LABT.map((l,i)=>{const L=l[LI],e=EXAMPLES.find(x=>x.id===LABEX[i]);
     return'<article class="card"><div class="num">'+t("lab")+" "+(i+1)+"</div><h3>"+L[0]+"</h3><p>"+L[1]+"</p><pre>"+esc(e.src)+"</pre><ul>"+L[2].map(s=>"<li>"+s+"</li>").join("")+'</ul><button class="btn primary" data-lab="'+e.id+'">'+t("openSim")+"</button></article>";}).join("");
   $("chCards").innerHTML=CHT.map((c,i)=>'<article class="card"><div class="num">'+t("challenge")+" "+(i+1)+"</div><h3>"+c[LI][0]+"</h3><p>"+c[LI][1]+'</p><div class="result" id="chR'+i+'" role="status"></div><button class="btn" data-ch="'+i+'">'+t("chCheck")+"</button></article>").join("");
@@ -613,6 +613,7 @@ function renderStatic(){
   renderBrand();renderHome();if(soonId)renderSoon(soonId);
   if(typeof renderBench==="function")renderBench();
 }
+$("modCards").addEventListener("click",e=>{const b=e.target.closest("[data-sim]");if(b)benchPick(b.dataset.sim);});
 $("labCards").onclick=e=>{const b=e.target.closest("[data-lab]");if(!b)return;openProgram("ex:"+b.dataset.lab,true);showTab("state");location.hash="#simulator";route();window.scrollTo(0,0);};
 $("chCards").onclick=e=>{const b=e.target.closest("[data-ch]");if(!b)return;const i=+b.dataset.ch,out=$("chR"+i),r=assemble($("src").value);
   if(r.error){out.className="result err";out.textContent=t("chNoAsm")+fmtErr(r.error);return;}
@@ -635,11 +636,11 @@ if(ANALYTICS.goatcounter){const g=document.createElement("script");g.async=true;
   g.onload=()=>{lastTracked="";trackView();};document.head.appendChild(g);}
 document.addEventListener("click",e=>{const a=e.target.closest("a,button");if(!a)return;const h=a.getAttribute("href")||"",where=location.hash.replace("#","")||"home";
   if(h.startsWith("https://wa.me"))track("whatsapp-"+where,1);else if(h.startsWith("mailto:"))track("email-"+where,1);else if(a.dataset.ev)track(a.dataset.ev,1);});
-const CPUVIEWS=["simulator","bench","guide","modules","labs","course","about","kit"];
+const CPUVIEWS=["simulator","guide","modules","labs","course","about","kit"];
 const VIEWS=["home","soon",...CPUVIEWS];
 let soonId=null;
 function route(){
-  let h=location.hash.replace("#","");
+  let h=location.hash.replace("#","");if(h==="bench")h="modules"; // old link: the module simulator is now on the Modules page
   soonId=KITS.some(k=>k.id===h&&k.status==="soon")?h:null;
   let v=soonId?"soon":(CPUVIEWS.includes(h)?h:"home");
   if(v!=="simulator")stop();

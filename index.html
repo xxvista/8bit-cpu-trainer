@@ -209,6 +209,7 @@ table.uc td.cur{background:var(--accent);color:#fff}
 .lead{font-size:17px;color:var(--muted)}
 .callout{border:1px solid var(--line);border-inline-start:5px solid var(--warn);border-radius:10px;background:var(--soft);padding:10px 14px;margin:14px 0}
 .twocol{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:36px;align-items:start}
+.simthis{align-self:flex-start;margin-top:4px}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;margin-top:16px}
 .card{background:var(--page);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px}
 .card h3{font-size:22px;font-weight:600;text-transform:uppercase}
@@ -480,7 +481,7 @@ body:not([data-view="cpu"]) header.top{max-width:1160px;margin:0 auto}
   .pill:not(.drive):not(.latch){display:none}
 }
 
-/* test bench */
+/* module simulator (Modules page) */
 .bhead{max-width:75ch;margin-bottom:18px}
 .bhead h2{font-size:34px;font-weight:700;text-transform:uppercase;margin-bottom:6px}
 .bmods{display:flex;flex-wrap:wrap;gap:2px;background:var(--soft);padding:4px;border-radius:12px;margin-bottom:18px}
@@ -516,15 +517,29 @@ body:not([data-view="cpu"]) header.top{max-width:1160px;margin:0 auto}
 .bmem span{border:1px solid var(--line);border-radius:6px;padding:3px 0;text-align:center;font-family:var(--f-mono);font-size:12px}
 .bmem span i{display:block;font-style:normal;font-size:9.5px;color:var(--muted)}
 .bmem span.cur{border-color:var(--accent);background:var(--accent-soft)}
+.busflow{margin-top:14px;min-height:30px;display:flex;justify-content:center}
+.flow{display:inline-block;font-size:14px;font-weight:600;border-radius:999px;padding:5px 14px}
+.flow.in{background:#e5f4e4;color:#135c2c}
+.flow.out{background:var(--accent);color:#fff}
+.flow.idle{background:var(--page);color:var(--muted);border:1px solid var(--line);font-weight:500}
+.busstrip{margin-top:10px;background:#1b2a1f;border-radius:12px;padding:12px 14px;color:#dfe9e0}
+.bushead{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-bottom:10px;font-size:14px}
+.bushead b{font-family:var(--f-display);font-size:18px;text-transform:uppercase;letter-spacing:.04em}
+.busval{font-family:var(--f-mono);font-weight:600;color:#ffd23f}
+.busby{font-size:13px;color:#a9bfae}
+.busby.mod{color:#9fb8ff}
+.buswires{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:6px}
+.wire{display:flex;flex-direction:column;align-items:center;gap:4px;background:#24382a;border:1px solid #33503c;border-radius:8px;padding:8px 0 6px;cursor:pointer;color:#cfe0d2;font-family:var(--f-mono);font-size:12px}
+.wire i{width:16px;height:16px;border-radius:50%;background:#3d5544;box-shadow:inset 0 0 0 1px rgba(0,0,0,.35)}
+.wire.on i{background:#ffd23f;box-shadow:0 0 10px #ffd23f}
+.wire:hover:not(:disabled){border-color:#ffd23f}
+.wire:disabled{cursor:default}
+.wire.unused{opacity:.35}
+.bususe{margin-top:8px;font-size:12.5px;color:#a9bfae}
+.busnone{font-size:14px;color:#cfe0d2}
 .wave{margin-top:12px;background:#0f1b14;border-radius:10px;padding:8px}
 .wave svg{display:block;width:100%;height:46px}
 .wave path{fill:none;stroke:#4dff8a;stroke-width:1.6;vector-effect:non-scaling-stroke}
-.btest{margin-top:20px}
-.btest .rowf{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
-.btest select{flex:1 1 260px;min-width:0}
-.bstar{margin-top:8px}
-.btest .result{margin-top:14px}
-table.bres td{vertical-align:top;padding:8px}
 .good{color:#13803d}.bad{color:var(--bad)}
 @media (max-width:1000px){.bench{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:760px){.bbtns .tbtn{flex:1 1 auto;flex-direction:row;height:44px;font-size:14px;padding:0 14px}}
@@ -546,7 +561,6 @@ table.bres td{vertical-align:top;padding:8px}
   <a class="kitname ltr" href="#simulator">8-Bit <span>CPU</span> Trainer</a>
   <nav id="nav">
       <a href="#simulator" data-t="navSim"></a>
-      <a href="#bench" data-t="navBench"></a>
       <a href="#guide" data-t="navGuide"></a>
       <a href="#modules" data-t="navMod"></a>
       <a href="#labs" data-t="navLabs"></a>
@@ -631,12 +645,12 @@ table.bres td{vertical-align:top;padding:8px}
  </div>
 </section>
 
-<section class="view" id="view-bench"><div id="benchBody"></div></section>
-
 <section class="view" id="view-guide"><div class="twocol"><div id="guideBody"></div><div class="prose" id="guideSide"></div></div></section>
 
 <section class="view" id="view-modules">
   <div class="prose"><h2 data-t="modTitle"></h2><p class="lead" data-t="modLead"></p></div>
+  <div id="benchBody"></div>
+  <h2 class="sec" data-t="modCat"></h2>
   <div class="cards" id="modCards"></div>
 </section>
 
@@ -730,7 +744,6 @@ const U={
  navSim:["Simulator","Simulateur","المحاكي"],navGuide:["User guide","Guide","دليل الاستعمال"],navMod:["Modules","Modules","البطاقات"],navLabs:["Labs","TP","الأعمال التطبيقية"],navCourse:["Course map","Programme","خريطة المقرر"],navKit:["Buy the kit","Acheter le kit","اشترِ الطقم"],
  backS:["Back","Retour","رجوع"],
  oneInsS:["Instruction","Instruction","تعليمة"],
- navBench:["Test bench","Banc d'essai","منصة الاختبار"],
  simTip:["New here? Press <b>Clock pulse</b> (Space) to move one step. The yellow line shows the byte travelling on the bus, from the board that sends it to the boards that store it.","Première visite ? Appuyez sur <b>Impulsion d'horloge</b> (Espace) pour avancer d'une étape. La ligne jaune montre l'octet qui circule sur le bus, de la carte qui l'envoie aux cartes qui le mémorisent.","أول زيارة؟ اضغط <b>نبضة ساعة</b> (مفتاح المسافة) للتقدّم خطوة واحدة. يُظهر الخط الأصفر البايت وهو ينتقل على الناقل، من البطاقة التي ترسله إلى البطاقات التي تخزّنه."],
  stageHint:["Click a board to zoom. Buttons and switches on the boards work.","Cliquez sur une carte pour zoomer. Les boutons et interrupteurs des cartes fonctionnent.","انقر على بطاقة للتكبير. الأزرار والمفاتيح على البطاقات تعمل."],
  labels:["Labels","Étiquettes","التسميات"],boardColour:["Board colour","Couleur des cartes","لون البطاقات"],whole:["Whole computer","Vue d'ensemble","الحاسوب كاملاً"],
@@ -793,7 +806,7 @@ const U={
  mNoCopy:["Copying is blocked here. Read the bytes from the RAM tab instead.","La copie est bloquée ici. Lisez les octets dans l'onglet RAM.","النسخ محجوب هنا. اقرأ البايتات من تبويب الذاكرة."],
  exGroup:["Examples","Exemples","أمثلة"],myGroup:["My programs","Mes programmes","برامجي"],
  // views
- modTitle:["Module catalog","Catalogue des modules","فهرس البطاقات"],modLead:["Each board drawn from its PCB file, with what it does, the chips on it and what its LEDs show.","Chaque carte dessinée d'après son fichier PCB, avec son rôle, ses circuits et ce que montrent ses LED.","كل بطاقة مرسومة من ملف الدارة المطبوعة، مع دورها ودوائرها وما تُظهره مصابيحها."],
+ modTitle:["Modules","Modules","الوحدات"],modCat:["Every board in detail","Chaque carte en détail","كل بطاقة بالتفصيل"],modLead:["Pick a module, set the data on the bus and pulse the clock to see what it stores and what it sends. Below, every board in detail.","Choisissez un module, réglez la donnée sur le bus et envoyez une impulsion d’horloge pour voir ce qu’il mémorise et ce qu’il envoie. Plus bas, chaque carte en détail.","اختر وحدة، واضبط المعطى على الناقل، وأرسل نبضة ساعة لترى ما تخزّنه وما ترسله. وفي الأسفل، كل بطاقة بالتفصيل."],
  dtChips:["Chips","Circuits","الدوائر"],dtLeds:["LEDs","LED","المصابيح"],dtWatch:["Watch","À observer","لاحِظ"],photo:["Photo of the built card","Photo de la carte montée","صورة البطاقة المركّبة"],
  labsTitle:["Lab exercises","Travaux pratiques","الأعمال التطبيقية"],labsLead:["Six guided sessions, each built on the one before. Open a lab in the simulator, predict what will happen, step through it, then repeat it on the kit.","Six séances guidées, chacune s'appuyant sur la précédente. Ouvrez un TP dans le simulateur, prévoyez le résultat, avancez pas à pas, puis refaites-le sur le kit.","ست حصص موجَّهة، كل واحدة تُبنى على سابقتها. افتح العمل في المحاكي، توقّع ما سيحدث، تقدّم خطوة بخطوة، ثم أعده على الطقم."],
  lab:["LAB","TP","عمل تطبيقي"],openSim:["Open in simulator","Ouvrir dans le simulateur","فتح في المحاكي"],
@@ -1164,77 +1177,56 @@ const ABOUT=[
 <p>تصميم البطاقات عتاد مفتوح منشور برخصة CERN Open Hardware Licence الإصدار 2، النوع المتساهل (CERN-OHL-P). الرخصة وإشعاراتها محفوظة مع ملفات التصميم.</p>`
 ];
 
-/* Test bench (dev/bench.js): [English, Français, العربية] */
+/* Module simulator on the Modules page (dev/bench.js): [English, Français, العربية] */
 const BT={
- title:["Test bench","Banc d'essai","منصة الاختبار"],
- lead:["Take one module out of the computer and test it on its own, like on a real bench: set its inputs, pulse the clock and check what it stores and what it puts on the bus. Then run the automatic test, which checks every function of the module step by step.","Sortez un module de l'ordinateur et testez-le seul, comme sur un vrai banc : réglez ses entrées, envoyez une impulsion d'horloge et vérifiez ce qu'il mémorise et ce qu'il met sur le bus. Lancez ensuite le test automatique, qui vérifie chaque fonction du module étape par étape.","أخرج وحدة واحدة من الحاسوب واختبرها وحدها كما على منصة حقيقية: اضبط مداخلها، وأرسل نبضة ساعة، وتحقّق مما تخزّنه وما تضعه على الناقل. ثم شغّل الاختبار الآلي الذي يتحقق من كل وظيفة في الوحدة خطوة بخطوة."],
- inputs:["Inputs","Entrées","المداخل"],outputs:["Outputs","Sorties","المخارج"],
- press:["Press the pulse button","Appuyer sur le bouton d'impulsion","اضغط زر النبضة"],writeBtn:["Write button","Bouton d'écriture","زر الكتابة"],
- autoT:["Automatic test","Test automatique","الاختبار الآلي"],
- autoL:["Runs the module through every step of its test plan and compares each output with the expected value, like a test program on a real bench.","Fait passer le module par chaque étape de son plan de test et compare chaque sortie à la valeur attendue, comme un programme de test sur un vrai banc.","يمرّر الوحدة بكل خطوات خطة اختبارها ويقارن كل مخرج بالقيمة المتوقعة، كما يفعل برنامج اختبار على منصة حقيقية."],
- insFault:["Insert a fault","Insérer une panne","أدخل عطلاً"],runT:["Run the test","Lancer le test","شغّل الاختبار"],noFault:["None: a good board","Aucune : carte en bon état","لا شيء: بطاقة سليمة"],
- busIn:["Bus input","Entrée bus","مدخل الناقل"],addrIn:["Address (from the MAR)","Adresse (venant du MAR)","العنوان (من MAR)"],addrSw:["Address switches","Interrupteurs d'adresse","مفاتيح العنوان"],
- dataSw:["Data switches","Interrupteurs de donnée","مفاتيح المعطى"],opIn:["Opcode (from the instruction register)","Code d'opération (du registre d'instruction)","رمز العملية (من مسجّل التعليمة)"],
- progMode:["Programming mode","Mode programmation","وضع البرمجة"],signedMode:["Two's complement","Complément à deux","المتمّم الثنائي"],
- cIn:["Carry flag","Indicateur de retenue","راية الحمل"],zIn:["Zero flag","Indicateur zéro","راية الصفر"],auto:["Continuous clock","Horloge continue","ساعة مستمرة"],
- floating:["floating (not driven)","flottant (non piloté)","عائم (غير مقود)"],
- rStored:["Stored value","Valeur mémorisée","القيمة المخزّنة"],rBusOut:["On the bus","Sur le bus","على الناقل"],rToCtl:["To Control (opcode)","Vers la Commande (code)","إلى التحكم (الرمز)"],
- rCount:["Count","Compte","العدّ"],rAddr:["Address sent to RAM","Adresse envoyée à la RAM","العنوان المرسل إلى الذاكرة"],rAddrIn:["Address","Adresse","العنوان"],rByte:["Byte at this address","Octet à cette adresse","البايت في هذا العنوان"],
- rResult:["Result","Résultat","النتيجة"],rCarryNow:["Carry out","Retenue","الحمل"],rZeroNow:["Result is zero","Résultat nul","النتيجة صفر"],rFlags:["Flags register","Registre des indicateurs","مسجّل الرايات"],
- rDisplay:["Display shows","L'afficheur montre","تعرض الشاشة"],rStep:["Microcode step","Étape de microcode","خطوة الشيفرة المصغّرة"],rOpcode:["Instruction","Instruction","التعليمة"],
- rEeprom:["EEPROM address","Adresse EEPROM","عنوان EEPROM"],rLines:["Control lines on","Lignes de commande actives","خطوط التحكم المفعّلة"],
- rMode:["Mode","Mode","الوضع"],rClk:["Clock output","Sortie d'horloge","خرج الساعة"],rEdges:["Clock pulses","Impulsions d'horloge","نبضات الساعة"],
- tRegIn:["Read in: the value on the bus is stored, the bus stays floating","Lecture : la valeur du bus est mémorisée, le bus reste flottant","القراءة: تُخزَّن قيمة الناقل ويبقى الناقل عائماً"],
- tRegOut:["Write out: the bus shows the stored value","Écriture : le bus montre la valeur mémorisée","الكتابة: يُظهر الناقل القيمة المخزّنة"],
- tRegNoOut:["Register B never drives the bus","Le registre B ne pilote jamais le bus","المسجّل B لا يقود الناقل أبداً"],
- tReset:["Reset sets it back to 0","La remise à zéro le ramène à 0","إعادة الضبط تعيده إلى 0"],
- tNoop:["No-op: nothing changes without a load signal","Sans ordre de chargement, rien ne change","بدون إشارة تحميل لا يتغير شيء"],
- tAll:["Every value from 0 to 255 is stored and read back","Chaque valeur de 0 à 255 est mémorisée puis relue","كل قيمة من 0 إلى 255 تُخزَّن ثم تُقرأ"],
- tPcCount:["Counts from 0 to 15","Compte de 0 à 15","يعدّ من 0 إلى 15"],tPcHold:["Holds its value without count enable","Garde sa valeur sans validation de comptage","يحتفظ بقيمته دون تفعيل العدّ"],
- tPcJmp:["Jump loads every address from the bus","Le saut charge chaque adresse depuis le bus","القفز يحمّل كل عنوان من الناقل"],tPcOut:["Drives the bus only with PCO","Ne pilote le bus qu'avec PCO","لا يقود الناقل إلا مع PCO"],
- tPcWrap:["Wraps from 15 back to 0","Repasse de 15 à 0","يعود من 15 إلى 0"],
- tMarIn:["Read in: the address follows the bus in run mode","Lecture : l'adresse suit le bus en mode exécution","القراءة: يتبع العنوان الناقل في وضع التشغيل"],
- tMarProg:["Programming mode: the switches set the address, the stored value is kept","Mode programmation : les interrupteurs fixent l'adresse, la valeur mémorisée est conservée","وضع البرمجة: المفاتيح تحدد العنوان وتُحفظ القيمة المخزّنة"],
- tMarAll:["Every address from 0 to 15","Chaque adresse de 0 à 15","كل عنوان من 0 إلى 15"],
- tRamWrite:["Write to all 16 addresses","Écriture aux 16 adresses","الكتابة في العناوين الستة عشر"],tRamRead:["Read back all 16 addresses","Relecture des 16 adresses","قراءة العناوين الستة عشر"],
- tRamProgLock:["No writing from the bus in programming mode","Pas d'écriture depuis le bus en mode programmation","لا كتابة من الناقل في وضع البرمجة"],
- tRamBtn:["The write button works on every press","Le bouton d'écriture marche à chaque appui","زر الكتابة يعمل مع كل ضغطة"],
- tAluA:["Register A passes through (B = 0)","Le registre A passe tel quel (B = 0)","المسجّل A يمرّ كما هو (B = 0)"],tAluB:["Register B passes through (A = 0)","Le registre B passe tel quel (A = 0)","المسجّل B يمرّ كما هو (A = 0)"],
- tAluNeg:["Two's complement of B (0 − B)","Complément à deux de B (0 − B)","المتمّم الثنائي لـ B (0 − B)"],tAluFloat:["Drives the bus only with EO","Ne pilote le bus qu'avec EO","لا يقود الناقل إلا مع EO"],
- tAluAdd:["Every A + B, with the flags (65,536 sums)","Chaque A + B, avec les indicateurs (65 536 sommes)","كل A + B مع الرايات (65536 عملية)"],
- tAluSub:["Every A − B, with the flags (65,536 differences)","Chaque A − B, avec les indicateurs (65 536 différences)","كل A − B مع الرايات (65536 عملية)"],
- tAluFlagsFi:["Flags change only with FI","Les indicateurs ne changent qu'avec FI","لا تتغير الرايات إلا مع FI"],
- tOutAll:["Shows every number from 0 to 255","Affiche chaque nombre de 0 à 255","يعرض كل عدد من 0 إلى 255"],tOutEnable:["Loads only when OUT is on (even numbers)","Ne charge qu'avec OUT (nombres pairs)","لا يحمّل إلا مع OUT (الأعداد الزوجية)"],
- tOutSigned:["Shows −128 to 127 in two's complement mode","Affiche −128 à 127 en complément à deux","يعرض من −128 إلى 127 بالمتمّم الثنائي"],
- tCtlAll:["Every instruction, step and flag state matches the instruction set (384 checks)","Chaque instruction, étape et état des indicateurs correspond au jeu d'instructions (384 vérifications)","كل تعليمة وخطوة وحالة رايات تطابق مجموعة التعليمات (384 فحصاً)"],
- tCtlWrap:["The step counter goes T0 to T5 and back to T0","Le compteur d'étapes va de T0 à T5 puis revient à T0","عدّاد الخطوات يذهب من T0 إلى T5 ثم يعود إلى T0"],
- tClkPress:["One press gives one pulse","Un appui donne une impulsion","ضغطة واحدة تعطي نبضة واحدة"],tClkHalt:["HLT stops the clock","HLT arrête l'horloge","HLT يوقف الساعة"],
- tClkAuto:["Continuous mode follows the speed (5 Hz for 2 s)","Le mode continu suit la vitesse (5 Hz pendant 2 s)","الوضع المستمر يتبع السرعة (5 هرتز لمدة ثانيتين)"],
- allPass:["PASS: every step of the test plan passed ({0} checks).","RÉUSSI : chaque étape du plan de test est passée ({0} vérifications).","نجاح: نجحت كل خطوات خطة الاختبار ({0} فحصاً)."],
- someFail:["FAIL: the module does not behave as it should. Look at the first failing step to find the fault.","ÉCHEC : le module ne se comporte pas comme prévu. Regardez la première étape en échec pour trouver la panne.","فشل: الوحدة لا تعمل كما يجب. انظر إلى أول خطوة فاشلة لتجد العطل."],
- plan:["Test plan","Plan de test","خطة الاختبار"],checks:["Checks","Vérif.","فحوص"],verdict:["Result","Résultat","النتيجة"],fail:["FAIL","ÉCHEC","فشل"],pass:["PASS","RÉUSSI","نجاح"],
- expected:["expected","attendu","المتوقع"],got:["got","obtenu","الفعلي"],
- didPulse:["Clock pulse sent.","Impulsion d'horloge envoyée.","أُرسلت نبضة ساعة."],didReset:["Reset pressed.","Remise à zéro appuyée.","ضُغطت إعادة الضبط."],
- didWrite:["Write button pressed.","Bouton d'écriture appuyé.","ضُغط زر الكتابة."],needProg:["The write button only works in programming mode.","Le bouton d'écriture ne marche qu'en mode programmation.","زر الكتابة لا يعمل إلا في وضع البرمجة."],
- didPress:["One clock pulse.","Une impulsion d'horloge.","نبضة ساعة واحدة."],noPress:["No pulse came out of the clock.","Aucune impulsion n'est sortie de l'horloge.","لم تخرج أي نبضة من الساعة."],
- faultOn:["Fault inserted","Panne insérée","عطل مُدخَل"],
+ inputs:["Inputs","Entrées","المداخل"],
+ outputs:["Outputs","Sorties","المخارج"],
+ press:["Press the pulse button","Appuyer sur le bouton d'impulsion","اضغط زر النبضة"],
+ writeBtn:["Write button","Bouton d'écriture","زر الكتابة"],
+ addrIn:["Address (from the MAR)","Adresse (venant du MAR)","العنوان (من MAR)"],
+ addrSw:["Address switches","Interrupteurs d'adresse","مفاتيح العنوان"],
+ dataSw:["Data switches","Interrupteurs de donnée","مفاتيح المعطى"],
+ opIn:["Opcode (from the instruction register)","Code d'opération (du registre d'instruction)","رمز العملية (من مسجّل التعليمة)"],
+ progMode:["Programming mode","Mode programmation","وضع البرمجة"],
+ signedMode:["Two's complement","Complément à deux","المتمّم الثنائي"],
+ cIn:["Carry flag","Indicateur de retenue","راية الحمل"],
+ zIn:["Zero flag","Indicateur zéro","راية الصفر"],
+ auto:["Continuous clock","Horloge continue","ساعة مستمرة"],
+ rStored:["Stored value","Valeur mémorisée","القيمة المخزّنة"],
+ rToCtl:["To Control (opcode)","Vers la Commande (code)","إلى التحكم (الرمز)"],
+ rCount:["Count","Compte","العدّ"],
+ rAddr:["Address sent to RAM","Adresse envoyée à la RAM","العنوان المرسل إلى الذاكرة"],
+ rAddrIn:["Address","Adresse","العنوان"],
+ rByte:["Byte at this address","Octet à cette adresse","البايت في هذا العنوان"],
+ rResult:["Result","Résultat","النتيجة"],
+ rCarryNow:["Carry out","Retenue","الحمل"],
+ rZeroNow:["Result is zero","Résultat nul","النتيجة صفر"],
+ rFlags:["Flags register","Registre des indicateurs","مسجّل الرايات"],
+ rDisplay:["Display shows","L'afficheur montre","تعرض الشاشة"],
+ rStep:["Microcode step","Étape de microcode","خطوة الشيفرة المصغّرة"],
+ rOpcode:["Instruction","Instruction","التعليمة"],
+ rEeprom:["EEPROM address","Adresse EEPROM","عنوان EEPROM"],
+ rLines:["Control lines on","Lignes de commande actives","خطوط التحكم المفعّلة"],
+ rMode:["Mode","Mode","الوضع"],
+ rClk:["Clock output","Sortie d'horloge","خرج الساعة"],
+ rEdges:["Clock pulses","Impulsions d'horloge","نبضات الساعة"],
+ didPulse:["Clock pulse sent.","Impulsion d'horloge envoyée.","أُرسلت نبضة ساعة."],
+ didReset:["Reset pressed.","Remise à zéro appuyée.","ضُغطت إعادة الضبط."],
+ didWrite:["Write button pressed.","Bouton d'écriture appuyé.","ضُغط زر الكتابة."],
+ needProg:["The write button only works in programming mode.","Le bouton d'écriture ne marche qu'en mode programmation.","زر الكتابة لا يعمل إلا في وضع البرمجة."],
+ didPress:["One clock pulse.","Une impulsion d'horloge.","نبضة ساعة واحدة."],
+ noPress:["No pulse came out of the clock.","Aucune impulsion n'est sortie de l'horloge.","لم تخرج أي نبضة من الساعة."],
  noChange:["Nothing changed.","Rien n'a changé.","لم يتغير شيء."],
- f_regFloat:["Output-enable pin left unconnected: the register always drives the bus","Broche de validation de sortie non connectée : le registre pilote toujours le bus","دبوس تفعيل الخرج غير موصول: المسجّل يقود الناقل دائماً"],
- f_regBit3:["Flip-flop for bit 3 stuck at 0","Bascule du bit 3 bloquée à 0","القلاب الخاص بالبت 3 عالق عند 0"],
- f_pcSolder:["Bad solder joint on count enable: some counts are missed","Mauvaise soudure sur la validation de comptage : certains comptes sont manqués","لحام رديء على تفعيل العدّ: تضيع بعض العدّات"],
- f_pcNoJmp:["Load (JMP) pin not connected","Broche de chargement (JMP) non connectée","دبوس التحميل (JMP) غير موصول"],
- f_marMix:["Wrong selector footprint: the two lowest address bits come from the switches","Mauvaise empreinte du sélecteur : les deux bits d'adresse de poids faible viennent des interrupteurs","بصمة خاطئة للمُنتقي: أدنى بتّين من العنوان يأتيان من المفاتيح"],
- f_marBit0:["Address bit 0 stuck at 1","Bit d'adresse 0 bloqué à 1","بت العنوان 0 عالق عند 1"],
- f_ramBtn:["No pull resistor on the write button: only the first press works","Pas de résistance de rappel sur le bouton d'écriture : seul le premier appui marche","لا مقاومة سحب على زر الكتابة: تعمل الضغطة الأولى فقط"],
- f_ram7:["Data bit 7 stuck at 0","Bit de donnée 7 bloqué à 0","بت المعطى 7 عالق عند 0"],
- f_aluCarry:["Carry between the two 4-bit adders broken","Retenue entre les deux additionneurs 4 bits coupée","الحمل بين الجامعَين ذوي 4 بتات مقطوع"],
- f_aluFlags:["No flags enable: the flags change on every clock pulse","Pas de validation des indicateurs : ils changent à chaque impulsion","لا تفعيل للرايات: تتغير مع كل نبضة ساعة"],
- f_outFloat:["Two's-complement input left floating: the display flickers","Entrée complément à deux flottante : l'afficheur clignote","مدخل المتمّم الثنائي عائم: الشاشة تومض"],
- f_outEnable:["Digit counter enable tied high: the display stays blank","Validation du compteur de chiffres reliée au niveau haut : l'afficheur reste éteint","تفعيل عدّاد الأرقام موصول بالمرتفع: تبقى الشاشة مطفأة"],
- f_ctlAi:["EEPROM bit for AI not programmed","Bit AI de l'EEPROM non programmé","بت AI في EEPROM غير مبرمج"],
- f_ctlReset:["Reset and inverted reset swapped: the step counter is held at T0","Remise à zéro et son inverse permutées : le compteur d'étapes reste bloqué à T0","تبادل إعادة الضبط ومعكوسها: يبقى عدّاد الخطوات عند T0"],
- f_clkBtn:["Pulse button wired as always pressed: the clock stays high","Bouton d'impulsion câblé comme toujours appuyé : l'horloge reste haute","زر النبضة موصول كأنه مضغوط دائماً: تبقى الساعة مرتفعة"],
- f_clkPullup:["Pull-up resistor on the wrong 555 pin: manual pulses never come out","Résistance de rappel sur la mauvaise broche du 555 : aucune impulsion manuelle","مقاومة الرفع على الدبوس الخطأ في 555: لا تخرج أي نبضة يدوية"]
+ busTitle:["Data bus","Bus de données","ناقل المعطيات"],
+ wire:["Bus wire","Fil du bus","سلك الناقل"],
+ busByYou:["Set by you: click a wire to change it","Réglé par vous : cliquez sur un fil pour le changer","تضبطه أنت: انقر على سلك لتغييره"],
+ busByMod:["Driven by {0}","Piloté par {0}","يقوده {0}"],
+ busUse4:["This module uses only wires B3 to B0 (a 4-bit address).","Ce module n’utilise que les fils B3 à B0 (une adresse sur 4 bits).","هذه الوحدة تستعمل الأسلاك من B3 إلى B0 فقط (عنوان من 4 بتات)."],
+ busNone:["This module is not on the data bus: it sends the clock or the control lines through the backplane.","Ce module n’est pas sur le bus de données : il envoie l’horloge ou les lignes de commande par le fond de panier.","هذه الوحدة ليست على ناقل المعطيات: ترسل الساعة أو خطوط التحكم عبر اللوحة الخلفية."],
+ flowIn:["{0} will store {1} from the bus at the next clock pulse","{0} mémorisera {1} depuis le bus à la prochaine impulsion d’horloge","سيخزّن {0} القيمة {1} من الناقل عند نبضة الساعة التالية"],
+ flowOut:["{0} puts {1} on the bus","{0} met {1} sur le bus","يضع {0} القيمة {1} على الناقل"],
+ flowIdle:["Not connected to the bus right now: turn on a load or output signal","Pas relié au bus pour l’instant : activez un signal de chargement ou de sortie","غير موصول بالناقل حالياً: فعّل إشارة تحميل أو إخراج"],
+ simThis:["Simulate this module","Simuler ce module","حاكِ هذه الوحدة"]
 };
 
 /*CORE-START*/
@@ -1469,7 +1461,7 @@ function sevenSeg(x,y,w,h,id){
   const segs=[hz(L,R,T),vt(R,T,M),vt(R,M,B),hz(L,R,B),vt(L,M,B),vt(L,T,M),hz(L,R,M)];
   return segs.map((p,i)=>'<polygon class="seg" id="'+id+"-"+i+'" points="'+p+'"/>').join("");
 }
-function drawBoard(type,inst,live,pfx=""){ // pfx: id prefix for a second live copy (the test bench)
+function drawBoard(type,inst,live,pfx=""){ // pfx: id prefix for a second live copy (the module simulator)
   const B=PCB[type];let s="";
   const tipA=h=>' data-tip="'+esc(h)+'"';
   s+='<rect class="mask" data-card="'+inst+'" x="0" y="0" width="'+B.w+'" height="'+B.h+'" rx="1.6"/>';
@@ -1840,7 +1832,7 @@ function renderStatic(){
     SIGS.map(k=>"<tr><td><code>"+k+"</code> "+sigName(k)+"</td><td>"+sigDesc(k)+".</td></tr>").join("")+"</tbody></table></div><h3>"+G.fl+"</h3><p>"+G.flP+"</p>";
   $("modCards").innerHTML=MODORDER.map(b=>{const B=PCB[b],m=MODT[b][LI];
     const svg=b==="bus"?'<svg viewBox="-2 -2 '+(B.h+4)+" "+(B.w+4)+'"><g transform="translate(0 '+B.w+') rotate(-90)">'+drawBoard(b,b,false)+"</g></svg>":'<svg viewBox="-2 -2 '+(B.w+4)+" "+(B.h+4)+'">'+drawBoard(b,b==="reg"?"a":b,false)+"</svg>";
-    return'<article class="card"><div dir="ltr">'+svg+"</div><h3>"+m[0]+'</h3><div class="slot" dir="auto">'+m[1]+" · "+B.w.toFixed(0)+" × "+B.h.toFixed(0)+" mm</div><p>"+m[2]+"</p><dl><dt>"+t("dtChips")+"</dt><dd>"+m[3]+"</dd><dt>"+t("dtLeds")+"</dt><dd>"+m[4]+"</dd><dt>"+t("dtWatch")+"</dt><dd>"+m[5]+"</dd></dl>"+"</article>";}).join("");
+    return'<article class="card"><div dir="ltr">'+svg+"</div><h3>"+m[0]+'</h3><div class="slot" dir="auto">'+m[1]+" · "+B.w.toFixed(0)+" × "+B.h.toFixed(0)+" mm</div><p>"+m[2]+"</p><dl><dt>"+t("dtChips")+"</dt><dd>"+m[3]+"</dd><dt>"+t("dtLeds")+"</dt><dd>"+m[4]+"</dd><dt>"+t("dtWatch")+"</dt><dd>"+m[5]+"</dd></dl>"+(BENCHMODS.includes(b)?'<button type="button" class="btn small simthis" data-sim="'+b+'">'+bt("simThis")+"</button>":"")+"</article>";}).join("");
   $("labCards").innerHTML=LABT.map((l,i)=>{const L=l[LI],e=EXAMPLES.find(x=>x.id===LABEX[i]);
     return'<article class="card"><div class="num">'+t("lab")+" "+(i+1)+"</div><h3>"+L[0]+"</h3><p>"+L[1]+"</p><pre>"+esc(e.src)+"</pre><ul>"+L[2].map(s=>"<li>"+s+"</li>").join("")+'</ul><button class="btn primary" data-lab="'+e.id+'">'+t("openSim")+"</button></article>";}).join("");
   $("chCards").innerHTML=CHT.map((c,i)=>'<article class="card"><div class="num">'+t("challenge")+" "+(i+1)+"</div><h3>"+c[LI][0]+"</h3><p>"+c[LI][1]+'</p><div class="result" id="chR'+i+'" role="status"></div><button class="btn" data-ch="'+i+'">'+t("chCheck")+"</button></article>").join("");
@@ -1852,6 +1844,7 @@ function renderStatic(){
   renderBrand();renderHome();if(soonId)renderSoon(soonId);
   if(typeof renderBench==="function")renderBench();
 }
+$("modCards").addEventListener("click",e=>{const b=e.target.closest("[data-sim]");if(b)benchPick(b.dataset.sim);});
 $("labCards").onclick=e=>{const b=e.target.closest("[data-lab]");if(!b)return;openProgram("ex:"+b.dataset.lab,true);showTab("state");location.hash="#simulator";route();window.scrollTo(0,0);};
 $("chCards").onclick=e=>{const b=e.target.closest("[data-ch]");if(!b)return;const i=+b.dataset.ch,out=$("chR"+i),r=assemble($("src").value);
   if(r.error){out.className="result err";out.textContent=t("chNoAsm")+fmtErr(r.error);return;}
@@ -1874,11 +1867,11 @@ if(ANALYTICS.goatcounter){const g=document.createElement("script");g.async=true;
   g.onload=()=>{lastTracked="";trackView();};document.head.appendChild(g);}
 document.addEventListener("click",e=>{const a=e.target.closest("a,button");if(!a)return;const h=a.getAttribute("href")||"",where=location.hash.replace("#","")||"home";
   if(h.startsWith("https://wa.me"))track("whatsapp-"+where,1);else if(h.startsWith("mailto:"))track("email-"+where,1);else if(a.dataset.ev)track(a.dataset.ev,1);});
-const CPUVIEWS=["simulator","bench","guide","modules","labs","course","about","kit"];
+const CPUVIEWS=["simulator","guide","modules","labs","course","about","kit"];
 const VIEWS=["home","soon",...CPUVIEWS];
 let soonId=null;
 function route(){
-  let h=location.hash.replace("#","");
+  let h=location.hash.replace("#","");if(h==="bench")h="modules"; // old link: the module simulator is now on the Modules page
   soonId=KITS.some(k=>k.id===h&&k.status==="soon")?h:null;
   let v=soonId?"soon":(CPUVIEWS.includes(h)?h:"home");
   if(v!=="simulator")stop();
@@ -1904,175 +1897,113 @@ function boot(data){
   route();
 }
 
-/* ---------- test bench: take one module out of the computer and test it on its own ----------
-   Each module has: its inputs (bus value, switches, control lines), a model of what one clock pulse does,
-   what it drives onto the bus, a test plan,
-   and faults (several are the real mistakes from his first boards). */
+/* ---------- module simulator (top of the Modules page): one module at a time, connected to the data bus ----------
+   Each module has its inputs (control lines, switches, modes), a model of what one clock pulse does,
+   and what it drives onto the bus. The bus strip shows the 8 data wires: you set them by clicking,
+   unless the module itself is driving the bus. */
 const bt=k=>(BT[k]?BT[k][LI]:k);
 const BENCHMODS=["clk","pc","mar","ram","reg","alu","out","ctl"];
 const BTYPE={clk:"clk",pc:"pc",mar:"mar",ram:"ram",reg:"reg",alu:"alu",out:"out",ctl:"ctl"};
-let bm="reg",bvar="a",bfault="",bs=null,bin_={},bresult=null,bnote="",bclkTimer=null,bflick=0;
+const BUSUSE={clk:0,ctl:0,pc:4,mar:4,ram:8,reg:8,alu:8,out:8}; // data wires each module is connected to
+let bm="reg",bvar="a",bs=null,bin_={},bnote="",bclkTimer=null;
 
-/* expected control words, written out from the instruction set (independent of microcode()) */
-const XCW=(()=>{const F=[S.MI|S.PCO,S.RO|S.II|S.PCE],J=[S.IO|S.JMP];
-  const T={0:[],1:[S.IO|S.MI,S.RO|S.AI],2:[S.IO|S.MI,S.AO|S.RI],3:[S.IO|S.MI,S.RO|S.BI],4:[S.IO|S.MI,S.EO|S.AI|S.FI],5:[S.IO|S.MI,S.EO|S.SUB|S.AI|S.FI],
-    6:J,7:"C",8:"Z",14:[S.AO|S.OUT],15:[S.HLT]};
-  return(op,step,c,z)=>{if(step<2)return F[step];let r=T[op]||[];if(r==="C")r=c?J:[];if(r==="Z")r=z?J:[];return r[step-2]||0;};})();
-
-/* ---- the modules ---- each: init(), inputs (what the panel shows), clock(s,i), reset(s,i), out(s,i) -> readouts, vals for the LEDs, plan(api) */
+/* ---- the modules ---- each: inputs the panel shows, clock(s,i), reset(s,i), busOut(s,i), loads(i), vals for the LEDs, read() for the outputs table */
 const BM={
  reg:{
   sigs:()=>bvar==="a"?["AI","AO"]:bvar==="b"?["BI"]:["II","IO"],
-  ins:["bus"],faults:["regFloat","regBit3"],
+  ins:[],
   init:()=>({v:0}),
-  load:(s,i)=>i[bvar==="a"?"AI":bvar==="b"?"BI":"II"],
-  drives:(s,i)=>(bvar==="a"?i.AO:bvar==="ir"?i.IO:0)||s.fault==="regFloat",
-  clock(s,i){if(this.load(s,i)){s.v=i.bus;if(s.fault==="regBit3")s.v&=~8;}},
+  loads:i=>i[bvar==="a"?"AI":bvar==="b"?"BI":"II"],
+  clock(s,i){if(this.loads(i))s.v=i.bus;},
   reset(s){s.v=0;},
-  busOut(s,i){return this.drives(s,i)?(bvar==="ir"?s.v&15:s.v):null;},
+  busOut(s,i){return(bvar==="a"?i.AO:bvar==="ir"?i.IO:0)?(bvar==="ir"?s.v&15:s.v):null;},
   vals:s=>({[bvar]:s.v}),
-  read(s,i){return[[bt("rStored"),s.v,bin8(s.v)],[bt("rBusOut"),...busCell(this.busOut(s,i))]].concat(bvar==="ir"?[[bt("rToCtl"),s.v>>4,bin(s.v>>4,4)]]:[]);},
-  plan(T){const L=bvar==="a"?"AI":bvar==="b"?"BI":"II",O=bvar==="a"?"AO":bvar==="ir"?"IO":null,mask=bvar==="ir"?15:255;
-   T.step("tRegIn",()=>{T.set({bus:0x5A,[L]:1});T.pulse();T.set({[L]:0});T.check("rStored",0x5A,T.s.v);if(!O)T.check("rBusOut",null,T.bus());else T.check("rBusOut",null,T.bus());});
-   if(O)T.step("tRegOut",()=>{T.set({[O]:1});T.check("rBusOut",0x5A&mask,T.bus());T.set({[O]:0});});
-   else T.step("tRegNoOut",()=>{T.check("rBusOut",null,T.bus());});
-   T.step("tReset",()=>{T.reset();T.check("rStored",0,T.s.v);});
-   T.step("tNoop",()=>{T.set({bus:0x33,[L]:1});T.pulse();T.set({[L]:0});for(const v of [0,255,0x0F]){T.set({bus:v});T.pulse();T.check("rStored",0x33,T.s.v);}});
-   T.step("tAll",()=>{for(let v=0;v<256;v++){T.set({bus:v,[L]:1});T.pulse();T.set({[L]:0});if(O){T.set({[O]:1});T.check("rBusOut",v&mask,T.bus(),v);T.set({[O]:0});}else T.check("rStored",v,T.s.v,v);}});}
+  read(s,i){return[[bt("rStored"),s.v,bin8(s.v)]].concat(bvar==="ir"?[[bt("rToCtl"),s.v>>4,bin(s.v>>4,4)]]:[]);}
  },
  pc:{
-  sigs:()=>["PCE","JMP","PCO"],ins:["bus"],faults:["pcSolder","pcNoJmp"],
-  init:()=>({v:0,n:0}),
-  clock(s,i){if(i.JMP&&s.fault!=="pcNoJmp")s.v=i.bus&15;else if(i.PCE){s.n++;if(!(s.fault==="pcSolder"&&s.n%5===3))s.v=(s.v+1)&15;}},
+  sigs:()=>["PCE","JMP","PCO"],ins:[],
+  init:()=>({v:0}),
+  loads:i=>i.JMP,
+  clock(s,i){if(i.JMP)s.v=i.bus&15;else if(i.PCE)s.v=(s.v+1)&15;},
   reset(s){s.v=0;},
-  busOut(s,i){return i.PCO?s.v:null;},
+  busOut:(s,i)=>i.PCO?s.v:null,
   vals:s=>({pc:s.v}),
-  read(s,i){return[[bt("rCount"),s.v,bin(s.v,4)],[bt("rBusOut"),...busCell(this.busOut(s,i))]];},
-  plan(T){
-   T.step("tPcCount",()=>{T.reset();T.set({PCE:1});for(let k=1;k<16;k++){T.pulse();T.check("rCount",k,T.s.v,k);}T.set({PCE:0});});
-   T.step("tPcHold",()=>{T.reset();T.set({PCE:1});T.pulse();T.set({PCE:0});for(let k=0;k<3;k++){T.pulse();T.check("rCount",1,T.s.v);}});
-   T.step("tPcJmp",()=>{for(let v=0;v<16;v++){T.set({bus:v,JMP:1});T.pulse();T.check("rCount",v,T.s.v,v);}T.set({JMP:0});});
-   T.step("tReset",()=>{T.set({bus:9,JMP:1});T.pulse();T.set({JMP:0});T.reset();T.check("rCount",0,T.s.v);});
-   T.step("tPcOut",()=>{T.set({bus:6,JMP:1});T.pulse();T.set({JMP:0});T.check("rBusOut",null,T.bus());T.set({PCO:1});T.check("rBusOut",6,T.bus());T.set({PCO:0});});
-   T.step("tPcWrap",()=>{T.set({bus:15,JMP:1});T.pulse();T.set({JMP:0,PCE:1});T.pulse();T.set({PCE:0});T.check("rCount",0,T.s.v);});}
+  read(s){return[[bt("rCount"),s.v,bin(s.v,4)]];}
  },
  mar:{
-  sigs:()=>["MI"],ins:["bus","prog","sw4"],faults:["marMix","marBit0"],
+  sigs:()=>["MI"],ins:["prog","sw4"],
   init:()=>({v:0}),
-  clock(s,i){if(i.prog||!i.MI)return;let v=i.bus&15;if(s.fault==="marMix")v=(v&12)|(i.sw4&3);if(s.fault==="marBit0")v|=1;s.v=v;},
+  loads:i=>i.MI&&!i.prog,
+  clock(s,i){if(!i.prog&&i.MI)s.v=i.bus&15;},
   reset(s,i){if(!i.prog)s.v=0;},
-  addr(s,i){return i.prog?i.sw4:s.v;},
+  addr:(s,i)=>i.prog?i.sw4:s.v,
   busOut:()=>null,
   vals(s,i){return{mar:this.addr(s,i)};},
-  read(s,i){return[[bt("rStored"),s.v,bin(s.v,4)],[bt("rAddr"),this.addr(s,i),bin(this.addr(s,i),4)]];},
-  plan(T){
-   T.step("tMarIn",()=>{T.set({prog:0,sw4:0});for(const v of [9,6,3]){T.set({bus:v,MI:1});T.pulse();T.check("rAddr",v,T.m.addr(T.s,T.i),v);}T.set({MI:0});});
-   T.step("tMarProg",()=>{T.set({bus:5,MI:1});T.pulse();T.set({prog:1,sw4:12,bus:3});T.pulse();T.check("rAddr",12,T.m.addr(T.s,T.i));T.set({prog:0,MI:0});T.check("rStored",5,T.s.v);});
-   T.step("tReset",()=>{T.reset();T.check("rStored",0,T.s.v);});
-   T.step("tMarAll",()=>{T.set({prog:0,sw4:0,MI:1});for(let v=0;v<16;v++){T.set({bus:v});T.pulse();T.check("rAddr",v,T.m.addr(T.s,T.i),v);}T.set({MI:0});});}
+  read(s,i){return[[bt("rStored"),s.v,bin(s.v,4)],[bt("rAddr"),this.addr(s,i),bin(this.addr(s,i),4)]];}
  },
  ram:{
-  sigs:()=>["RI","RO"],ins:["bus","prog","sw4","sw8"],faults:["ramBtn","ram7"],acts:["write"],
-  init:()=>({m:new Array(16).fill(0),pressed:false}),
-  st:(s,v)=>s.fault==="ram7"?v&127:v,
-  clock(s,i){if(!i.prog&&i.RI)s.m[i.sw4]=this.st(s,i.bus);},
-  write(s,i){if(!i.prog)return;if(s.fault==="ramBtn"&&s.pressed)return;s.pressed=true;s.m[i.sw4]=this.st(s,i.sw8);},
+  sigs:()=>["RI","RO"],ins:["prog","sw4","sw8"],acts:["write"],
+  init:()=>({m:new Array(16).fill(0)}),
+  loads:i=>i.RI&&!i.prog,
+  clock(s,i){if(!i.prog&&i.RI)s.m[i.sw4]=i.bus;},
+  write(s,i){if(i.prog)s.m[i.sw4]=i.sw8;},
   reset(){},
-  busOut(s,i){return i.RO?s.m[i.sw4]:null;},
+  busOut:(s,i)=>i.RO?s.m[i.sw4]:null,
   vals:(s,i)=>({ramv:s.m[i.sw4]}),
-  read(s,i){return[[bt("rAddrIn"),i.sw4,bin(i.sw4,4)],[bt("rByte"),s.m[i.sw4],bin8(s.m[i.sw4])],[bt("rBusOut"),...busCell(this.busOut(s,i))]];},
-  plan(T){
-   T.step("tRamWrite",()=>{T.set({prog:0,RI:1});for(let a=0;a<16;a++){T.set({sw4:a,bus:(a*17+3)&255});T.pulse();}T.set({RI:0});T.check("rByte",3,T.s.m[0]);});
-   T.step("tRamRead",()=>{T.set({RO:1});for(let a=0;a<16;a++){T.set({sw4:a});T.check("rBusOut",(a*17+3)&255,T.bus(),a);}T.set({RO:0});});
-   T.step("tNoop",()=>{T.set({sw4:4,bus:0});for(let k=0;k<3;k++)T.pulse();T.check("rByte",(4*17+3)&255,T.s.m[4]);});
-   T.step("tAll",()=>{T.set({sw4:5});for(let v=0;v<256;v++){T.set({bus:v,RI:1});T.pulse();T.set({RI:0,RO:1});T.check("rBusOut",v,T.bus(),v);T.set({RO:0});}});
-   T.step("tRamProgLock",()=>{T.set({sw4:2,bus:0,RI:1});T.pulse();T.set({prog:1,bus:99});T.pulse();T.set({RI:0,prog:0});T.check("rByte",0,T.s.m[2]);});
-   T.step("tRamBtn",()=>{T.set({prog:1,sw4:7});for(const v of [11,22,33]){T.set({sw8:v});T.act("write");T.check("rByte",v,T.s.m[7],v);}T.set({prog:0});});}
+  read(s,i){return[[bt("rAddrIn"),i.sw4,bin(i.sw4,4)],[bt("rByte"),s.m[i.sw4],bin8(s.m[i.sw4])]];}
  },
  alu:{
-  sigs:()=>["SUB","EO","FI"],ins:["ra","rb"],faults:["aluCarry","aluFlags"],
+  sigs:()=>["SUB","EO","FI"],ins:["ra","rb"],
   init:()=>({cf:0,zf:0}),
-  calc(s,i){const a=i.ra,b=i.SUB?(~i.rb&255):i.rb,c0=i.SUB?1:0;
-    if(s.fault==="aluCarry"){const lo=(a&15)+(b&15)+c0,hi=(a>>4)+(b>>4);const r=((hi&15)<<4)|(lo&15);return{r,c:hi>>4,z:r?0:1};}
-    const t=a+b+c0;return{r:t&255,c:t>255?1:0,z:(t&255)?0:1};},
-  clock(s,i){if(i.FI||s.fault==="aluFlags"){const k=this.calc(s,i);s.cf=k.c;s.zf=k.z;}},
+  loads:()=>0,
+  calc(i){const b=i.SUB?(~i.rb&255):i.rb,t=i.ra+b+(i.SUB?1:0);return{r:t&255,c:t>255?1:0,z:(t&255)?0:1};},
+  clock(s,i){if(i.FI){const k=this.calc(i);s.cf=k.c;s.zf=k.z;}},
   reset(s){s.cf=0;s.zf=0;},
-  busOut(s,i){return i.EO?this.calc(s,i).r:null;},
-  vals(s,i){return{alu:this.calc(s,i).r,cf:s.cf,zf:s.zf};},
-  read(s,i){const k=this.calc(s,i);return[[bt("rResult"),k.r,i.ra+(i.SUB?" − ":" + ")+i.rb],[bt("rCarryNow"),k.c,""],[bt("rZeroNow"),k.z,""],[bt("rFlags"),"C="+s.cf+" Z="+s.zf,""],[bt("rBusOut"),...busCell(this.busOut(s,i))]];},
-  plan(T){
-   T.step("tAluA",()=>{T.set({rb:0,SUB:0,EO:1});for(let k=0;k<8;k++){T.set({ra:1<<k});T.check("rBusOut",1<<k,T.bus(),1<<k);}});
-   T.step("tAluB",()=>{T.set({ra:0});for(let k=0;k<8;k++){T.set({rb:1<<k});T.check("rBusOut",1<<k,T.bus(),1<<k);}});
-   T.step("tAluNeg",()=>{T.set({ra:0,SUB:1});for(let k=0;k<8;k++){T.set({rb:1<<k});T.check("rBusOut",(256-(1<<k))&255,T.bus(),1<<k);}T.set({SUB:0});});
-   T.step("tAluFloat",()=>{T.set({ra:7,rb:8,EO:0});T.check("rBusOut",null,T.bus());T.set({EO:1});});
-   T.step("tAluAdd",()=>{T.set({SUB:0,FI:1});for(let a=0;a<256;a++)for(let b=0;b<256;b++){T.set({ra:a,rb:b});T.pulse();const r=(a+b)&255;T.check("rResult",r,T.bus(),a+"+"+b);T.check("rFlags","C="+(a+b>255?1:0)+" Z="+(r?0:1),"C="+T.s.cf+" Z="+T.s.zf,a+"+"+b);}});
-   T.step("tAluSub",()=>{T.set({SUB:1});for(let a=0;a<256;a++)for(let b=0;b<256;b++){T.set({ra:a,rb:b});T.pulse();const r=(a-b)&255;T.check("rResult",r,T.bus(),a+"−"+b);T.check("rFlags","C="+(a>=b?1:0)+" Z="+(r?0:1),"C="+T.s.cf+" Z="+T.s.zf,a+"−"+b);}T.set({SUB:0,FI:0});});
-   T.step("tAluFlagsFi",()=>{T.set({ra:0,rb:0,FI:1});T.pulse();T.set({FI:0,ra:200,rb:100});T.pulse();T.check("rFlags","C=0 Z=1","C="+T.s.cf+" Z="+T.s.zf);});
-   T.step("tReset",()=>{T.set({ra:0,rb:0,FI:1});T.pulse();T.set({FI:0});T.reset();T.check("rFlags","C=0 Z=0","C="+T.s.cf+" Z="+T.s.zf);});}
+  busOut(s,i){return i.EO?this.calc(i).r:null;},
+  vals(s,i){return{alu:this.calc(i).r,cf:s.cf,zf:s.zf};},
+  read(s,i){const k=this.calc(i);return[[bt("rResult"),k.r,i.ra+(i.SUB?" − ":" + ")+i.rb],[bt("rCarryNow"),k.c,""],[bt("rZeroNow"),k.z,""],[bt("rFlags"),"C="+s.cf+" Z="+s.zf,""]];}
  },
  out:{
-  sigs:()=>["OUT"],ins:["bus","signed"],faults:["outFloat","outEnable"],
-  init:()=>({v:0,ph:0}),
+  sigs:()=>["OUT"],ins:["signed"],
+  init:()=>({v:0}),
+  loads:i=>i.OUT,
   clock(s,i){if(i.OUT)s.v=i.bus;},
   reset(s){s.v=0;},
-  shown(s,i){if(s.fault==="outEnable")return"";let sg=i.signed;if(s.fault==="outFloat")sg=(s.ph++%2)===1;return String(sg&&s.v>127?s.v-256:s.v);},
+  shown:(s,i)=>String(i.signed&&s.v>127?s.v-256:s.v),
   busOut:()=>null,
   vals:()=>({}),
-  read(s,i){const d=this.shown(s,i);return[[bt("rStored"),s.v,bin8(s.v)],[bt("rDisplay"),d===""?"—":d,""]];},
-  plan(T){const sh=()=>T.m.shown(T.s,T.i);
-   T.step("tOutAll",()=>{T.set({signed:0,OUT:1});for(let v=0;v<256;v++){T.set({bus:v});T.pulse();T.check("rDisplay",String(v),sh(),v);}T.set({OUT:0});});
-   T.step("tOutEnable",()=>{for(let v=0;v<20;v++){T.set({bus:v,OUT:v%2===0?1:0});T.pulse();T.check("rDisplay",String(v-(v%2)),sh(),v);}T.set({OUT:0});});
-   T.step("tReset",()=>{T.reset();T.check("rDisplay","0",sh());});
-   T.step("tOutSigned",()=>{T.set({signed:1,OUT:1});for(let v=0;v<256;v++){T.set({bus:v});T.pulse();T.check("rDisplay",String(v>127?v-256:v),sh(),v);}T.set({OUT:0,signed:0});});}
+  read(s,i){return[[bt("rStored"),s.v,bin8(s.v)],[bt("rDisplay"),this.shown(s,i),""]];}
  },
  ctl:{
-  sigs:()=>[],ins:["op","flags"],faults:["ctlAi","ctlReset"],acts:[],
+  sigs:()=>[],ins:["op","flags"],
   init:()=>({step:0}),
-  clock(s){if(s.fault==="ctlReset")return;s.step=(s.step+1)%6;},
+  loads:()=>0,
+  clock(s){s.step=(s.step+1)%6;},
   reset(s){s.step=0;},
-  cw(s,i){let w=microcode(i.op,s.step,i.C,i.Z);if(s.fault==="ctlAi")w&=~S.AI;return w;},
+  cw:(s,i)=>microcode(i.op,s.step,i.C,i.Z),
   busOut:()=>null,
   vals(s,i){return{cw:this.cw(s,i),T:1<<s.step};},
-  read(s,i){const w=this.cw(s,i);return[[bt("rStep"),"T"+s.step,""],[bt("rOpcode"),OPS[i.op]||t("unused"),bin(i.op,4)],[bt("rEeprom"),(i.op<<5|s.step<<2|i.C<<1|i.Z),bin(i.op<<5|s.step<<2|i.C<<1|i.Z,9)],[bt("rLines"),cwNames(w)||"·",""]];},
-  plan(T){
-   T.step("tCtlAll",()=>{for(let op=0;op<16;op++)for(let f=0;f<4;f++){T.set({op,C:f>>1,Z:f&1});T.reset();for(let k=0;k<6;k++){const w=T.m.cw(T.s,T.i),x=XCW(op,k,f>>1,f&1);
-      T.check("rLines",cwNames(x)||"·",cwNames(w)||"·",(OPS[op]||op)+" T"+k+" C="+(f>>1)+" Z="+(f&1));T.pulse();}}});
-   T.step("tCtlWrap",()=>{T.reset();for(let k=0;k<6;k++)T.pulse();T.check("rStep","T0","T"+T.s.step);});
-   T.step("tReset",()=>{T.reset();T.pulse();T.pulse();T.reset();T.check("rStep","T0","T"+T.s.step);});}
+  read(s,i){const w=this.cw(s,i);return[[bt("rStep"),"T"+s.step,""],[bt("rOpcode"),OPS[i.op]||t("unused"),bin(i.op,4)],[bt("rEeprom"),(i.op<<5|s.step<<2|i.C<<1|i.Z),bin(i.op<<5|s.step<<2|i.C<<1|i.Z,9)],[bt("rLines"),cwNames(w)||"·",""]];}
  },
  clk:{
-  sigs:()=>["HLT"],ins:["auto","speed"],faults:["clkBtn","clkPullup"],acts:["press"],
+  sigs:()=>["HLT"],ins:["auto","speed"],
   init:()=>({lvl:0,edges:0,wave:[]}),
-  canPulse:(s,i)=>!i.HLT&&s.fault!=="clkPullup"&&s.fault!=="clkBtn",
-  press(s,i){if(i.auto)return 0;if(s.fault==="clkBtn"){s.lvl=1;return 0;}if(!this.canPulse(s,i))return 0;s.edges++;return 1;},
-  run(s,i,sec){if(!i.auto||i.HLT)return 0;const n=Math.round(sec*i.speed);s.edges+=n;return n;},
-  clock(s,i){this.press(s,i);},reset(){},
+  loads:()=>0,
+  press(s,i){if(i.auto||i.HLT)return 0;s.edges++;return 1;},
+  clock(){},reset(){},
   busOut:()=>null,
   vals:(s,i)=>({ast:i.auto?1:0,man:i.auto?0:1,clk:s.lvl}),
-  read(s,i){return[[bt("rMode"),i.auto?bt("auto"):t("manual"),""],[bt("rClk"),s.fault==="clkBtn"&&!i.auto?1:s.lvl,""],[bt("rEdges"),s.edges,""]];},
-  plan(T){
-   T.step("tClkPress",()=>{T.set({auto:0,HLT:0});let n=0;for(let k=0;k<3;k++)n+=T.m.press(T.s,T.i);T.check("rEdges",3,n);});
-   T.step("tClkHalt",()=>{T.set({HLT:1});let n=T.m.press(T.s,T.i)+T.m.press(T.s,T.i);T.set({auto:1,speed:5});n+=T.m.run(T.s,T.i,1);T.check("rEdges",0,n);T.set({HLT:0,auto:0});});
-   T.step("tClkAuto",()=>{T.set({auto:1,speed:5});T.check("rEdges",10,T.m.run(T.s,T.i,2));T.set({auto:0});});}
+  read(s,i){return[[bt("rMode"),i.auto?bt("auto"):t("manual"),""],[bt("rClk"),s.lvl,""],[bt("rEdges"),s.edges,""]];}
  }
 };
-const busCell=v=>v==null?[bt("floating"),""]:[v,bin8(v)];
 function benchInputs(){const i={bus:0,prog:0,sw4:0,sw8:0,ra:0,rb:0,op:0,C:0,Z:0,signed:0,auto:0,speed:2,HLT:0};for(const k of SIGS)i[k]=0;return i;}
-function benchNew(){bs=BM[bm].init();bs.fault=bfault;bin_=benchInputs();bresult=null;bnote="";benchClkStop();}
-
-/* run a module's test plan on a fresh copy, with the selected fault */
-function benchTest(){
-  const m=BM[bm],s=m.init();s.fault=bfault;const i=benchInputs(),steps=[];let cur=null;
-  const T={s,i,m,
-    set(o){Object.assign(i,o);},pulse(){m.clock(s,i);},reset(){m.reset(s,i);},act(a){m[a](s,i);},bus(){return m.busOut(s,i);},
-    step(k,f){cur={k,n:0,fail:null};steps.push(cur);f();},
-    check(what,exp,act,at){cur.n++;if(!cur.fail&&String(exp)!==String(act))cur.fail={what,exp,act,at};}};
-  m.plan(T);return steps;
-}
+function benchNew(){bs=BM[bm].init();bin_=benchInputs();bnote="";benchClkStop();}
+/* what is on the bus now: the module's value when it drives the bus, else the value you set */
+function busNow(){const o=BM[bm].busOut(bs,bin_);if(o!=null)return{v:o,by:"mod"};return BUSUSE[bm]?{v:bin_.bus,by:"you"}:{v:null,by:"none"};}
 function benchClkStop(){if(bclkTimer){clearInterval(bclkTimer);bclkTimer=null;}}
-function benchClkSync(){benchClkStop();if(bm!=="clk"||!bin_.auto||bin_.HLT||!$("view-bench").classList.contains("active"))return;
+function benchClkSync(){benchClkStop();if(bm!=="clk"||!bin_.auto||bin_.HLT||!$("view-modules").classList.contains("active"))return;
   bclkTimer=setInterval(()=>{bs.lvl^=1;if(bs.lvl)bs.edges++;benchWave();renderBenchLive();},500/bin_.speed);}
-function benchWave(){bs.wave.push(bs.fault==="clkBtn"&&!bin_.auto?1:bs.lvl);if(bs.wave.length>48)bs.wave.shift();}
+function benchWave(){bs.wave.push(bs.lvl);if(bs.wave.length>48)bs.wave.shift();}
 
 /* ---- drawing ---- */
 function renderBench(){
@@ -2080,24 +2011,21 @@ function renderBench(){
   const m=BM[bm],inst=bm==="reg"?bvar:bm,B=PCB[BTYPE[bm]];
   const chips=BENCHMODS.map(k=>'<button type="button" role="tab" data-bm="'+k+'" aria-selected="'+(k===bm)+'">'+t(CARDKEY[k==="reg"?"a":k]).replace(/ A$/,"")+"</button>").join("");
   const variant=bm==="reg"?'<div class="bvar" role="group">'+["a","b","ir"].map(v=>'<button type="button" data-bv="'+v+'" aria-pressed="'+(v===bvar)+'">'+t(CARDKEY[v])+"</button>").join("")+"</div>":"";
-  const faults='<option value="">'+bt("noFault")+"</option>"+m.faults.map(f=>'<option value="'+f+'"'+(f===bfault?" selected":"")+">"+bt("f_"+f)+"</option>").join("");
   $("benchBody").innerHTML=
-   '<div class="bhead"><h2>'+bt("title")+'</h2><p class="lead">'+bt("lead")+'</p></div>'+
    '<div class="bmods" role="tablist">'+chips+"</div>"+
    '<div class="bench">'+
      '<div class="bcard bboard">'+variant+'<div class="bsvg" dir="ltr"><svg id="bpcb" viewBox="-3 -3 '+(B.w+6)+" "+(B.h+6)+'" xmlns="http://www.w3.org/2000/svg">'+drawBoard(BTYPE[bm],inst,true,"bn-")+"</svg></div>"+
+       '<div class="busflow" id="bFlow"></div>'+
+       '<div class="busstrip" id="bBus"></div>'+
        (bm==="clk"?'<div class="wave" id="bwave" dir="ltr"></div>':"")+
        '<p class="bdesc">'+(MODT[BTYPE[bm]]?MODT[BTYPE[bm]][LI][2]:"")+"</p></div>"+
-     '<div class="bcard bio"><h3>'+bt("inputs")+(bfault?' <span class="fbadge">'+bt("faultOn")+"</span>":"")+'</h3><div id="bInputs"></div>'+
+     '<div class="bcard bio"><h3>'+bt("inputs")+'</h3><div id="bInputs"></div>'+
        '<div class="bbtns">'+(bm==="clk"?'<button class="tbtn primary" data-bact="press">'+bt("press")+"</button>":'<button class="tbtn primary" data-bact="pulse"><span>'+t("pulse")+"</span></button>"+(bm!=="ram"?'<button class="tbtn" data-bact="reset">'+t("reset")+"</button>":""))+
          ((m.acts||[]).includes("write")?'<button class="tbtn" data-bact="write">'+bt("writeBtn")+"</button>":"")+"</div>"+
        '<p class="bnote" id="bNote" role="status"></p>'+
        '<h3>'+bt("outputs")+'</h3><table class="mono bread"><tbody id="bRead"></tbody></table>'+(bm==="ram"?'<div class="bmem" id="bMem" dir="ltr"></div>':"")+"</div>"+
-   "</div>"+
-   '<div class="bcard btest"><h3>'+bt("autoT")+'</h3><p class="sub">'+bt("autoL")+'</p>'+
-     '<div class="rowf"><label class="sub" for="bFaultSel" style="margin:0">'+bt("insFault")+'</label><select id="bFaultSel">'+faults+'</select><button class="btn primary" type="button" data-bact="test">'+bt("runT")+"</button></div>"+
-     '<div id="bRes"></div></div>';
-  renderBenchInputs();renderBenchLive();renderBenchResult();benchClkSync();
+   "</div>";
+  renderBenchInputs();renderBenchLive();benchClkSync();
 }
 function bitRow(key,n,v,lbl){let h='<div class="bitrow"><span class="blbl">'+lbl+'</span><div class="bits" dir="ltr">';
   for(let k=n-1;k>=0;k--){h+='<button type="button" class="bit'+((v>>k)&1?" on":"")+'" data-bk="'+key+'" data-bb="'+k+'" aria-label="'+esc(lbl)+" bit "+k+'">'+((v>>k)&1)+"</button>";if(k===4&&n===8)h+='<span class="gap"></span>';}
@@ -2105,7 +2033,6 @@ function bitRow(key,n,v,lbl){let h='<div class="bitrow"><span class="blbl">'+lbl
 function togg(key,lbl,sub){return'<button type="button" class="btog'+(bin_[key]?" on":"")+'" data-bt="'+key+'" aria-pressed="'+!!bin_[key]+'"><b class="ltr">'+lbl+"</b>"+(sub?"<span>"+sub+"</span>":"")+"</button>";}
 function renderBenchInputs(){
   const m=BM[bm],I=m.ins,h=[];
-  if(I.includes("bus"))h.push(bitRow("bus",8,bin_.bus,bt("busIn")));
   if(I.includes("ra"))h.push(bitRow("ra",8,bin_.ra,t("rA")));
   if(I.includes("rb"))h.push(bitRow("rb",8,bin_.rb,t("rB")));
   if(I.includes("sw4"))h.push(bitRow("sw4",4,bin_.sw4,bm==="ram"?bt("addrIn"):bt("addrSw")));
@@ -2120,6 +2047,17 @@ function renderBenchInputs(){
   if(I.includes("speed"))h.push('<div class="speed"><label for="bSpeed">'+t("speed")+'</label><input type="range" id="bSpeed" min="1" max="10" value="'+bin_.speed+'"><span class="ltr">'+bin_.speed+" Hz</span></div>");
   $("bInputs").innerHTML=h.join("");
 }
+function renderBus(){
+  const b=busNow(),use=BUSUSE[bm],m=BM[bm];
+  const name=t(CARDKEY[bm==="reg"?bvar:bm]);
+  if(b.by==="none"){$("bBus").innerHTML='<p class="busnone">'+bt("busNone")+"</p>";$("bFlow").innerHTML="";return;}
+  let w="";for(let k=7;k>=0;k--){const on=(b.v>>k)&1,unused=k>=use;
+    w+='<button type="button" class="wire'+(on?" on":"")+(unused?" unused":"")+'" data-wire="'+k+'"'+(b.by==="mod"?" disabled":"")+' aria-label="'+esc(bt("wire"))+" B"+k+'" aria-pressed="'+!!on+'"><i></i><span>B'+k+"</span></button>";}
+  $("bBus").innerHTML='<div class="bushead"><b>'+bt("busTitle")+'</b><span class="busval ltr">'+b.v+" · "+bin8(b.v)+'</span><span class="busby'+(b.by==="mod"?" mod":"")+'">'+(b.by==="mod"?bt("busByMod").replace("{0}",name):bt("busByYou"))+"</span></div>"+
+    '<div class="buswires" dir="ltr">'+w+"</div>"+(use<8?'<p class="bususe">'+bt("busUse4")+"</p>":"");
+  const drives=b.by==="mod",loads=!!m.loads(bin_);
+  $("bFlow").innerHTML=drives?'<span class="flow out">↓ '+bt("flowOut").replace("{0}",name).replace("{1}",b.v)+"</span>":loads?'<span class="flow in">↑ '+bt("flowIn").replace("{0}",name).replace("{1}",use<8?b.v&15:b.v)+"</span>":'<span class="flow idle">'+bt("flowIdle")+"</span>";
+}
 function renderBenchLive(){
   const m=BM[bm],inst=bm==="reg"?bvar:bm,v=m.vals(bs,bin_);
   document.querySelectorAll("#bpcb .led[id]").forEach(el=>{const ref=el.id.split("-").pop(),d=ledDef(inst,ref);if(!d)return;const val=v[d[0]];
@@ -2130,45 +2068,38 @@ function renderBenchLive(){
   mv("bn-sw-prog",!!bin_.prog);mv("bn-sw-mode",!!bin_.auto);
   const dip=(id,on)=>{const e=$(id);if(!e)return;const x=on?+e.dataset.sx:+e.dataset.ex,y=on?+e.dataset.sy:+e.dataset.ey;e.setAttribute("x",x-.75);e.setAttribute("y",y-.75);};
   for(let k=0;k<4;k++)dip("bn-da-"+k,(bin_.sw4>>k)&1);for(let k=0;k<8;k++)dip("bn-dd-"+k,(bin_.sw8>>k)&1);
-  const o=$("bn-O-"+inst);if(o){const out=m.busOut(bs,bin_);o.classList.toggle("drive",out!=null);}
+  const o=$("bn-O-"+inst);if(o){o.classList.toggle("drive",m.busOut(bs,bin_)!=null);o.classList.toggle("latch",m.busOut(bs,bin_)==null&&!!m.loads(bin_));}
+  renderBus();
   $("bRead").innerHTML=m.read(bs,bin_).map(r=>"<tr><td>"+r[0]+"</td><td><b>"+r[1]+"</b></td><td>"+r[2]+"</td></tr>").join("");
   if(bm==="ram")$("bMem").innerHTML=bs.m.map((b,a)=>'<span class="'+(a===bin_.sw4?"cur":"")+'"><i>'+a+"</i>"+b+"</span>").join("");
   if(bm==="clk"){const w=bs.wave,n=48;let d="";w.forEach((l,k)=>{const x=(n-w.length+k)*4,y=l?4:20;d+=(k?"L":"M")+x+" "+y+"H"+(x+4);});
     $("bwave").innerHTML='<svg viewBox="0 0 192 24" preserveAspectRatio="none"><path d="'+d+'"/></svg>';}
   $("bNote").textContent=bnote;
 }
-function renderBenchResult(){
-  if(!bresult){$("bRes").innerHTML="";return;}
-  const ok=bresult.every(r=>!r.fail),tot=bresult.reduce((n,r)=>n+r.n,0);
-  $("bRes").innerHTML='<div class="result '+(ok?"ok":"err")+'">'+(ok?bt("allPass").replace("{0}",tot):bt("someFail"))+"</div>"+
-   '<div class="tablewrap"><table class="bres"><thead><tr><th>'+bt("plan")+"</th><th>"+bt("checks")+"</th><th>"+bt("verdict")+"</th></tr></thead><tbody>"+
-   bresult.map((r,k)=>"<tr><td>"+(k+1)+". "+bt(r.k)+'</td><td class="m">'+r.n+"</td><td>"+(r.fail?'<b class="bad">'+bt("fail")+"</b><br><span class=\"sub\">"+(r.fail.at!=null?'<span class="ltr">'+esc(r.fail.at)+"</span> · ":"")+bt(r.fail.what)+": "+bt("expected")+' <b class="ltr">'+esc(r.fail.exp==null?bt("floating"):r.fail.exp)+"</b>, "+bt("got")+' <b class="ltr">'+esc(r.fail.act==null?bt("floating"):r.fail.act)+"</b></span>":'<b class="good">'+bt("pass")+"</b>")+"</td></tr>").join("")+"</tbody></table></div>";
-}
+function benchPick(k){bm=k;benchNew();renderBench();$("benchBody").scrollIntoView({behavior:"smooth",block:"start"});}
 
 $("benchBody").addEventListener("click",e=>{
-  const c=e.target.closest("[data-bm],[data-bv],[data-bk],[data-bt],[data-bact],#bpcb [data-act]");if(!c)return;const m=BM[bm];
-  if(c.dataset.bm){bm=c.dataset.bm;bfault="";benchNew();renderBench();return;}
-  if(c.dataset.bv){bvar=c.dataset.bv;bfault="";benchNew();renderBench();return;}
+  const c=e.target.closest("[data-bm],[data-bv],[data-bk],[data-bt],[data-wire],[data-bact],#bpcb [data-act]");if(!c)return;const m=BM[bm];
+  if(c.dataset.bm){bm=c.dataset.bm;benchNew();renderBench();return;}
+  if(c.dataset.bv){bvar=c.dataset.bv;benchNew();renderBench();return;}
+  if(c.dataset.wire){if(busNow().by!=="you")return;bin_.bus^=1<<+c.dataset.wire;bnote="";renderBenchLive();return;}
   if(c.dataset.bk){bin_[c.dataset.bk]^=1<<+c.dataset.bb;bnote="";renderBenchInputs();renderBenchLive();return;}
   if(c.dataset.bt){bin_[c.dataset.bt]=bin_[c.dataset.bt]?0:1;bnote="";renderBenchInputs();renderBenchLive();benchClkSync();return;}
   const a=c.dataset.bact||c.dataset.act;
-  if(a==="test"){bresult=benchTest();renderBenchResult();track("bench-test-"+bm+(bfault?"-fault":""),1);return;}
-  const before=JSON.stringify(bs);
   if(bm==="clk"&&(a==="pulse"||a==="press")){const n=m.press(bs,bin_);if(n){bs.lvl=1;benchWave();renderBenchLive();setTimeout(()=>{bs.lvl=0;benchWave();renderBenchLive();},220);}else benchWave();bnote=n?bt("didPress"):bt("noPress");renderBenchLive();return;}
   if(a==="write"&&!m.write)return;
-  if(a==="pulse"){m.clock(bs,bin_);bnote=bt("didPulse");}
-  else if(a==="reset"){if(m.reset)m.reset(bs,bin_);bnote=bt("didReset");}
+  const before=JSON.stringify(bs);
+  if(a==="pulse"){const b=busNow();m.clock(bs,Object.assign({},bin_,{bus:b.v==null?0:b.v}));bnote=bt("didPulse");}
+  else if(a==="reset"){m.reset(bs,bin_);bnote=bt("didReset");}
   else if(a==="write"){m.write(bs,bin_);bnote=bin_.prog?bt("didWrite"):bt("needProg");}
-  else if(a==="prog"){bin_.prog^=1;renderBenchInputs();}
-  else if(a==="mode"){bin_.auto^=1;renderBenchInputs();benchClkSync();}
-  else if(a==="da"){bin_.sw4^=1<<+c.dataset.bit;renderBenchInputs();}
-  else if(a==="dd"){bin_.sw8^=1<<+c.dataset.bit;renderBenchInputs();}
+  else if(a==="prog"){bin_.prog^=1;renderBenchInputs();bnote="";}
+  else if(a==="mode"){bin_.auto^=1;renderBenchInputs();benchClkSync();bnote="";}
+  else if(a==="da"){bin_.sw4^=1<<+c.dataset.bit;renderBenchInputs();bnote="";}
+  else if(a==="dd"){bin_.sw8^=1<<+c.dataset.bit;renderBenchInputs();bnote="";}
   else return;
-  if(a!=="pulse"&&a!=="reset"&&a!=="write")bnote="";
-  else if(before===JSON.stringify(bs))bnote+=" "+bt("noChange");
+  if((a==="pulse"||a==="reset"||a==="write")&&before===JSON.stringify(bs))bnote+=" "+bt("noChange");
   renderBenchLive();
 });
-$("benchBody").addEventListener("change",e=>{if(e.target.id==="bFaultSel"){bfault=e.target.value;benchNew();renderBench();}});
 $("benchBody").addEventListener("input",e=>{if(e.target.id==="bSpeed"){bin_.speed=+e.target.value;e.target.nextElementSibling.textContent=bin_.speed+" Hz";benchClkSync();}});
 
 /* start the page: runs last, after app.js and bench.js */

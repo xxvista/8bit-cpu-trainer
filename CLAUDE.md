@@ -16,7 +16,7 @@ After any change to prices or to text the catalogue uses, run `node dev/brochure
 
 - The kit is designed and its circuit boards printed (5 sets), but no kit is assembled yet (2026-11-16): never say it is built, tested or running.
 - Script order in the built page: `pcbdata.js`, `bom.json`, `strings.js`, `app.js`, `bench.js`, `start.js` (see `dev/build.py`). Code that must exist before the page starts goes before `start.js`.
-- Test bench (`dev/bench.js`): a fault must make at least one step of that module's automatic test fail, and a good board must pass every step. Check both after changing a module model.
+- Module simulator (`dev/bench.js`, top of the Modules page): one module at a time with the data bus; you set the bus wires unless the module drives the bus. No automatic tests or faults there (removed by the owner, 2026-11-16).
 - Kits: 8-Bit CPU Trainer (available), Logic Gates Kit and Arduino Model Kit (placeholders, "coming soon"). The kit list is `KITS` in `dev/app.js`.
 - Prices: `SHOP.prices` in `dev/app.js` (assembled 49,000 DA, solder kit 39,000 DA). Keep the Prices tab of the order tracker Google Sheet in step when they change.
 - No real photos on the website or in the catalogue until the first kit is assembled: use the board drawings (`boardFig` in `dev/app.js`, made from the KiCad files) or `img/kit-illustration.png`, captioned as an illustration.
