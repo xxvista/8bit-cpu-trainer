@@ -233,7 +233,7 @@ function sevenSeg(x,y,w,h,id){
   const segs=[hz(L,R,T),vt(R,T,M),vt(R,M,B),hz(L,R,B),vt(L,M,B),vt(L,T,M),hz(L,R,M)];
   return segs.map((p,i)=>'<polygon class="seg" id="'+id+"-"+i+'" points="'+p+'"/>').join("");
 }
-function drawBoard(type,inst,live){
+function drawBoard(type,inst,live,pfx=""){ // pfx: id prefix for a second live copy (the test bench)
   const B=PCB[type];let s="";
   const tipA=h=>' data-tip="'+esc(h)+'"';
   s+='<rect class="mask" data-card="'+inst+'" x="0" y="0" width="'+B.w+'" height="'+B.h+'" rx="1.6"/>';
@@ -256,28 +256,28 @@ function drawBoard(type,inst,live){
     else if(p.k==="res"){const[x1,y1,x2,y2]=p.p,dx=x2-x1,dy=y2-y1;s+="<g"+tipA("<b>"+p.r+"</b> "+TIPS.res[LI]+" "+p.v+" Ω")+'><line class="lead" x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'"/><line class="resb" x1="'+(x1+dx*.26)+'" y1="'+(y1+dy*.26)+'" x2="'+(x1+dx*.74)+'" y2="'+(y1+dy*.74)+'"/>'+pads(.5)+"</g>";}
     else if(p.k==="cap"){const d=Math.hypot(bb.w,bb.h);s+="<g"+tipA("<b>"+p.r+"</b> "+TIPS.cap[LI]+" "+p.v)+">"+(d<2.2?'<circle class="capp" cx="'+bb.cx+'" cy="'+bb.cy+'" r="2.3"/>':'<ellipse class="capb" cx="'+bb.cx+'" cy="'+bb.cy+'" rx="'+(bb.w/2+(bb.w>bb.h?1:.2)+.9)+'" ry="'+(bb.h/2+(bb.h>bb.w?1:.2)+.9)+'"/>')+"</g>";}
     else if(p.k==="xtal")s+="<g"+tip+'><rect class="metal" x="'+(bb.x0-2.2)+'" y="'+(bb.y0-1.8)+'" width="'+(bb.w+4.4)+'" height="'+(bb.h+3.6)+'" rx="1.8"/></g>';
-    else if(p.k==="pot")s+='<g class="'+(live?"act":"")+'" data-act="pot"'+tipA(TIPS.pot[LI])+'><circle class="potb hl" cx="'+bb.cx+'" cy="'+bb.cy+'" r="4.6"/><line '+(live?'id="potline" ':"")+'x1="'+bb.cx+'" y1="'+bb.cy+'" x2="'+bb.cx+'" y2="'+(bb.cy-4)+'" stroke="#fff" stroke-width=".9" stroke-linecap="round"/></g>';
+    else if(p.k==="pot")s+='<g class="'+(live?"act":"")+'" data-act="pot"'+tipA(TIPS.pot[LI])+'><circle class="potb hl" cx="'+bb.cx+'" cy="'+bb.cy+'" r="4.6"/><line '+(live?'id="'+pfx+'potline" ':"")+'x1="'+bb.cx+'" y1="'+bb.cy+'" x2="'+bb.cx+'" y2="'+(bb.cy-4)+'" stroke="#fff" stroke-width=".9" stroke-linecap="round"/></g>';
     else if(p.k==="btn"){const act=inst==="clk"?"pulse":inst==="ctl"?"reset":"write";
       s+='<g class="'+(live?"act":"")+'" data-act="'+act+'"'+tipA(TIPS[act][LI])+'><rect class="btnb hl" x="'+(bb.cx-3.3)+'" y="'+(bb.cy-3.3)+'" width="6.6" height="6.6" rx=".8"/><circle class="btnc" cx="'+bb.cx+'" cy="'+bb.cy+'" r="1.9"/></g>';}
     else if(p.k==="slide"){const act=inst==="clk"?"mode":"prog";const horiz=bb.w>=bb.h;
-      s+='<g class="'+(live?"act":"")+'" data-act="'+act+'"'+tipA(TIPS[act][LI])+'><rect class="swb hl" x="'+(bb.x0-(horiz?2:2.2))+'" y="'+(bb.y0-(horiz?2.2:2))+'" width="'+(bb.w+(horiz?4:4.4))+'" height="'+(bb.h+(horiz?4.4:4))+'" rx=".5"/><rect class="swk" id="sw-'+act+(live?"":"-x")+'" data-h="'+(horiz?1:0)+'" data-a="'+(horiz?bb.x0:bb.y0)+'" data-b="'+(horiz?bb.x1:bb.y1)+'" x="'+(horiz?bb.x0-1.2:bb.cx-1.5)+'" y="'+(horiz?bb.cy-1.5:bb.y0-1.2)+'" width="'+(horiz?2.6:3)+'" height="'+(horiz?3:2.6)+'" rx=".3"/></g>';}
+      s+='<g class="'+(live?"act":"")+'" data-act="'+act+'"'+tipA(TIPS[act][LI])+'><rect class="swb hl" x="'+(bb.x0-(horiz?2:2.2))+'" y="'+(bb.y0-(horiz?2.2:2))+'" width="'+(bb.w+(horiz?4:4.4))+'" height="'+(bb.h+(horiz?4.4:4))+'" rx=".5"/><rect class="swk" id="'+pfx+'sw-'+act+(live?"":"-x")+'" data-h="'+(horiz?1:0)+'" data-a="'+(horiz?bb.x0:bb.y0)+'" data-b="'+(horiz?bb.x1:bb.y1)+'" x="'+(horiz?bb.x0-1.2:bb.cx-1.5)+'" y="'+(horiz?bb.cy-1.5:bb.y0-1.2)+'" width="'+(horiz?2.6:3)+'" height="'+(horiz?3:2.6)+'" rx=".3"/></g>';}
     else if(p.k==="dipsw"){const n=p.p.length/4;const which=inst==="mar"?"da":"dd";
       s+='<rect class="dipb" x="'+(bb.x0-1.4)+'" y="'+(bb.y0-1.4)+'" width="'+(bb.w+2.8)+'" height="'+(bb.h+2.8)+'" rx=".4"/>';
       for(let i=0;i<n;i++){const ax=p.p[i*2],ay=p.p[i*2+1],j=2*n-1-i,bx=p.p[j*2],by=p.p[j*2+1];const bit=inst==="mar"?n-1-i:i;
         const ux=(bx-ax),uy=(by-ay);const sx=ax+ux*.18,sy=ay+uy*.18,ex=ax+ux*.82,ey=ay+uy*.82;
         s+='<g class="'+(live?"act":"")+'" data-act="'+which+'" data-bit="'+bit+'"'+tipA(TIPS[which][LI].replace("{0}",bit))+'><line x1="'+sx+'" y1="'+sy+'" x2="'+ex+'" y2="'+ey+'" stroke="#5d1010" stroke-width="1.5" stroke-linecap="round"/>'+
-          '<rect class="swk hl" id="'+which+"-"+bit+(live?"":"-x")+'" data-sx="'+sx+'" data-sy="'+sy+'" data-ex="'+ex+'" data-ey="'+ey+'" x="'+(ex-.75)+'" y="'+(ey-.75)+'" width="1.5" height="1.5" rx=".2"/></g>';}
+          '<rect class="swk hl" id="'+pfx+which+"-"+bit+(live?"":"-x")+'" data-sx="'+sx+'" data-sy="'+sy+'" data-ex="'+ex+'" data-ey="'+ey+'" x="'+(ex-.75)+'" y="'+(ey-.75)+'" width="1.5" height="1.5" rx=".2"/></g>';}
     }
     else if(p.k==="disp"){const W=50.3,H=19,x=Math.max(1,Math.min(B.w-W-1,bb.cx-W/2)),y=Math.max(1,Math.min(B.h-H-1,bb.cy-H/2));
       s+="<g"+tipA(TIPS.disp[LI])+'><rect class="dispb" x="'+x+'" y="'+y+'" width="'+W+'" height="'+H+'" rx=".8"/>';
-      for(let d=0;d<4;d++)s+=sevenSeg(x+5.2+d*11.4,y+3.2,6.6,12.6,(live?"dg":"dgx")+d);
+      for(let d=0;d<4;d++)s+=sevenSeg(x+5.2+d*11.4,y+3.2,6.6,12.6,(live?pfx+"dg":"dgx")+d);
       s+="</g>";}
     else if(p.k==="led"){const d=ledDef(inst,p.r)||["",0,""];
-      leds+='<circle class="halo '+d[2]+'"'+(live?' id="H-'+inst+"-"+p.r+'"':"")+' cx="'+bb.cx+'" cy="'+bb.cy+'" r="4.3"/><circle class="led '+d[2]+'"'+(live?' id="L-'+inst+"-"+p.r+'"':"")+' cx="'+bb.cx+'" cy="'+bb.cy+'" r="2.45"/>';}
+      leds+='<circle class="halo '+d[2]+'"'+(live?' id="'+pfx+'H-'+inst+"-"+p.r+'"':"")+' cx="'+bb.cx+'" cy="'+bb.cy+'" r="4.3"/><circle class="led '+d[2]+'"'+(live?' id="'+pfx+'L-'+inst+"-"+p.r+'"':"")+' cx="'+bb.cx+'" cy="'+bb.cy+'" r="2.45"/>';}
   }
   s+=leds;
   if(live&&(inst==="a"||inst==="b"||inst==="ir"))s+='<text class="cardname" x="'+(B.w/2)+'" y="'+(B.h-1.6)+'" font-size="3.4" text-anchor="middle">'+({a:"REGISTER A",b:"REGISTER B",ir:"INSTRUCTION REGISTER"})[inst]+"</text>";
-  s+='<rect class="outline" id="O-'+inst+(live?"":"-x")+'" x="-.6" y="-.6" width="'+(B.w+1.2)+'" height="'+(B.h+1.2)+'" rx="2"/>';
+  s+='<rect class="outline" id="'+pfx+'O-'+inst+(live?"":"-x")+'" x="-.6" y="-.6" width="'+(B.w+1.2)+'" height="'+(B.h+1.2)+'" rx="2"/>';
   return s;
 }
 const ORDER=["clk","mar","ram","ir","ctl","pc","a","alu","b","out"];
@@ -614,6 +614,7 @@ function renderStatic(){
   renderFaultTab();
   renderKit();
   renderBrand();renderHome();if(soonId)renderSoon(soonId);
+  if(typeof renderBench==="function")renderBench();
 }
 $("labCards").onclick=e=>{const b=e.target.closest("[data-lab]");if(!b)return;openProgram("ex:"+b.dataset.lab,true);showTab("state");location.hash="#simulator";route();window.scrollTo(0,0);};
 $("chCards").onclick=e=>{const b=e.target.closest("[data-ch]");if(!b)return;const i=+b.dataset.ch,out=$("chR"+i),r=assemble($("src").value);
@@ -637,7 +638,7 @@ if(ANALYTICS.goatcounter){const g=document.createElement("script");g.async=true;
   g.onload=()=>{lastTracked="";trackView();};document.head.appendChild(g);}
 document.addEventListener("click",e=>{const a=e.target.closest("a,button");if(!a)return;const h=a.getAttribute("href")||"",where=location.hash.replace("#","")||"home";
   if(h.startsWith("https://wa.me"))track("whatsapp-"+where,1);else if(h.startsWith("mailto:"))track("email-"+where,1);else if(a.dataset.ev)track(a.dataset.ev,1);});
-const CPUVIEWS=["simulator","guide","modules","labs","course","about","kit"];
+const CPUVIEWS=["simulator","bench","guide","modules","labs","course","about","kit"];
 const VIEWS=["home","soon",...CPUVIEWS];
 let soonId=null;
 function route(){
@@ -654,6 +655,7 @@ function route(){
   trackView();
   render();
   if(v==="simulator")fitBoard();
+  if(typeof benchClkSync==="function")benchClkSync();
 }
 window.addEventListener("hashchange",()=>{route();window.scrollTo(0,0);});
 function boot(data){
@@ -665,6 +667,3 @@ function boot(data){
   }else openProgram("ex:count3",true);
   route();
 }
-const hot=window.claude&&window.claude.hot;
-if(hot&&hot.snapshot)hot.snapshot(()=>({st,src:$("src").value,ex:$("example").value,dipA,dipD,prog,order,fault,faultTries}));
-if(hot&&hot.ready)hot.ready(boot);else boot((hot&&hot.data)||{});

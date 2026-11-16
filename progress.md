@@ -14,7 +14,7 @@ A startup that designs and sells hands-on electronics kits for learning, each wi
 
 ## Status
 
-The website works offline: open `index.html` in a browser. It opens on a home page where visitors choose a kit. All work is merged into `main`.
+The website works offline: open `index.html` in a browser. It opens on a home page where visitors choose a kit. Latest work (test bench) is on branch `claude/sleepy-noether-bbtr9v`, not yet merged into `main`.
 
 ## Site map
 
@@ -22,7 +22,7 @@ The website works offline: open `index.html` in a browser. It opens on a home pa
 |---|---|
 | `#home` (or no address) | Home: banner with photo, who we are, kit cards, learning path, why our kits, how ordering works, FAQ, contact |
 | `#gates`, `#arduino` | Coming-soon pages for the 2 future kits |
-| `#simulator`, `#guide`, `#modules`, `#labs`, `#course`, `#about`, `#kit` | 8-Bit CPU Trainer pages, with their own menu bar |
+| `#simulator`, `#bench`, `#guide`, `#modules`, `#labs`, `#course`, `#about`, `#kit` | 8-Bit CPU Trainer pages, with their own menu bar |
 
 The company name in the header always goes back home.
 
@@ -38,6 +38,7 @@ The company name in the header always goes back home.
 | Home photos | "Inside the kit" gallery with 4 kit photos (temporary, until there are lab-session photos) | `HOMEPHOTOS` in `dev/app.js` |
 | Visitor counting | GoatCounter (site code `xxvista`), counts page views and clicks (WhatsApp, email, catalogue, order form) | `ANALYTICS` in `dev/app.js` |
 | Order tracker | Google Sheet with Orders, Summary and Prices tabs, dropdowns and automatic totals: [Order tracker](https://docs.google.com/spreadsheets/d/1AN_my6Cz8LivtA_cFfjyjDTp47ep2JEO9SjNs_zl_BI/edit) | Google Drive |
+| Test bench | New CPU page: pick a module (Clock, PC, MAR, RAM, Register A/B/IR, ALU, Output, Control), drive its inputs by hand (bus switches, control lines, modes), pulse the clock or reset, and read its outputs on the live board drawing. Automatic test follows the designer's Arduino test plans step by step with PASS/FAIL, expected and actual values. 20 insertable faults, 10 of them real mistakes from his first boards | `dev/bench.js`, `BT` in `dev/strings.js` |
 | Simulator controls | Player-style control bar (Reset, Step back, Clock pulse, One instruction, Run/Pause) above the board; pinned to the bottom of the screen on phones | `dev/src.html`, `dev/app.js` |
 | Data path | Animated yellow line from the board driving the bus, along the bus, to every board storing the byte, with the value on a tag | `drawFlow` in `dev/app.js` |
 | Step tracker | T0–T5 bar under the explanation (fetch vs execute, current and finished steps, unused steps dimmed) | `render` in `dev/app.js` |
@@ -62,6 +63,8 @@ The company name in the header always goes back home.
 - [x] Kit menu bar shows only on the CPU pages; browser tab title changes per page
 - [x] Catalogue: 2 pages in each language, nothing cut off (the script checks this)
 - [x] Order tracker: totals tested with list price, agreed price and missing price
+- [x] Test bench: every module passes its automatic test on a good board, and each of the 20 faults makes at least one step fail (checked with a script); the ALU test runs all 65,536 sums and differences in about 30 ms
+- [x] Test bench fits a 375 px phone for all 8 modules in all 3 languages
 - [x] All 7 CPU example programs give the expected output; Step, Run and Reset work
 - [ ] Order form and "coming soon" buttons actually open WhatsApp / email (not tested)
 - [x] Visitor counting logic: page views and click events recorded (tested with a stand-in script; the real GoatCounter server can't be reached from the test machine)
@@ -85,6 +88,7 @@ The company name in the header always goes back home.
 - 2026-11-16: Compared the site with the designer's repository and blog. The Bootloader board in the repository is unfinished (empty board file, not in the blog), so it was not added. Added his build notes (summarised, 3 languages) to the module cards with links to his pages, and 2 new faults based on real mistakes. Simulator redesign: control bar with icons, the whole computer fits the first screen on desktop and stays in view, yellow data-path line, T0–T5 step tracker, tabs as a segmented control, first-visit tip, "Whole computer" only shown when zoomed. Phones: control bar pinned at the bottom, kit menu on one row, only the boards involved in the current step are labelled. Checked at 1440, 1280 and 390 px in English and Arabic.
 - 2026-11-16: The designer gave permission to use his photos. His 8 module photos (resized to 1,400 px, 1.1 MB in total) replace the module-card photos, with a credit line. Our own kit photos stay on the home and kit pages.
 - 2026-11-16: Merged the simulator redesign, build notes, new faults and the designer's photos into `main`.
+- 2026-11-16: Added the Test bench page (module-by-module testing). Code in `dev/bench.js`; the page start-up moved to `dev/start.js` so it runs after the bench code. The board drawing function takes an id prefix so a second live copy of a board can be on the page.
 
 ## Not done yet
 

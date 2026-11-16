@@ -20,6 +20,8 @@ The page is built from the files in `dev/`:
 | File | What it holds |
 |---|---|
 | `dev/app.js` | Home page, kit list (`KITS`), company name (`BRAND`), simulator, board drawing, order form. Prices, email and WhatsApp number are in the `SHOP` object near the top. |
+| `dev/bench.js` | Test bench: one module at a time, with its test plan and faults |
+| `dev/start.js` | Starts the page; runs last |
 | `dev/strings.js` | All text in English, French and Arabic |
 | `dev/src.html` | Page layout and styles |
 | `dev/pcbdata.js`, `dev/bom.json` | Board outlines, parts and parts lists extracted from the KiCad files |

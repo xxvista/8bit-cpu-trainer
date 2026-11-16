@@ -28,6 +28,12 @@ _None._
 - **What happened:** A tablet rule (`min-height:100%` on the picture) also applied on phones, so each picture filled the whole card.
 - **Fix:** The phone rule resets `min-height`. Found and fixed before release, in the commit "Give the home page more room" (2026-11-16).
 
+### 4. Test bench scrolled sideways on phones in English and French
+
+- **Where:** Test bench, 375 px wide, English and French
+- **What happened:** The readout "floating (not driven)" could not wrap, so the page was 387 px (English) and 422 px (French) wide.
+- **Fix:** Readout values in `.bread` may wrap. Found and fixed before release, in the commit "Add a test bench for module-by-module testing" (2026-11-16).
+
 ## How to report a bug
 
 Add a section under **Open** with: where (page, language, screen size), what happens, what should happen, and the cause if known. Move it to **Fixed** with the commit hash once it is fixed.

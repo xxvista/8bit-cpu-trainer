@@ -15,6 +15,8 @@ js = "\n".join([
     "const BOM=" + (here / "bom.json").read_text(encoding="utf8") + ";",
     (here / "strings.js").read_text(encoding="utf8"),
     (here / "app.js").read_text(encoding="utf8"),
+    (here / "bench.js").read_text(encoding="utf8"),
+    (here / "start.js").read_text(encoding="utf8"),
 ])
 (here.parent / "index.html").write_text(src[:start] + "<script>\n" + js + "\n" + src[end:], encoding="utf8")
 print("index.html rebuilt")

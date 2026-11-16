@@ -28,6 +28,9 @@
 
 ## Later
 
+- [ ] Test bench: link each module's bench from its card on the Modules page, and from the simulator when zoomed into a board
+- [ ] Test bench: a lab exercise that asks students to find an unknown fault with the bench (the fault is hidden, like in the simulator's Faults tab)
+
 - [x] Permission from the designer (Robert Riordan) to use his photos (owner, 2026-11-16); his 8 module photos are on the Modules page with credit
 - [ ] Optional: ask him whether his short videos of each board running can be embedded too (the site links to them for now)
 - [ ] Optional: fault exercises for the other real build mistakes (program counter skipping counts, floating two's-complement input making the display flicker)

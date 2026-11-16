@@ -14,6 +14,8 @@ A startup website selling electronics teaching kits. One static page (`index.htm
 
 After any change to prices or to text the catalogue uses, run `node dev/brochure.js` and commit the new PDFs in `brochure/`.
 
+- Script order in the built page: `pcbdata.js`, `bom.json`, `strings.js`, `app.js`, `bench.js`, `start.js` (see `dev/build.py`). Code that must exist before the page starts goes before `start.js`.
+- Test bench (`dev/bench.js`): a fault must make at least one step of that module's automatic test fail, and a good board must pass every step. Check both after changing a module model.
 - Kits: 8-Bit CPU Trainer (available), Logic Gates Kit and Arduino Model Kit (placeholders, "coming soon"). The kit list is `KITS` in `dev/app.js`.
 - Prices: `SHOP.prices` in `dev/app.js` (assembled 49,000 DA, solder kit 39,000 DA). Keep the Prices tab of the order tracker Google Sheet in step when they change.
 - The original designer, Robert Riordan, gave the owner permission to use his photos (owner, 2026-11-16). His module photos are `img/rr-*.jpg` (`RRPHOTO` in `dev/app.js`); always keep the "Photo: Robert Riordan" credit. They show his boards, so don't present them as photos of our kit.
