@@ -32,6 +32,7 @@ The company name in the header always goes back home.
 | Area | What exists | Where |
 |---|---|---|
 | Home page | Presents the startup: banner ("Designed and made in Algeria", headline, photo, 3 key facts), who we are, 3 kit cards, learning path (Logic Gates → CPU, Arduino alongside), 4 reasons to choose us, 3-step ordering with a "quote for your school" WhatsApp button, 5-question FAQ, contact box | `renderHome` in `dev/app.js`, `h…` strings in `dev/strings.js` |
+| Logic Gates Kit page | Board drawn from the KiCad file, switches, power switch and jumper wires to try, live truth tables, examples, contents, status, parts list | `dev/gates.js`, `dev/gatesdata.js` (from `dev/gatespcb.py`) |
 | Coming-soon pages | Kit name, description, planned contents, WhatsApp and email buttons with a pre-written message | `renderSoon` in `dev/app.js` |
 | Prices | Assembled 49,000 DA, solder kit 39,000 DA; home page card shows "From 39,000 DA" | `SHOP.prices` in `dev/app.js` |
 | PDF catalogue | 2-page A4 catalogue in English, French and Arabic, made from the site's text and prices; download buttons on the home page and the CPU kit page | `dev/brochure.js`, `brochure/catalogue-*.pdf` |
@@ -52,7 +53,6 @@ The company name in the header always goes back home.
 | CPU content pages | User guide, module catalog, lab exercises, course map, about | `dev/src.html`, `dev/strings.js` |
 | CPU order page | Order form that sends by email or WhatsApp | `SHOP` in `dev/app.js` |
 | Languages | English, French, Arabic (right-to-left); every string has all 3 | `dev/strings.js` |
-| Photos | 6 photos of the CPU kit | `img/` |
 | Build | `python3 dev/build.py` combines everything into `index.html` | `dev/build.py` |
 
 ## Checked (browser test, 2026-11-16)

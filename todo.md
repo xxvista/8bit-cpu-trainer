@@ -34,7 +34,7 @@
 - [ ] Module simulator: a lab exercise per module ("load 42 into register A and put it back on the bus")
 
 
-- [ ] Logic Gates Kit (on hold, owner 2026-11-16): real page (photos, contents, guide, labs, order) and possibly a gate simulator
+- [ ] Logic Gates Kit, once made: guide, lab sheets, order form and price (page and simulator done 2026-11-17)
 - [ ] Arduino Model Kit: real page (photos, contents, guide, labs, order)
 - [ ] One shared order form for several kits, once more than one kit is for sale
 - [ ] Ask a French and an Arabic speaker to proofread `dev/strings.js`
