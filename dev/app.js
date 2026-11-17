@@ -149,7 +149,7 @@ const mailLink=(sub,msg)=>"mailto:"+SHOP.email+"?subject="+encodeURIComponent(su
 function renderHome(){
   const kit=id=>KITS.find(k=>k.id===id);
   const head=(title,intro)=>'<div class="hhead"><h2>'+title+"</h2>"+(intro?'<p class="lead">'+intro+"</p>":"")+"</div>";
-  const step=(lbl,k,txt)=>{const live=k.status==="live";return'<a class="pathstep'+(live?" live":"")+'" href="#'+(live?"simulator":k.id)+'"><span class="plbl">'+lbl+"</span><b"+(k.id==="cpu"?' class="ltr"':"")+">"+k.name()+"</b><span class=\"ptxt\">"+txt+'</span><span class="badge '+(live?"ok":"soon")+'">'+t(live?"hAvail":"hSoon")+"</span></a>";};
+  const step=(lbl,k,txt)=>{const live=k.status==="live";return'<a class="pathstep'+(live?" live":"")+'" href="#'+(live?"simulator":k.id)+'"><span class="plbl">'+lbl+"</span><b"+(k.id==="cpu"?' class="ltr"':"")+">"+k.name()+"</b><span class=\"ptxt\">"+txt+"</span>"+kitBadge(k)+"</a>";};
   $("homeBody").innerHTML=
    '<section class="homehero"><div class="herotext"><span class="eyebrow">'+t("hMade")+"</span><h2>"+t("hTitle")+'</h2><p class="lead">'+t("hLead")+'</p><div class="ctas"><button type="button" class="btn primary big" data-scroll="hKits">'+t("hSeeKits")+'</button><button type="button" class="btn big" data-scroll="hContactBox">'+t("hContact")+'</button></div></div>'+
      '<figure class="heroimg"><img src="'+KITILLUS+'" alt="'+esc(t("hIllus"))+'"><figcaption>'+t("hIllus")+"</figcaption></figure>"+
@@ -638,7 +638,22 @@ function route(){
   render();
   if(v==="simulator")fitBoard();
   if(typeof benchClkSync==="function")benchClkSync();
+  revealScan();
 }
+/* ---------- gentle motion: reveal blocks as they scroll in, count the hero facts up ---------- */
+const RVSEL=".hhead,.kitcard,.pathstep,.path .arrow,.whyitem,.hgallery figure,.how li,.howctas,.faq,.ctabox,.who > *,.facts,.quotes figure,.gcols section,.gbom,.gcta,.soonpage > *";
+let rvObs=null;
+function countUp(el){const end=parseInt(el.textContent,10);if(!(end>0))return;const t0=performance.now(),dur=900;
+  const f=now=>{const k=Math.min(1,(now-t0)/dur);el.textContent=Math.round(end*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(f);};el.textContent="0";requestAnimationFrame(f);}
+function revealScan(){
+  if(!("IntersectionObserver" in window)||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  document.documentElement.classList.add("anim");
+  rvObs=rvObs||new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;const el=e.target;el.classList.add("in");rvObs.unobserve(el);
+    if(el.classList.contains("facts"))el.querySelectorAll("b").forEach(countUp);}),{rootMargin:"0px 0px -6% 0px",threshold:.08});
+  document.querySelectorAll(RVSEL).forEach(el=>{if(el.classList.contains("rv"))return;el.classList.add("rv");
+    const sib=[...el.parentElement.children].filter(c=>c.matches(RVSEL));el.style.setProperty("--d",Math.min(sib.indexOf(el),5)*90+"ms");rvObs.observe(el);});
+}
+addEventListener("scroll",()=>document.body.classList.toggle("scrolled",scrollY>8),{passive:true});
 window.addEventListener("hashchange",()=>{route();window.scrollTo(0,0);});
 function boot(data){
   let li=0;try{const c=localStorage.getItem("cpuTrainer.lang")||(navigator.language||"en").slice(0,2);li=Math.max(0,["en","fr","ar"].indexOf(c));}catch(e){}

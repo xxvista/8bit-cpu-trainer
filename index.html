@@ -586,6 +586,107 @@ body:not([data-view="cpu"]) header.top{max-width:1160px;margin:0 auto}
 @media (max-width:1000px){.bench{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:760px){.bbtns .tbtn{flex:1 1 auto;flex-direction:row;height:44px;font-size:14px;padding:0 14px}}
 @media (max-width:600px){.bitrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 10px}.bitrow .blbl{grid-column:1/-1}.bhead h2{font-size:28px}.bcard{padding:14px}.bmods button{padding:7px 9px;font-size:13px}}
+/* ---------- polish: more air, softer surfaces, gentle motion (2026-11-17) ---------- */
+:root{--radius:22px;--shadow-s:0 1px 2px rgba(17,24,39,.05),0 4px 14px -6px rgba(17,24,39,.10);--shadow-l:0 2px 4px rgba(17,24,39,.04),0 24px 48px -20px rgba(17,24,39,.28);--ease:cubic-bezier(.2,.7,.2,1)}
+html{scroll-behavior:smooth}
+.btn{transition:transform .18s var(--ease),box-shadow .18s var(--ease),background-color .18s,border-color .18s,color .18s}
+.btn:hover{transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.btn.primary{box-shadow:0 6px 16px -8px color-mix(in srgb,var(--accent) 80%,transparent)}
+.btn.primary:hover{box-shadow:0 10px 24px -10px color-mix(in srgb,var(--accent) 90%,transparent)}
+.btn:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 45%,transparent);outline-offset:2px}
+/* sticky header on the home and kit pages */
+body:not([data-view="cpu"]) header.top{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--page) 86%,transparent);-webkit-backdrop-filter:saturate(1.4) blur(12px);backdrop-filter:saturate(1.4) blur(12px);border-bottom-color:transparent;transition:border-color .2s,box-shadow .2s}
+body.scrolled:not([data-view="cpu"]) header.top{border-bottom-color:var(--line);box-shadow:0 0 0 100vmax color-mix(in srgb,var(--page) 86%,transparent);clip-path:inset(0 -100vmax -1px)}
+/* hero */
+#view-home{overflow-x:clip}
+.homehero{position:relative;padding:104px 0 40px;gap:56px 80px}
+.homehero::before{content:"";position:absolute;z-index:-1;inset-inline-end:2%;top:10%;width:50%;aspect-ratio:1;border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,var(--accent) 13%,transparent),transparent 72%);pointer-events:none}
+.homehero h2{font-size:clamp(46px,6vw,76px);line-height:.96;letter-spacing:-.005em;margin-top:24px}
+.homehero h2 + .lead{margin:28px 0 40px}
+.homehero .facts{padding-top:40px;margin-top:16px}
+.homehero .facts b{font-size:52px}
+.heroimg img{filter:drop-shadow(0 30px 40px rgba(17,24,39,.18))}
+/* sections */
+.hsec{padding:128px 0}
+.hhead{margin-bottom:56px}
+.hhead h2,.who>h2,.faqsec>h2,.ctabox h2{font-size:clamp(32px,3.6vw,48px);letter-spacing:-.005em}
+.hhead .lead{margin-top:18px;font-size:19px}
+.hsec+.hsec:not(.band){border-top:none}
+.band{background:var(--soft)}
+.whotext{font-size:23px;line-height:1.65}
+/* cards */
+.kits{gap:32px}
+.kitcard{border-radius:var(--radius);border-color:transparent;box-shadow:var(--shadow-s);transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+.kitcard:hover{transform:translateY(-6px);box-shadow:var(--shadow-l)}
+.kitcard.live{box-shadow:0 0 0 2px var(--accent),var(--shadow-s)}
+.kitcard.live:hover{box-shadow:0 0 0 2px var(--accent),var(--shadow-l)}
+.kitcard .pic{overflow:hidden}
+.kitcard .pic > *{transition:transform .6s var(--ease)}
+.kitcard:hover .pic > *{transform:scale(1.035)}
+.kitcard .body{padding:32px}
+.path{gap:24px}
+.pathstep{border-radius:var(--radius);border-color:transparent;box-shadow:var(--shadow-s);padding:30px;transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+.pathstep:hover{transform:translateY(-4px);box-shadow:var(--shadow-l);border-color:transparent}
+.pathstep.live{box-shadow:0 0 0 2px var(--accent),var(--shadow-s)}
+.why{gap:48px}
+.whyitem .ico{width:56px;height:56px;border-radius:16px;transition:transform .35s var(--ease),background-color .25s,color .25s}
+.whyitem:hover .ico{transform:translateY(-3px) rotate(-4deg);background:var(--accent);color:#fff}
+.hgallery{gap:24px}
+.hgallery .bdraw{border-color:transparent;box-shadow:var(--shadow-s);border-radius:18px;transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+.hgallery figure:hover .bdraw{transform:translateY(-4px);box-shadow:var(--shadow-l)}
+.how{gap:56px}
+.faq summary{padding:26px 0;transition:color .15s}
+.faq summary:hover{color:var(--accent)}
+.ctabox{border-radius:28px;padding:72px;margin-top:40px;position:relative;overflow:hidden;isolation:isolate}
+.ctabox::after{content:"";position:absolute;z-index:-1;inset-inline-end:-120px;top:-160px;width:420px;aspect-ratio:1;border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,var(--accent) 55%,transparent),transparent);opacity:.55;pointer-events:none}
+/* kit pages */
+#soonBody{padding:56px 0 32px}
+.ghead{margin:24px 0 40px}
+.ghead h2,.soonpage h2{font-size:clamp(34px,4.4vw,56px);line-height:1}
+.gboard{border-color:transparent;box-shadow:var(--shadow-s);border-radius:var(--radius);padding:18px}
+.gcols{margin:72px 0 24px;gap:40px}
+.gcta{margin-top:72px}
+.gtt{transition:opacity .25s,border-color .25s,transform .25s var(--ease)}
+.gtt.used{transform:translateY(-2px);box-shadow:var(--shadow-s)}
+.gwire{transition:stroke .2s}
+@keyframes wireIn{from{stroke-dashoffset:var(--len,400)}to{stroke-dashoffset:0}}
+/* page change */
+@keyframes viewIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.anim body:not([data-view="cpu"]) .view.active{animation:viewIn .45s var(--ease) both}
+/* hero entrance */
+@keyframes up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.anim .herotext > *{animation:up .7s var(--ease) both}
+.anim .herotext > :nth-child(2){animation-delay:.08s}.anim .herotext > :nth-child(3){animation-delay:.16s}.anim .herotext > :nth-child(4){animation-delay:.24s}
+.anim .heroimg{animation:up .9s .15s var(--ease) both}
+.anim .heroimg img{animation:floaty 7s 1.2s ease-in-out infinite}
+/* scroll reveal: only when the script runs and motion is allowed */
+.anim .rv{opacity:0;transform:translateY(28px);transition:opacity .7s var(--ease) var(--d,0ms),transform .7s var(--ease) var(--d,0ms)}
+.anim .rv.in{opacity:1;transform:none}
+@keyframes nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
+.anim .path .arrow:not(.plus){animation:nudge 2.4s ease-in-out infinite}
+[dir="rtl"].anim .path .arrow:not(.plus),.anim [dir="rtl"] .path .arrow:not(.plus){animation:none}
+.faq details[open] p{animation:up .35s var(--ease) both}
+@media (max-width:1000px){
+  .homehero{padding:56px 0 24px}
+  .homehero::before{display:none}
+  .hsec{padding:96px 0}
+  .ctabox{padding:48px}
+  .anim .path .arrow:not(.plus){animation:none}
+}
+@media (max-width:600px){
+  .homehero{padding:36px 0 8px}
+  .homehero .facts b{font-size:38px}
+  .hsec{padding:76px 0}
+  .hhead{margin-bottom:36px}
+  .whotext{font-size:19px}
+  .kits{gap:24px}
+  .kitcard .body{padding:24px}
+  .ctabox{padding:36px 24px;border-radius:22px}
+  .gcols{margin:48px 0 16px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body data-board="green">
@@ -1483,7 +1584,7 @@ const mailLink=(sub,msg)=>"mailto:"+SHOP.email+"?subject="+encodeURIComponent(su
 function renderHome(){
   const kit=id=>KITS.find(k=>k.id===id);
   const head=(title,intro)=>'<div class="hhead"><h2>'+title+"</h2>"+(intro?'<p class="lead">'+intro+"</p>":"")+"</div>";
-  const step=(lbl,k,txt)=>{const live=k.status==="live";return'<a class="pathstep'+(live?" live":"")+'" href="#'+(live?"simulator":k.id)+'"><span class="plbl">'+lbl+"</span><b"+(k.id==="cpu"?' class="ltr"':"")+">"+k.name()+"</b><span class=\"ptxt\">"+txt+'</span><span class="badge '+(live?"ok":"soon")+'">'+t(live?"hAvail":"hSoon")+"</span></a>";};
+  const step=(lbl,k,txt)=>{const live=k.status==="live";return'<a class="pathstep'+(live?" live":"")+'" href="#'+(live?"simulator":k.id)+'"><span class="plbl">'+lbl+"</span><b"+(k.id==="cpu"?' class="ltr"':"")+">"+k.name()+"</b><span class=\"ptxt\">"+txt+"</span>"+kitBadge(k)+"</a>";};
   $("homeBody").innerHTML=
    '<section class="homehero"><div class="herotext"><span class="eyebrow">'+t("hMade")+"</span><h2>"+t("hTitle")+'</h2><p class="lead">'+t("hLead")+'</p><div class="ctas"><button type="button" class="btn primary big" data-scroll="hKits">'+t("hSeeKits")+'</button><button type="button" class="btn big" data-scroll="hContactBox">'+t("hContact")+'</button></div></div>'+
      '<figure class="heroimg"><img src="'+KITILLUS+'" alt="'+esc(t("hIllus"))+'"><figcaption>'+t("hIllus")+"</figcaption></figure>"+
@@ -1972,7 +2073,22 @@ function route(){
   render();
   if(v==="simulator")fitBoard();
   if(typeof benchClkSync==="function")benchClkSync();
+  revealScan();
 }
+/* ---------- gentle motion: reveal blocks as they scroll in, count the hero facts up ---------- */
+const RVSEL=".hhead,.kitcard,.pathstep,.path .arrow,.whyitem,.hgallery figure,.how li,.howctas,.faq,.ctabox,.who > *,.facts,.quotes figure,.gcols section,.gbom,.gcta,.soonpage > *";
+let rvObs=null;
+function countUp(el){const end=parseInt(el.textContent,10);if(!(end>0))return;const t0=performance.now(),dur=900;
+  const f=now=>{const k=Math.min(1,(now-t0)/dur);el.textContent=Math.round(end*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(f);};el.textContent="0";requestAnimationFrame(f);}
+function revealScan(){
+  if(!("IntersectionObserver" in window)||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  document.documentElement.classList.add("anim");
+  rvObs=rvObs||new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;const el=e.target;el.classList.add("in");rvObs.unobserve(el);
+    if(el.classList.contains("facts"))el.querySelectorAll("b").forEach(countUp);}),{rootMargin:"0px 0px -6% 0px",threshold:.08});
+  document.querySelectorAll(RVSEL).forEach(el=>{if(el.classList.contains("rv"))return;el.classList.add("rv");
+    const sib=[...el.parentElement.children].filter(c=>c.matches(RVSEL));el.style.setProperty("--d",Math.min(sib.indexOf(el),5)*90+"ms");rvObs.observe(el);});
+}
+addEventListener("scroll",()=>document.body.classList.toggle("scrolled",scrollY>8),{passive:true});
 window.addEventListener("hashchange",()=>{route();window.scrollTo(0,0);});
 function boot(data){
   let li=0;try{const c=localStorage.getItem("cpuTrainer.lang")||(navigator.language||"en").slice(0,2);li=Math.max(0,["en","fr","ar"].indexOf(c));}catch(e){}
