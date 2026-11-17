@@ -100,3 +100,4 @@ The company name in the header always goes back home.
 
 See [todo.md](todo.md) and [bugs.md](bugs.md).
 - 2026-11-17: Logic Gates Kit page (`#gates`): board drawn from the owner's KiCad file (`dev/gatespcb.py` → `dev/gatesdata.js`), clickable switches, power switch and jumper wires (one wire per pin, no output-to-output wires), live truth tables, examples (each gate, A AND NOT B, half adder). Home card and learning path show "Designed · not made yet" with the board drawing; catalogue tag updated. Checked: wiring logic by script; every page at 1280 and 375 px in 3 languages, no errors, no sideways scrolling.
+- 2026-11-17: Hackathon materials: new slide 7 "Le kit portes logiques" (board picture from the website, captioned as an illustration, not yet made); pitch (FR and AR) and Q&A updated with the Logic Gates board.
