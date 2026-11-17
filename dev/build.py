@@ -12,10 +12,12 @@ start = src.index("<script>", src.index('<div id="tip"></div>'))
 end = src.rindex("</script>")
 js = "\n".join([
     (here / "pcbdata.js").read_text(encoding="utf8"),
+    (here / "gatesdata.js").read_text(encoding="utf8"),
     "const BOM=" + (here / "bom.json").read_text(encoding="utf8") + ";",
     (here / "strings.js").read_text(encoding="utf8"),
     (here / "app.js").read_text(encoding="utf8"),
     (here / "bench.js").read_text(encoding="utf8"),
+    (here / "gates.js").read_text(encoding="utf8"),
     (here / "start.js").read_text(encoding="utf8"),
 ])
 (here.parent / "index.html").write_text(src[:start] + "<script>\n" + js + "\n" + src[end:], encoding="utf8")

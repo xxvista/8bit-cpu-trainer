@@ -1,6 +1,6 @@
 # Progress
 
-Last updated: 2026-11-16
+Last updated: 2026-11-17
 
 ## Vision
 
@@ -9,7 +9,7 @@ A startup that designs and sells hands-on electronics kits for learning, each wi
 | Kit | Status |
 |---|---|
 | 8-Bit CPU Trainer | Available: assembled 49,000 DA, solder-it-yourself kit 39,000 DA, classroom pack on quote |
-| Logic Gates Kit | Placeholder: "coming soon" page with WhatsApp / email contact |
+| Logic Gates Kit | Designed (KiCad schematic and board done, 158 × 142 mm), not yet printed. Page `#gates`: board drawn from the KiCad file, switches and jumper wires to try, truth tables, parts list |
 | Arduino Model Kit | Placeholder: "coming soon" page with WhatsApp / email contact |
 
 ## Status
@@ -21,7 +21,8 @@ The website works offline: open `index.html` in a browser. It opens on a home pa
 | Address | Page |
 |---|---|
 | `#home` (or no address) | Home: banner with photo, who we are, kit cards, learning path, why our kits, how ordering works, FAQ, contact |
-| `#gates`, `#arduino` | Coming-soon pages for the 2 future kits |
+| `#gates` | Logic Gates Kit: try the board (switches, jumper wires, LEDs), truth tables, what is on the board, status, parts list, contact |
+| `#arduino` | Coming-soon page |
 | `#simulator`, `#guide`, `#modules`, `#labs`, `#course`, `#about`, `#kit` | 8-Bit CPU Trainer pages, with their own menu bar |
 
 The company name in the header always goes back home.
@@ -98,3 +99,4 @@ The company name in the header always goes back home.
 ## Not done yet
 
 See [todo.md](todo.md) and [bugs.md](bugs.md).
+- 2026-11-17: Logic Gates Kit page (`#gates`): board drawn from the owner's KiCad file (`dev/gatespcb.py` → `dev/gatesdata.js`), clickable switches, power switch and jumper wires (one wire per pin, no output-to-output wires), live truth tables, examples (each gate, A AND NOT B, half adder). Home card and learning path show "Designed · not made yet" with the board drawing; catalogue tag updated. Checked: wiring logic by script; every page at 1280 and 375 px in 3 languages, no errors, no sideways scrolling.

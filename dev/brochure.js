@@ -77,7 +77,7 @@ function brochureHtml() { // runs inside index.html, so it can use t(), SHOP, KI
     <div><h3>${t("bTopics")}</h3><ul class="cols2">${COURSE.map(r => "<li>" + r[0][LI] + "</li>").join("")}</ul></div>
     <div><h3>${t("hPath")}</h3><div class="path">
       ${[["hStep", 1, "gates", "hPath1"], ["hStep", 2, "cpu", "hPath2"], ["hAlong", 0, "arduino", "hPath3"]].map(([l, n, id, d]) => { const k = kit(id), live = k.status === "live";
-        return '<div class="step' + (live ? " live" : "") + '"><div class="l">' + t(l, n) + "</div><b" + (id === "cpu" ? ' class="ltr"' : "") + ">" + k.name() + "</b><span>" + t(d) + '</span><div class="tag">' + t(live ? "hAvail" : "hSoon") + "</div></div>"; }).join("")}
+        return '<div class="step' + (live ? " live" : "") + '"><div class="l">' + t(l, n) + "</div><b" + (id === "cpu" ? ' class="ltr"' : "") + ">" + k.name() + "</b><span>" + t(d) + '</span><div class="tag">' + t(live ? "hAvail" : k.status === "designed" ? "hDesigned" : "hSoon") + "</div></div>"; }).join("")}
     </div></div>
     <div><h3>${t("hWhy")}</h3><div class="why">${[1, 2, 3, 4].map(i => "<div><b>" + t("hW" + i) + "</b>" + t("hW" + i + "d") + "</div>").join("")}</div></div>
     <div><h3>${t("hHow")}</h3><div class="how">${[1, 2, 3].map(i => "<div><b>" + i + ". " + t("hHow" + i) + "</b>" + t("hHow" + i + "d") + "</div>").join("")}</div></div>

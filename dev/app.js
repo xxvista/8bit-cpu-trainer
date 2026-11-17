@@ -130,11 +130,12 @@ const ICONS={
 };
 const KITS=[
  {id:"cpu",status:"live",name:()=>"8-Bit CPU Trainer",desc:()=>t("hCpuD"),img:KITILLUS},
- {id:"gates",status:"soon",name:()=>t("gName"),desc:()=>t("gD")},
+ {id:"gates",status:"designed",name:()=>t("gName"),desc:()=>t("gD"),svg:()=>'<svg viewBox="-2 -2 '+(GPCB.w+4)+" "+(GPCB.h+4)+'" class="gpic" role="img" aria-label="'+esc(t("gName"))+'">'+drawGates(false).replace(/ data-tip="[^"]*"/g,"")+"</svg>"},
  {id:"arduino",status:"soon",name:()=>t("aName"),desc:()=>t("aD")}
 ];
 function renderBrand(){const w=BRAND.trim().split(/\s+/),last=w.pop();$("brandName").innerHTML=(w.length?esc(w.join(" "))+" ":"")+"<span>"+esc(last)+"</span>";}
-function kitPic(k){return k.img?'<img class="illus" src="'+k.img+'" alt="'+esc(k.name())+'" loading="lazy">':ICONS[k.id];}
+const kitBadge=k=>'<span class="badge '+(k.status==="live"?"ok":k.status==="designed"?"soon dsg":"soon")+'">'+t(k.status==="live"?"hAvail":k.status==="designed"?"hDesigned":"hSoon")+"</span>";
+function kitPic(k){return k.svg?k.svg():k.img?'<img class="illus" src="'+k.img+'" alt="'+esc(k.name())+'" loading="lazy">':ICONS[k.id];}
 const WHYICONS=[
  '<path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
  '<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20v3H6.5"/>',
@@ -155,7 +156,7 @@ function renderHome(){
      '<div class="facts"><div><b>3</b><span>'+t("hF1")+"</span></div><div><b>3</b><span>"+t("hF2")+"</span></div><div><b>58</b><span>"+t("hF3")+"</span></div></div></section>"+
    '<section class="hsec who"><h2>'+t("hWho")+'</h2><div><p class="whotext">'+t("hWhoP")+'</p><b class="forlbl">'+t("hFor")+'</b><div class="audience">'+[1,2,3,4].map(i=>"<span>"+t("hAud"+i)+"</span>").join("")+"</div></div></section>"+
    '<section class="hsec" id="hKits">'+head(t("hChoose"))+'<div class="kits">'+KITS.map(k=>{const live=k.status==="live";
-     return'<article class="kitcard'+(live?" live":"")+'"><a class="pic" href="#'+(live?"simulator":k.id)+'" tabindex="-1">'+kitPic(k)+'</a><div class="body"><span class="badge '+(live?"ok":"soon")+'">'+t(live?"hAvail":"hSoon")+"</span><h3"+(k.id==="cpu"?' class="ltr"':"")+">"+k.name()+"</h3><p>"+k.desc()+"</p>"+(live&&k.id==="cpu"?'<div class="fromprice">'+t("hFrom",'<b class="ltr">'+money(Math.min(SHOP.prices.assembled,SHOP.prices.solder))+"</b>")+"</div>":"")+'<div class="ctas">'+
+     return'<article class="kitcard'+(live?" live":"")+'"><a class="pic" href="#'+(live?"simulator":k.id)+'" tabindex="-1">'+kitPic(k)+'</a><div class="body">'+kitBadge(k)+"<h3"+(k.id==="cpu"?' class="ltr"':"")+">"+k.name()+"</h3><p>"+k.desc()+"</p>"+(live&&k.id==="cpu"?'<div class="fromprice">'+t("hFrom",'<b class="ltr">'+money(Math.min(SHOP.prices.assembled,SHOP.prices.solder))+"</b>")+"</div>":"")+'<div class="ctas">'+
        (live?'<a class="btn primary" href="#simulator">'+t("hExplore")+'</a><a class="btn" href="#kit">'+t("hOrder")+"</a>":'<a class="btn" href="#'+k.id+'">'+t("hMore")+"</a>")+"</div></div></article>";}).join("")+"</div></section>"+
    '<section class="hsec band">'+head(t("hPath"),t("hPathL"))+'<div class="path">'+
      step(t("hStep",1),kit("gates"),t("hPath1"))+'<span class="arrow" aria-hidden="true">→</span>'+step(t("hStep",2),kit("cpu"),t("hPath2"))+'<span class="arrow plus" aria-hidden="true">+</span>'+step(t("hAlong"),kit("arduino"),t("hPath3"))+"</div></section>"+
@@ -593,6 +594,7 @@ function renderStatic(){
   $("aboutBody").innerHTML=ABOUT[LI]+contactHtml();
   renderKit();
   renderBrand();renderHome();if(soonId)renderSoon(soonId);
+  if(typeof renderGates==="function")renderGates();
   if(typeof renderBench==="function")renderBench();
 }
 $("modCards").addEventListener("click",e=>{const b=e.target.closest("[data-sim]");if(b)benchPick(b.dataset.sim);});
@@ -619,18 +621,18 @@ if(ANALYTICS.goatcounter){const g=document.createElement("script");g.async=true;
 document.addEventListener("click",e=>{const a=e.target.closest("a,button");if(!a)return;const h=a.getAttribute("href")||"",where=location.hash.replace("#","")||"home";
   if(h.startsWith("https://wa.me"))track("whatsapp-"+where,1);else if(h.startsWith("mailto:"))track("email-"+where,1);else if(a.dataset.ev)track(a.dataset.ev,1);});
 const CPUVIEWS=["simulator","guide","modules","labs","course","about","kit"];
-const VIEWS=["home","soon",...CPUVIEWS];
+const VIEWS=["home","soon","gates",...CPUVIEWS];
 let soonId=null;
 function route(){
   let h=location.hash.replace("#","");if(h==="bench")h="modules"; // old link: the module simulator is now on the Modules page
   soonId=KITS.some(k=>k.id===h&&k.status==="soon")?h:null;
-  let v=soonId?"soon":(CPUVIEWS.includes(h)?h:"home");
+  let v=soonId?"soon":h==="gates"?"gates":(CPUVIEWS.includes(h)?h:"home");
   if(v!=="simulator")stop();
   if(soonId)renderSoon(soonId);
   VIEWS.forEach(x=>$("view-"+x).classList.toggle("active",x===v));
   const cpu=CPUVIEWS.includes(v);$("kitbar").hidden=!cpu;
   document.body.dataset.view=cpu?"cpu":v;
-  document.title=cpu?"8-Bit CPU Trainer · "+BRAND:soonId?KITS.find(k=>k.id===soonId).name()+" · "+BRAND:BRAND;
+  document.title=cpu?"8-Bit CPU Trainer · "+BRAND:soonId?KITS.find(k=>k.id===soonId).name()+" · "+BRAND:v==="gates"?t("gName")+" · "+BRAND:BRAND;
   document.querySelectorAll("#nav a").forEach(a=>{if(a.getAttribute("href")==="#"+v)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");});
   trackView();
   render();

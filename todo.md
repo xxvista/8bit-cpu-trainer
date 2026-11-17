@@ -8,7 +8,10 @@
 - [x] "We usually reply within a day" confirmed. Spare-parts claim removed: you sell two versions (soldered and non-soldered), not separate parts
 - [x] Founders: named on the About page; home "Who we are" keeps "two Algerian electronics engineers" and names the Incubateur de l'Université de Bouira (owner, 2026-11-16)
 - [ ] A real photo of the team or workshop for the "Who we are" section (optional)
-- [ ] What exactly goes in the Logic Gates Kit and the Arduino Model Kit (boards, parts, lessons), so their placeholder text can be replaced
+- [x] Logic Gates Kit contents: board designed (owner's KiCad files, 2026-11-17); page `#gates` added
+- [ ] Logic Gates board, before ordering: check the LED loads on the CD40xx outputs (about 1 mA drive at 5 V against 1 kΩ LEDs: dim LEDs, weak levels when chaining gates). Options: 74HC00/08/32/86 (other pinouts, re-route) or 4.7–10 kΩ LED resistors with bright LEDs. Run KiCad ERC/DRC (`check.bat`)
+- [ ] Logic Gates Kit price, once the board cost is known
+- [ ] What exactly goes in the Arduino Model Kit (boards, parts, lessons)
 
 ## Before launch
 
