@@ -11,7 +11,9 @@
 - [x] Logic Gates Kit contents: board designed (owner's KiCad files, 2026-11-17); page `#gates` added
 - [ ] Logic Gates board, before ordering: check the LED loads on the CD40xx outputs (about 1 mA drive at 5 V against 1 kΩ LEDs: dim LEDs, weak levels when chaining gates). Options: 74HC00/08/32/86 (other pinouts, re-route) or 4.7–10 kΩ LED resistors with bright LEDs. Run KiCad ERC/DRC (`check.bat`)
 - [ ] Logic Gates Kit price, once the board cost is known
-- [ ] What exactly goes in the Arduino Model Kit (boards, parts, lessons)
+- [x] Arduino kit contents: owner's board (KiCad, 2026-11-18); page `#arduino` added
+- [ ] Arduino board: change the KiCad title block (it still says "KiCad copy" and "Imported from Eagle design by Elecrow (no licence stated)") and keep the licence document that allows selling it
+- [ ] Arduino kit price (cost estimate about $38 a kit with board assembly, before transport and customs) and its lessons
 
 ## Before launch
 

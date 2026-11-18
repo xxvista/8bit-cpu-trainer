@@ -53,8 +53,8 @@ const U={
  hExplore:["Explore the kit","Découvrir le kit","اكتشف الطقم"],hOrder:["Order","Commander","اطلب"],hMore:["Learn more","En savoir plus","اعرف المزيد"],
  gName:["Logic Gates Kit","Kit Portes logiques","طقم البوابات المنطقية"],
  gD:["The first step: 8 logic gates on one board (AND, OR, NOT, XOR and more), with switches, LEDs and jumper wires to check truth tables and combine gates into adders.","La première étape : 8 portes logiques sur une carte (ET, OU, NON, OU exclusif et plus), avec interrupteurs, LED et fils pour vérifier les tables de vérité et combiner les portes en additionneurs.","الخطوة الأولى: 8 بوابات منطقية على لوحة واحدة (AND وOR وNOT وXOR وغيرها)، مع مفاتيح وأضواء وأسلاك للتحقق من جداول الحقيقة ودمج البوابات في دارات جمع."],
- aName:["Arduino Model Kit","Kit Maquette Arduino","طقم مجسّم أردوينو"],
- aD:["A hands-on model driven by an Arduino board, for learning sensors, motors and programming through real projects.","Une maquette pilotée par une carte Arduino, pour apprendre les capteurs, les moteurs et la programmation par des projets concrets.","مجسّم تطبيقي تتحكم فيه بطاقة أردوينو، لتعلّم الحساسات والمحركات والبرمجة عبر مشاريع حقيقية."],
+ aName:["Arduino All-in-One Kit","Kit Arduino tout-en-un","طقم أردوينو الشامل"],
+ aD:["An Arduino-compatible board with 16 sensors and modules built in: screen, motion, distance, temperature, light, relay, servo motor and more, for real projects without wiring.","Une carte compatible Arduino avec 16 capteurs et modules intégrés : écran, mouvement, distance, température, lumière, relais, servomoteur et plus, pour des projets concrets sans câblage.","بطاقة متوافقة مع أردوينو تضم 16 حساساً ووحدة مدمجة: شاشة، حركة، مسافة، حرارة، ضوء، مرحّل، محرك مؤازر وغيرها، لمشاريع حقيقية دون توصيل أسلاك."],
  sBack:["All kits","Tous les kits","كل الأطقم"],
  sPlanned:["This kit is being designed. Planned contents:","Ce kit est en cours de conception. Contenu prévu :","هذا الطقم قيد التصميم. المحتوى المخطط:"],
  sP1:["Boards and all components","Cartes et tous les composants","البطاقات وكل المكوّنات"],sP2:["Step-by-step user guide","Guide d'utilisation pas à pas","دليل استعمال خطوة بخطوة"],sP3:["Lab exercises for the classroom","TP pour la classe","أعمال تطبيقية للقسم"],sP4:["Online simulator","Simulateur en ligne","محاكٍ على الإنترنت"],
@@ -605,4 +605,47 @@ const GBOM=[
  [1,["USB-C connector (power only) + 2 × 5.1 kΩ resistors","Connecteur USB-C (alimentation seule) + 2 résistances 5,1 kΩ","موصل USB-C (تغذية فقط) + مقاومتان 5.1 كيلو أوم"],"J1, R1, R2"],
  [1,["Resettable fuse 500 mA","Fusible réarmable 500 mA","صمامة قابلة لإعادة الضبط 500 مللي أمبير"],"F1"],
  [1,["Power slide switch","Interrupteur d'alimentation à glissière","مفتاح تشغيل منزلق"],"SWP"]
+];
+/* ---------- Arduino All-in-One Kit page (dev/arduino.js) ---------- */
+const AT={
+ lead:["Our third board, fully designed: a complete Arduino-compatible computer with 16 sensors and modules already on the board. Students plug in a USB cable and write their first program in minutes, with no loose wires. The first boards are not made yet.","Notre troisième carte, entièrement conçue : un ordinateur compatible Arduino complet, avec 16 capteurs et modules déjà sur la carte. L'étudiant branche un câble USB et écrit son premier programme en quelques minutes, sans fils volants. Les premières cartes ne sont pas encore fabriquées.","لوحتنا الثالثة، مصمَّمة بالكامل: حاسوب كامل متوافق مع أردوينو، فيه 16 حساساً ووحدة على اللوحة نفسها. يوصل الطالب كابل USB ويكتب أول برنامج له في دقائق، دون أسلاك متدلية. لم تُصنَع اللوحات الأولى بعد."],
+ alt:["Drawing of the Arduino All-in-One board, made from its design file","Dessin de la carte Arduino tout-en-un, fait à partir de son fichier de conception","رسم لوحة أردوينو الشاملة، مأخوذ من ملف تصميمها"],
+ illus:["Drawing made from our KiCad design file: an illustration, not a photo. The kit is not assembled yet.","Dessin fait à partir de notre fichier de conception KiCad : une illustration, pas une photo. Le kit n'est pas encore assemblé.","رسم مأخوذ من ملف تصميمنا على KiCad: صورة توضيحية وليست صورة حقيقية. لم يُركَّب الطقم بعد."],
+ modT:["16 modules on one board","16 modules sur une seule carte","16 وحدة على لوحة واحدة"],
+ modL:["Each module is already wired to its own Arduino pin, printed next to it.","Chaque module est déjà relié à sa broche Arduino, imprimée à côté de lui.","كل وحدة موصولة مسبقاً بدبوس أردوينو خاص بها، مطبوع بجانبها."],
+ onT:["On the board","Sur la carte","على اللوحة"],
+ on1:["ATmega328P microcontroller at 16 MHz: programmed like an Arduino Uno","Microcontrôleur ATmega328P à 16 MHz : se programme comme un Arduino Uno","متحكم دقيق ATmega328P بتردد 16 ميغاهرتز: يُبرمَج مثل أردوينو أونو"],
+ on2:["USB connection for programming and power (CH340C)","Connexion USB pour programmer et alimenter (CH340C)","توصيل USB للبرمجة والتغذية (CH340C)"],
+ on3:["6 extension ports: analog, digital, I2C and UART, for extra sensors","6 ports d'extension : analogique, numérique, I2C et UART, pour d'autres capteurs","6 منافذ توسعة: تماثلي ورقمي وI2C وUART لحساسات إضافية"],
+ on4:["Reset button, power LED, on-board power supply","Bouton de réinitialisation, LED d'alimentation, alimentation intégrée","زر إعادة التشغيل، ضوء التغذية، وتغذية مدمجة على اللوحة"],
+ on5:["189 × 137 mm, delivered in a carrying case","189 × 137 mm, livrée dans une mallette de transport","189 × 137 مم، تُسلَّم في حقيبة حمل"],
+ learnT:["What students learn","Ce que les étudiants apprennent","ما يتعلّمه الطلبة"],
+ learn1:["Write, upload and debug Arduino programs","Écrire, téléverser et déboguer des programmes Arduino","كتابة برامج أردوينو ورفعها وتصحيحها"],
+ learn2:["Read sensors: analog, digital and I2C","Lire des capteurs : analogiques, numériques et I2C","قراءة الحساسات: التماثلية والرقمية وI2C"],
+ learn3:["Drive outputs: LED, buzzer, relay, servo motor, screen","Commander des sorties : LED, buzzer, relais, servomoteur, écran","التحكم في المخارج: الضوء والطنان والمرحّل والمحرك المؤازر والشاشة"],
+ learn4:["Build complete projects: alarm, weather station, smart door, distance meter","Réaliser des projets complets : alarme, station météo, porte intelligente, télémètre","إنجاز مشاريع كاملة: إنذار، محطة طقس، باب ذكي، مقياس مسافة"],
+ stT:["Where we are","Où nous en sommes","أين وصلنا"],
+ st1:["Circuit designed","Circuit conçu","الدارة مصمَّمة"],
+ st2:["Circuit board drawn (KiCad)","Circuit imprimé dessiné (KiCad)","اللوحة المطبوعة مرسومة (KiCad)"],
+ st3:["First boards made","Premières cartes fabriquées","صنع اللوحات الأولى"],
+ st4:["Lessons written and first kit tested","Leçons rédigées et premier kit testé","كتابة الدروس واختبار الطقم الأول"],
+ ctaT:["Interested in this kit?","Ce kit vous intéresse ?","هل يهمّك هذا الطقم؟"]
+};
+const AMODS=[ // name [en,fr,ar], pin, what it teaches [en,fr,ar]
+ [["LCD screen 16×2","Écran LCD 16×2","شاشة LCD ‏16×2"],"I2C",["Show text and values","Afficher du texte et des valeurs","عرض النصوص والقيم"]],
+ [["Ultrasonic distance","Distance à ultrasons","مسافة بالموجات فوق الصوتية"],"D5 · D6",["Measure distance with an echo","Mesurer une distance par écho","قياس المسافة بالصدى"]],
+ [["Motion (PIR)","Mouvement (PIR)","حركة (PIR)"],"A2",["Detect a person passing","Détecter le passage d'une personne","كشف مرور شخص"]],
+ [["Temperature & humidity","Température et humidité","الحرارة والرطوبة"],"I2C",["Build a weather station","Construire une station météo","بناء محطة طقس"]],
+ [["Light sensor","Capteur de lumière","حساس الضوء"],"I2C",["Measure brightness in lux","Mesurer la luminosité en lux","قياس الإضاءة باللوكس"]],
+ [["3-axis motion","Mouvement 3 axes","حركة ثلاثية المحاور"],"I2C",["Measure tilt and acceleration","Mesurer l'inclinaison et l'accélération","قياس الميل والتسارع"]],
+ [["Sound sensor","Capteur de son","حساس الصوت"],"A1",["React to a clap or a noise","Réagir à un claquement ou un bruit","التفاعل مع تصفيق أو صوت"]],
+ [["Slide potentiometer","Potentiomètre linéaire","مقاومة متغيرة منزلقة"],"A0",["Read an analog value","Lire une valeur analogique","قراءة قيمة تماثلية"]],
+ [["Infrared receiver","Récepteur infrarouge","مستقبل الأشعة تحت الحمراء"],"D2",["Use a TV remote control","Utiliser une télécommande","استعمال جهاز تحكم عن بعد"]],
+ [["Push button","Bouton poussoir","زر ضاغط"],"D7",["Read a digital input","Lire une entrée numérique","قراءة مدخل رقمي"]],
+ [["LED","LED","ضوء LED"],"D10",["Blink and dim with PWM","Clignoter et varier avec la PWM","الوميض والتعتيم بالـPWM"]],
+ [["Buzzer","Buzzer","طنان"],"D3",["Play tones and alarms","Jouer des notes et des alarmes","إصدار نغمات وإنذارات"]],
+ [["Relay","Relais","مرحّل"],"D4",["Switch a bigger circuit on and off","Commander un circuit plus puissant","تشغيل دارة أكبر وإطفاؤها"]],
+ [["Servo motor","Servomoteur","محرك مؤازر"],"D9",["Turn to a precise angle","Tourner à un angle précis","الدوران إلى زاوية دقيقة"]],
+ [["USB programming","Programmation USB","البرمجة عبر USB"],"USB",["Upload from the Arduino software","Téléverser depuis le logiciel Arduino","الرفع من برنامج أردوينو"]],
+ [["Extension ports","Ports d'extension","منافذ التوسعة"],"A3 · A6 · D11 · I2C · UART",["Add your own sensors","Ajouter vos propres capteurs","إضافة حساساتك الخاصة"]]
 ];

@@ -10,7 +10,7 @@ A startup that designs and sells hands-on electronics kits for learning, each wi
 |---|---|
 | 8-Bit CPU Trainer | Available: assembled 49,000 DA, solder-it-yourself kit 39,000 DA, classroom pack on quote |
 | Logic Gates Kit | Designed (KiCad schematic and board done, 158 × 142 mm), not yet printed. Page `#gates`: board drawn from the KiCad file, switches and jumper wires to try, truth tables, parts list |
-| Arduino Model Kit | Placeholder: "coming soon" page with WhatsApp / email contact |
+| Arduino All-in-One Kit | Designed (KiCad, 189 × 137 mm, ATmega328P + 16 modules), not yet printed. Page `#arduino`: board drawing, the 16 modules with their pins, what students learn, status, contact |
 
 ## Status
 
@@ -22,7 +22,7 @@ The website works offline: open `index.html` in a browser. It opens on a home pa
 |---|---|
 | `#home` (or no address) | Home: banner with photo, who we are, kit cards, learning path, why our kits, how ordering works, FAQ, contact |
 | `#gates` | Logic Gates Kit: try the board (switches, jumper wires, LEDs), truth tables, what is on the board, status, parts list, contact |
-| `#arduino` | Coming-soon page |
+| `#arduino` | Arduino All-in-One Kit: board drawing, 16 modules, contents, status, contact |
 | `#simulator`, `#guide`, `#modules`, `#labs`, `#course`, `#about`, `#kit` | 8-Bit CPU Trainer pages, with their own menu bar |
 
 The company name in the header always goes back home.
@@ -103,3 +103,4 @@ See [todo.md](todo.md) and [bugs.md](bugs.md).
 - 2026-11-17: Hackathon materials: new slide 7 "Le kit portes logiques" (board picture from the website, captioned as an illustration, not yet made); pitch (FR and AR) and Q&A updated with the Logic Gates board.
 - 2026-11-17: Design polish: more white space (bigger section gaps, larger headings), softer card shadows, sticky see-through header on home and kit pages, hero entrance and gentle floating picture, blocks fade up as you scroll, hero numbers count up, hover lifts on cards and buttons, FAQ answers slide in. All motion is off when the visitor's device asks for reduced motion. Fixed: the learning path still said "Coming soon" for the Logic Gates Kit. Checked every page at 1280 and 375 px in 3 languages: no errors, no sideways scrolling.
 - 2026-11-17: Business Model Canvas PDF (A4 landscape) made for the hackathon in `hackathon/`, kept out of git (`.gitignore`) so it is not published with the website.
+- 2026-11-18: Arduino All-in-One Kit page (`#arduino`) and home card, status "Designed · not made yet": board picture drawn from the owner's KiCad file by the new `dev/pcbrender.py`, 16 modules with pins and what each teaches, in 3 languages. Catalogue regenerated. Checked every page at 1280 and 375 px in 3 languages: no errors, no sideways scrolling.

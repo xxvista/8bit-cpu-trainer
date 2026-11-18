@@ -18,6 +18,7 @@ js = "\n".join([
     (here / "app.js").read_text(encoding="utf8"),
     (here / "bench.js").read_text(encoding="utf8"),
     (here / "gates.js").read_text(encoding="utf8"),
+    (here / "arduino.js").read_text(encoding="utf8"),
     (here / "start.js").read_text(encoding="utf8"),
 ])
 (here.parent / "index.html").write_text(src[:start] + "<script>\n" + js + "\n" + src[end:], encoding="utf8")

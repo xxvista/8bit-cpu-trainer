@@ -131,7 +131,7 @@ const ICONS={
 const KITS=[
  {id:"cpu",status:"live",name:()=>"8-Bit CPU Trainer",desc:()=>t("hCpuD"),img:KITILLUS},
  {id:"gates",status:"designed",name:()=>t("gName"),desc:()=>t("gD"),svg:()=>'<svg viewBox="-2 -2 '+(GPCB.w+4)+" "+(GPCB.h+4)+'" class="gpic" role="img" aria-label="'+esc(t("gName"))+'">'+drawGates(false).replace(/ data-tip="[^"]*"/g,"")+"</svg>"},
- {id:"arduino",status:"soon",name:()=>t("aName"),desc:()=>t("aD")}
+ {id:"arduino",status:"designed",name:()=>t("aName"),desc:()=>t("aD"),img:"img/arduino-board.png"}
 ];
 function renderBrand(){const w=BRAND.trim().split(/\s+/),last=w.pop();$("brandName").innerHTML=(w.length?esc(w.join(" "))+" ":"")+"<span>"+esc(last)+"</span>";}
 const kitBadge=k=>'<span class="badge '+(k.status==="live"?"ok":k.status==="designed"?"soon dsg":"soon")+'">'+t(k.status==="live"?"hAvail":k.status==="designed"?"hDesigned":"hSoon")+"</span>";
@@ -595,6 +595,7 @@ function renderStatic(){
   renderKit();
   renderBrand();renderHome();if(soonId)renderSoon(soonId);
   if(typeof renderGates==="function")renderGates();
+  if(typeof renderArduino==="function")renderArduino();
   if(typeof renderBench==="function")renderBench();
 }
 $("modCards").addEventListener("click",e=>{const b=e.target.closest("[data-sim]");if(b)benchPick(b.dataset.sim);});
@@ -621,18 +622,18 @@ if(ANALYTICS.goatcounter){const g=document.createElement("script");g.async=true;
 document.addEventListener("click",e=>{const a=e.target.closest("a,button");if(!a)return;const h=a.getAttribute("href")||"",where=location.hash.replace("#","")||"home";
   if(h.startsWith("https://wa.me"))track("whatsapp-"+where,1);else if(h.startsWith("mailto:"))track("email-"+where,1);else if(a.dataset.ev)track(a.dataset.ev,1);});
 const CPUVIEWS=["simulator","guide","modules","labs","course","about","kit"];
-const VIEWS=["home","soon","gates",...CPUVIEWS];
+const VIEWS=["home","soon","gates","arduino",...CPUVIEWS];
 let soonId=null;
 function route(){
   let h=location.hash.replace("#","");if(h==="bench")h="modules"; // old link: the module simulator is now on the Modules page
   soonId=KITS.some(k=>k.id===h&&k.status==="soon")?h:null;
-  let v=soonId?"soon":h==="gates"?"gates":(CPUVIEWS.includes(h)?h:"home");
+  let v=soonId?"soon":h==="gates"||h==="arduino"?h:(CPUVIEWS.includes(h)?h:"home");
   if(v!=="simulator")stop();
   if(soonId)renderSoon(soonId);
   VIEWS.forEach(x=>$("view-"+x).classList.toggle("active",x===v));
   const cpu=CPUVIEWS.includes(v);$("kitbar").hidden=!cpu;
   document.body.dataset.view=cpu?"cpu":v;
-  document.title=cpu?"8-Bit CPU Trainer · "+BRAND:soonId?KITS.find(k=>k.id===soonId).name()+" · "+BRAND:v==="gates"?t("gName")+" · "+BRAND:BRAND;
+  document.title=cpu?"8-Bit CPU Trainer · "+BRAND:soonId?KITS.find(k=>k.id===soonId).name()+" · "+BRAND:v==="gates"?t("gName")+" · "+BRAND:v==="arduino"?t("aName")+" · "+BRAND:BRAND;
   document.querySelectorAll("#nav a").forEach(a=>{if(a.getAttribute("href")==="#"+v)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");});
   trackView();
   render();
@@ -641,7 +642,7 @@ function route(){
   revealScan();
 }
 /* ---------- gentle motion: reveal blocks as they scroll in, count the hero facts up ---------- */
-const RVSEL=".hhead,.kitcard,.pathstep,.path .arrow,.whyitem,.hgallery figure,.how li,.howctas,.faq,.ctabox,.who > *,.facts,.quotes figure,.gcols section,.gbom,.gcta,.soonpage > *";
+const RVSEL=".amod,.hhead,.kitcard,.pathstep,.path .arrow,.whyitem,.hgallery figure,.how li,.howctas,.faq,.ctabox,.who > *,.facts,.quotes figure,.gcols section,.gbom,.gcta,.soonpage > *";
 let rvObs=null;
 function countUp(el){const end=parseInt(el.textContent,10);if(!(end>0))return;const t0=performance.now(),dur=900;
   const f=now=>{const k=Math.min(1,(now-t0)/dur);el.textContent=Math.round(end*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(f);};el.textContent="0";requestAnimationFrame(f);}
