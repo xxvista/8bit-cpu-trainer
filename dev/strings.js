@@ -649,20 +649,17 @@ const AMODS=[ // name [en,fr,ar], pin, what it teaches [en,fr,ar]
  [["USB programming","Programmation USB","البرمجة عبر USB"],"USB",["Upload from the Arduino software","Téléverser depuis le logiciel Arduino","الرفع من برنامج أردوينو"]],
  [["Extension ports","Ports d'extension","منافذ التوسعة"],"A3 · A6 · D11 · I2C · UART",["Add your own sensors","Ajouter vos propres capteurs","إضافة حساساتك الخاصة"]]
 ];
-/* ---------- Arduino kit: 3D view and simulator (dev/ard3d.js, dev/ardsim.js) ---------- */
+/* ---------- Arduino kit: flat board, block editor and simulator (dev/ardflat.js, dev/ardblocks.js, dev/ardsim.js) ---------- */
 const AS={
- secT:["Explore and simulate the board","Explorez et simulez la carte","استكشف اللوحة وحاكِها"],
- secL:["A 3D model built from our KiCad file. Pick an example program and press Run: the screen, LED, buzzer, relay and servo react, and you set the sensors with the sliders.","Un modèle 3D construit à partir de notre fichier KiCad. Choisissez un programme d'exemple et appuyez sur Lancer : l'écran, la LED, le buzzer, le relais et le servomoteur réagissent, et vous réglez les capteurs avec les curseurs.","نموذج ثلاثي الأبعاد مبني من ملف KiCad الخاص بنا. اختر برنامجاً نموذجياً واضغط تشغيل: تتفاعل الشاشة والضوء والطنان والمرحّل والمحرك المؤازر، وتضبط الحساسات بالمزالق."],
- hint:["Drag to rotate · scroll or pinch to zoom · tap a part to see what it does","Glissez pour tourner · molette ou pincement pour zoomer · touchez une pièce pour voir son rôle","اسحب للتدوير · استعمل العجلة أو اقرص للتكبير · المس قطعة لترى دورها"],
- top:["Top view","Vue de dessus","منظر علوي"],persp:["3D view","Vue 3D","منظر ثلاثي الأبعاد"],
- nogl:["3D is not available on this device; here is the board drawing.","La 3D n'est pas disponible sur cet appareil ; voici le dessin de la carte.","العرض ثلاثي الأبعاد غير متاح على هذا الجهاز؛ إليك رسم اللوحة."],
- loading:["Loading the 3D model…","Chargement du modèle 3D…","جارٍ تحميل النموذج ثلاثي الأبعاد…"],
- illus3d:["3D illustration made from our KiCad file, not a photo. The kit is not assembled yet.","Illustration 3D faite à partir de notre fichier KiCad, pas une photo. Le kit n'est pas encore assemblé.","رسم ثلاثي الأبعاد مأخوذ من ملف KiCad الخاص بنا، وليس صورة حقيقية. لم يُركَّب الطقم بعد."],
- ex:["Example program","Programme d'exemple","برنامج نموذجي"],
+ secT:["Program the board with blocks","Programmez la carte avec des blocs","برمج اللوحة بالكتل"],
+ secL:["Build a program with Scratch-style blocks, press Run, and watch the board react: the screen, LED, buzzer, relay and servo. Set the sensors with the sliders, or press the button and slide the potentiometer right on the board.","Construisez un programme avec des blocs façon Scratch, appuyez sur Lancer et regardez la carte réagir : l'écran, la LED, le buzzer, le relais et le servomoteur. Réglez les capteurs avec les curseurs, ou appuyez sur le bouton et glissez le potentiomètre directement sur la carte.","ابنِ برنامجاً بكتل على طريقة سكراتش، اضغط تشغيل وشاهد اللوحة تتفاعل: الشاشة والضوء والطنان والمرحّل والمحرك المؤازر. اضبط الحساسات بالمزالق، أو اضغط الزر وحرّك المقاومة المتغيرة مباشرة على اللوحة."],
+ hint:["Tap a part to see what it does. Press the green button and slide the potentiometer knob on the board; tap the motion sensor to wave at it.","Touchez une pièce pour voir son rôle. Appuyez sur le bouton vert et glissez le curseur du potentiomètre sur la carte ; touchez le détecteur de mouvement pour lui faire signe.","المس قطعة لترى دورها. اضغط الزر الأخضر وحرّك مقبض المقاومة المتغيرة على اللوحة؛ والمس كاشف الحركة لتلوّح له."],
+ illusF:["Drawing made from our KiCad file, not a photo. The kit is not assembled yet.","Dessin fait à partir de notre fichier KiCad, pas une photo. Le kit n'est pas encore assemblé.","رسم مأخوذ من ملف KiCad الخاص بنا، وليس صورة حقيقية. لم يُركَّب الطقم بعد."],
+ ex:["Start from an example","Partir d'un exemple","ابدأ من مثال"],
+ mine:["My program (edited)","Mon programme (modifié)","برنامجي (معدَّل)"],empty:["Empty program","Programme vide","برنامج فارغ"],
  run:["Run","Lancer","تشغيل"],stop:["Stop","Arrêter","إيقاف"],
  running:["Running","En marche","قيد التشغيل"],stopped:["Stopped","À l'arrêt","متوقف"],
- code:["Arduino code","Code Arduino","شيفرة أردوينو"],
- codeNote:["The simulation reproduces what this program does on the real board.","La simulation reproduit ce que fait ce programme sur la vraie carte.","تحاكي المحاكاة ما يفعله هذا البرنامج على اللوحة الحقيقية."],
+ code:["Arduino code made from your blocks","Code Arduino généré à partir de vos blocs","شيفرة أردوينو المولَّدة من كتلك"],
  sensors:["Sensors (set them yourself)","Capteurs (réglez-les vous-même)","الحساسات (اضبطها بنفسك)"],
  outputs:["Board outputs","Sorties de la carte","مخارج اللوحة"],
  temp:["Temperature","Température","الحرارة"],hum:["Humidity","Humidité","الرطوبة"],dist:["Distance","Distance","المسافة"],
@@ -675,10 +672,16 @@ const AS={
  on:["ON","MARCHE","تشغيل"],off:["OFF","ARRÊT","إطفاء"],
  lcd:["Screen","Écran","الشاشة"],serial:["Serial monitor","Moniteur série","شاشة المنفذ التسلسلي"],
  sound:["Buzzer sound","Son du buzzer","صوت الطنان"],
- pick:["Tap a part on the 3D board.","Touchez une pièce sur la carte 3D.","المس قطعة على اللوحة ثلاثية الأبعاد."],
- close:["Close","Fermer","إغلاق"]
+ close:["Close","Fermer","إغلاق"],
+ blocks:["Blocks","Blocs","الكتل"],script:["Your program","Votre programme","برنامجك"],
+ howto:["Tap a block on the left to add it where the blue line is. Tap a block in your program to move the line after it. Drag blocks with a mouse to move them.","Touchez un bloc à gauche pour l'ajouter à l'endroit de la ligne bleue. Touchez un bloc de votre programme pour placer la ligne après lui. Avec une souris, faites glisser les blocs pour les déplacer.","المس كتلة على اليسار لإضافتها مكان الخط الأزرق. المس كتلة في برنامجك لنقل الخط بعدها. بالفأرة، اسحب الكتل لتحريكها."],
+ up:["Move up","Monter","إلى الأعلى"],down:["Move down","Descendre","إلى الأسفل"],del:["Delete","Supprimer","حذف"],
+ newVar:["New variable","Nouvelle variable","متغير جديد"],make:["Create","Créer","إنشاء"],
+ varBad:["Use letters only (a to z), at most 12.","Utilisez seulement des lettres (a à z), 12 au plus.","استعمل الحروف اللاتينية فقط (a إلى z)، 12 حرفاً على الأكثر."],
+ reset:["Reset the example","Réinitialiser l'exemple","إعادة المثال"],
+ err:["Your program stopped: {0}","Votre programme s'est arrêté : {0}","توقف برنامجك: {0}"]
 };
-const ASK={ // the parts you can tap in 3D: [name, what it does]
+const ASK={ // the parts you can tap on the board drawing: [name, what it does]
  mcu:[["ATmega328P microcontroller","Microcontrôleur ATmega328P","المتحكم الدقيق ATmega328P"],["The brain of the board: it runs your Arduino program at 16 MHz.","Le cerveau de la carte : il exécute votre programme Arduino à 16 MHz.","عقل اللوحة: ينفّذ برنامج أردوينو بتردد 16 ميغاهرتز."]],
  usb:[["CH340C USB chip","Puce USB CH340C","شريحة USB ‏CH340C"],["Connects the board to the computer to upload programs.","Relie la carte à l'ordinateur pour téléverser les programmes.","تربط اللوحة بالحاسوب لرفع البرامج."]],
  lcd:[["LCD screen 16×2 (I2C 0x21)","Écran LCD 16×2 (I2C 0x21)","شاشة LCD ‏16×2 ‏(I2C 0x21)"],["Shows 2 lines of 16 characters.","Affiche 2 lignes de 16 caractères.","تعرض سطرين من 16 حرفاً."]],
@@ -725,3 +728,30 @@ const ASX=[ // example programs: id, [name], [what it does]
  ["clap",["Clap switch","Interrupteur à claquement","مفتاح التصفيق"],["A loud sound switches the relay on or off.","Un bruit fort allume ou éteint le relais.","صوت قوي يشغّل المرحّل أو يطفئه."]],
  ["remote",["Remote control","Télécommande","جهاز التحكم عن بعد"],["Press a remote key: the screen shows it; 1 and 0 switch the relay.","Appuyez sur une touche de la télécommande : l'écran l'affiche ; 1 et 0 commandent le relais.","اضغط زراً في جهاز التحكم: تعرضه الشاشة؛ و1 و0 يتحكمان في المرحّل."]]
 ];
+/* Scratch-style blocks for the Arduino kit (dev/ardblocks.js). {a} {b}… are the block's inputs */
+const ASB={
+ cat_ctl:["Control","Contrôle","التحكم"],cat_out:["Outputs","Sorties","المخارج"],cat_lcd:["Screen","Écran","الشاشة"],cat_in:["Sensors","Capteurs","الحساسات"],cat_op:["Operators","Opérateurs","العمليات"],cat_var:["Variables","Variables","المتغيرات"],
+ setup:["when the board starts","au démarrage de la carte","عند تشغيل اللوحة"],loop:["repeat forever","répéter indéfiniment","كرّر إلى الأبد"],
+ wait:["wait {a} ms","attendre {a} ms","انتظر {a} م.ث"],
+ repeat:["repeat {a} times","répéter {a} fois","كرّر {a} مرات"],
+ if:["if {a} then","si {a} alors","إذا {a} إذن"],ifelse:["if {a} then","si {a} alors","إذا {a} إذن"],else:["else","sinon","وإلا"],
+ led:["LED D10 {a}","LED D10 {a}","ضوء D10 ‏{a}"],ledpwm:["LED D10 brightness {a} %","luminosité LED D10 {a} %","سطوع ضوء D10 ‏{a} %"],
+ tone:["play {a} Hz for {b} ms","jouer {a} Hz pendant {b} ms","اعزف {a} هرتز لمدة {b} م.ث"],notone:["stop the buzzer","arrêter le buzzer","أوقف الطنان"],
+ relay:["relay {a}","relais {a}","المرحّل {a}"],servo:["turn the servo to {a} °","tourner le servo à {a} °","أدر المؤازر إلى {a} درجة"],
+ clear:["clear the screen","effacer l'écran","امسح الشاشة"],
+ print:["write on line {a}: {b}","écrire ligne {a} : {b}","اكتب في السطر {a}: {b}"],
+ printv:["write on line {a}: {b} {c}","écrire ligne {a} : {b} {c}","اكتب في السطر {a}: {b} {c}"],
+ serial:["send {a} to the serial monitor","envoyer {a} au moniteur série","أرسل {a} إلى شاشة المنفذ التسلسلي"],
+ set:["set {a} to {b}","mettre {a} à {b}","اجعل {a} تساوي {b}"],change:["add {b} to {a}","ajouter {b} à {a}","أضف {b} إلى {a}"],
+ on:["on","allumée","مشتعل"],off:["off","éteinte","مطفأ"],ron:["on","marche","تشغيل"],roff:["off","arrêt","إطفاء"],
+ k_num:["number","nombre","عدد"],
+ s_pot:["potentiometer A0","potentiomètre A0","المقاومة المتغيرة A0"],s_temp:["temperature °C","température °C","الحرارة °م"],s_hum:["humidity %","humidité %","الرطوبة %"],
+ s_dist:["distance cm","distance cm","المسافة سم"],s_lux:["light lux","lumière lux","الضوء لوكس"],s_snd:["sound level A1","niveau sonore A1","مستوى الصوت A1"],
+ s_tilt:["tilt °","inclinaison °","الميل °"],s_btn:["button pressed?","bouton appuyé ?","الزر مضغوط؟"],s_pir:["motion detected?","mouvement détecté ?","حركة مكتشَفة؟"],
+ s_ir:["remote key (−1 if none)","touche télécommande (−1 si aucune)","زر جهاز التحكم (−1 إن لم يوجد)"],s_ms:["time since start (ms)","temps depuis le démarrage (ms)","الوقت منذ التشغيل (م.ث)"],
+ o_arith:["( ) + ( )","( ) + ( )","( ) + ( )"],o_cmp:["( ) < ( )","( ) < ( )","( ) < ( )"],o_and:["( ) and ( )","( ) et ( )","( ) و ( )"],o_or:["( ) or ( )","( ) ou ( )","( ) أو ( )"],o_not:["not ( )","non ( )","ليس ( )"],
+ o_map:["map ( ) from 0–1023 to 0–180","convertir ( ) de 0–1023 à 0–180","حوّل ( ) من 0–1023 إلى 0–180"],o_rand:["random 1 to 10","aléatoire de 1 à 10","عشوائي من 1 إلى 10"],
+ map:["map {a} from {b}–{c} to {d}–{e}","convertir {a} de {b}–{c} à {d}–{e}","حوّل {a} من {b}–{c} إلى {d}–{e}"],rand:["random {a} to {b}","aléatoire de {a} à {b}","عشوائي من {a} إلى {b}"],
+ and:["and","et","و"],or:["or","ou","أو"],not:["not","non","ليس"],
+ v_:["variable","variable","متغير"],text:["text","texte","نص"]
+};
