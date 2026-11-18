@@ -42,7 +42,8 @@ function afSvg(){
       case"reset":s=R(p.bx,p.by,4.2,3.2,"#c8ccd2",' rx=".3"')+C(p.bx,p.by,.9,"#1d1e22");break;
       case"button":s=R(p.bx,p.by,12,12,"#1d1e22",' rx=".8"')+'<circle class="afbtn" id="afBtn" cx="'+p.bx+'" cy="'+p.by+'" r="4.2"/>';extra=" afpress";break;
       case"buzzer":s=C(p.bx,p.by,6,"#1d1e22")+C(p.bx,p.by,5.2,"none",' stroke="#34363c" stroke-width=".4"')+C(p.bx,p.by,1,"#050506")+'<g class="afwaves" id="afWaves"><circle cx="'+p.bx+'" cy="'+p.by+'" r="8"/><circle cx="'+p.bx+'" cy="'+p.by+'" r="10.5"/></g>';break;
-      case"relay":s='<rect id="afRelay" class="afrelay" x="'+f(p.bx-9.5)+'" y="'+f(p.by-7.75)+'" width="19" height="15.5" rx=".8"/>'+R(p.bx,p.by-2,11,4.6,"#f1f1ec",' rx=".3"')+TX(p.bx,p.by-2,1.7,"SRD-05VDC","#203a7a")+TX(p.bx,p.by+3.6,1.5,"5V RELAY","#dfe8ff");break;
+      case"relay":{const c=Math.cos(p.a*Math.PI/180),sn=Math.sin(p.a*Math.PI/180);abs={x:p.x+p.bx*c+p.by*sn,y:p.y-p.bx*sn+p.by*c}; // drawn upright: the box is symmetric
+        s='<rect id="afRelay" class="afrelay" x="-9.5" y="-7.75" width="19" height="15.5" rx=".8"/>'+R(0,2,11,4.6,"#f1f1ec",' rx=".3"')+TX(0,2,1.7,"SRD-05VDC","#203a7a")+TX(0,-3.4,1.5,"5V RELAY","#dfe8ff");break;}
       case"terminal":{const lx=longX(p);s=R(p.bx,p.by,lx?10.5:7.5,lx?7.5:10.5,"#1f8a4c",' rx=".4"');p.p.forEach(q=>{s+=C(q[0],q[1],1.3,"#c8ccd2")+R(q[0],q[1],lx?.35:2,lx?2:.35,"#3a3c42");});break;}
       case"conn":{const lx=p.w>=p.h;s=R(p.bx,p.by,lx?10:5.8,lx?5.8:10,"#f1f1ec",' rx=".3"')+R(p.bx,p.by+(lx?1.6:0),lx?8.6:2,lx?2:8.6,"#b9b9b2");break;}
       case"icsp":s=R(p.bx,p.by,p.w,p.h,"#1d1e22")+p.p.map(q=>R(q[0],q[1],.9,.9,"#d9b34a")).join("");break;

@@ -131,7 +131,7 @@ const ICONS={
 const KITS=[
  {id:"cpu",status:"live",name:()=>"8-Bit CPU Trainer",desc:()=>t("hCpuD"),img:KITILLUS},
  {id:"gates",status:"designed",name:()=>t("gName"),desc:()=>t("gD"),svg:()=>'<svg viewBox="-2 -2 '+(GPCB.w+4)+" "+(GPCB.h+4)+'" class="gpic" role="img" aria-label="'+esc(t("gName"))+'">'+drawGates(false).replace(/ data-tip="[^"]*"/g,"")+"</svg>"},
- {id:"arduino",status:"designed",name:()=>t("aName"),desc:()=>t("aD"),img:"img/arduino-board.png"}
+ {id:"arduino",status:"designed",name:()=>t("aName"),desc:()=>t("aD"),img:"img/arduino-kit.png"}
 ];
 function renderBrand(){const w=BRAND.trim().split(/\s+/),last=w.pop();$("brandName").innerHTML=(w.length?esc(w.join(" "))+" ":"")+"<span>"+esc(last)+"</span>";}
 const kitBadge=k=>'<span class="badge '+(k.status==="live"?"ok":k.status==="designed"?"soon dsg":"soon")+'">'+t(k.status==="live"?"hAvail":k.status==="designed"?"hDesigned":"hSoon")+"</span>";

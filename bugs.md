@@ -8,6 +8,12 @@ _None._
 
 ## Fixed
 
+### Arduino board drawing: relay label upside down
+
+- **Where:** Arduino page and home card, the relay on the board drawing.
+- **Cause:** the relay footprint is rotated 180°, and its label text was rotated with it.
+- **Fix:** the relay is drawn upright (its box is symmetric), 2026-11-18.
+
 ### 1. French guide page scrolls sideways on phones
 
 - **Where:** Guide page, French, screen 375 px wide (most phones)

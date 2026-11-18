@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Draw a KiCad board (top side) as an SVG illustration: outline, copper tracks, vias, pads and silkscreen.
 usage: python3 dev/pcbrender.py board.kicad_pcb out.svg
-Used for the Arduino kit picture (img/arduino-board.png, rasterised from the SVG with Playwright)."""
+Used for the Arduino board drawing (img/arduino-board.svg); the page draws the components over it (dev/ardflat.js)."""
 import sys, re, math, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
