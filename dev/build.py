@@ -18,6 +18,10 @@ js = "\n".join([
     (here / "app.js").read_text(encoding="utf8"),
     (here / "bench.js").read_text(encoding="utf8"),
     (here / "gates.js").read_text(encoding="utf8"),
+    (here / "ard3ddata.js").read_text(encoding="utf8"),
+    "const A3SVG=" + __import__("json").dumps((here.parent / "img" / "arduino-board.svg").read_text(encoding="utf8")) + ";",
+    (here / "ard3d.js").read_text(encoding="utf8"),
+    (here / "ardsim.js").read_text(encoding="utf8"),
     (here / "arduino.js").read_text(encoding="utf8"),
     (here / "start.js").read_text(encoding="utf8"),
 ])

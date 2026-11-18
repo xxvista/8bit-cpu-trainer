@@ -449,6 +449,60 @@ body:not([data-view="cpu"]) header.top{max-width:1160px;margin:0 auto}
 .badge{align-self:flex-start;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;border-radius:999px;padding:2px 10px}
 .badge.ok{background:var(--accent-soft);color:var(--accent)}
 .badge.soon{background:var(--soft);color:var(--muted);border:1px solid var(--line)}
+/* Arduino 3D view and simulator */
+.asim{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(300px,1fr);gap:28px;align-items:start;margin-top:24px}
+.a3host{position:relative;aspect-ratio:16/11;border-radius:var(--radius,18px);overflow:hidden;background:radial-gradient(ellipse at 50% 35%,#ffffff,#e9edf3);box-shadow:var(--shadow-s,0 4px 14px -6px rgba(17,24,39,.1))}
+.a3host canvas{position:absolute;inset:0;width:100%!important;height:100%!important;touch-action:none;outline:none;cursor:grab}
+.a3host canvas:active{cursor:grabbing}
+.a3host canvas:focus-visible{box-shadow:inset 0 0 0 3px color-mix(in srgb,var(--accent) 50%,transparent)}
+.a3fallback{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:12px}
+.a3host.ready .a3fallback,.a3host.ready .a3load,.a3host.nogl .a3load{display:none}
+.a3load{position:absolute;left:0;right:0;bottom:12px;text-align:center;font-size:13px;color:var(--muted)}
+.a3tools{position:absolute;top:10px;inset-inline-end:10px;display:flex;gap:6px;z-index:2}
+.a3host:not(.ready) .a3tools{display:none}
+.a3tools .btn{background:color-mix(in srgb,var(--page) 85%,transparent);backdrop-filter:blur(6px)}
+.a3info{position:absolute;left:12px;right:12px;bottom:12px;z-index:2;background:color-mix(in srgb,var(--page) 94%,transparent);backdrop-filter:blur(8px);border-radius:12px;padding:12px 44px 12px 14px;box-shadow:var(--shadow-s);display:flex;flex-wrap:wrap;gap:2px 8px;align-items:baseline;font-size:14px}
+[dir="rtl"] .a3info{padding:12px 14px 12px 44px}
+.a3info b{font-size:15px}.a3info i{font-style:normal;font-family:var(--f-mono);font-size:12px;color:var(--accent)}.a3info span{flex-basis:100%;color:var(--muted)}
+.a3info .ib{position:absolute;top:6px;inset-inline-end:6px;border:0;background:transparent;font-size:22px;line-height:1;width:32px;height:32px;border-radius:8px;cursor:pointer;color:var(--muted)}
+.a3info .ib:hover{background:var(--soft);color:var(--ink)}
+.a3nogl{display:none}.a3sec.nogl-on .a3nogl{display:block}.a3sec.nogl-on .a3hint{display:none}
+.axpanel{display:flex;flex-direction:column;gap:12px;min-width:0}
+.axpanel h4{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:8px 0 0}
+.axbar{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
+.axsel{display:flex;flex-direction:column;gap:4px;flex:1 1 200px;min-width:0;font-size:13px;color:var(--muted)}
+.axsel select{width:100%;font-size:15px;padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--page);color:var(--ink)}
+.axstate{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);padding:4px 10px;border-radius:999px;background:var(--soft);align-self:center}
+.axstate.on{color:#0f7a3f;background:#e3f6ea}
+.axdesc{font-size:14.5px;color:var(--muted);margin:0}
+.axlcd{background:#2e4fd8;border:6px solid #1c1f25;border-radius:8px;padding:8px 10px;font-family:var(--f-mono);font-size:clamp(14px,2.1vw,19px);letter-spacing:.08em;color:#eef3ff;white-space:pre;overflow:hidden;line-height:1.35;box-shadow:inset 0 0 18px rgba(0,0,0,.25)}
+.axouts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.aout{background:var(--soft);border-radius:10px;padding:8px 10px;display:flex;align-items:center;gap:8px;font-size:13px;min-width:0}
+.aout span{color:var(--muted);flex:1;min-width:0}
+.aout b{font-variant-numeric:tabular-nums}
+.lbar{flex:0 0 46px;height:8px;border-radius:4px;background:var(--line);overflow:hidden}.lbar i{display:block;height:100%;background:#e5332a}
+.apill{font-size:12px;padding:2px 8px;border-radius:999px;background:var(--line);white-space:nowrap}.apill.hot{background:#ffe2a8;color:#7a4a00}
+.a3info[hidden]{display:none}
+.axins{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 14px}
+.asl{display:flex;flex-direction:column;gap:2px;font-size:13px;color:var(--muted);opacity:.6;transition:opacity .2s}
+.asl.used,.axtog.used{opacity:1}
+.asl.used span{color:var(--ink);font-weight:600}
+.asl input{width:100%;accent-color:var(--accent)}
+.axtog{opacity:.6;font-size:13px}
+.axtog.used{grid-column:1/-1}
+#axBtn{width:100%;justify-content:center;user-select:none;-webkit-user-select:none;touch-action:none}
+#axBtn.down{background:var(--accent);color:#fff;border-color:var(--accent);transform:translateY(1px)}
+.axchk{display:flex;align-items:center;gap:8px;font-size:13.5px}
+.axremote{grid-column:1/-1;display:flex;flex-direction:column;gap:6px}
+.axremote .keys{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;max-width:320px}
+.key{border:1px solid var(--line);background:var(--page);border-radius:8px;padding:6px 0;font-weight:700;font-family:var(--f-mono);cursor:pointer}
+.key:hover{border-color:var(--accent);color:var(--accent)}
+.axserial{background:#111827;color:#9ae6b4;font-family:var(--f-mono);font-size:12.5px;border-radius:10px;padding:10px 12px;min-height:5.4em;max-height:9em;overflow:auto;margin:0}
+.axcode{margin-top:20px;border:1px solid var(--line);border-radius:14px;padding:4px 16px}
+.axcode summary{cursor:pointer;padding:10px 0;font-weight:600}
+.axcode pre{background:#0f1729;color:#dbe4ff;font-family:var(--f-mono);font-size:13px;line-height:1.55;border-radius:10px;padding:14px 16px;overflow:auto;margin:0 0 12px;max-height:440px}
+@media (max-width:1000px){.asim{grid-template-columns:minmax(0,1fr)}.a3host{aspect-ratio:4/3}}
+@media (max-width:520px){.axins{grid-template-columns:minmax(0,1fr)}.a3tools .btn{padding:5px 8px;font-size:12px}}
 /* Arduino kit page */
 .afig{margin:0 0 8px}
 .afig img{width:100%;height:auto;display:block;border-radius:var(--radius,18px);box-shadow:var(--shadow-s,0 4px 14px -6px rgba(17,24,39,.1))}

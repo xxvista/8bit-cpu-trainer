@@ -13,6 +13,7 @@
 - [ ] Logic Gates Kit price, once the board cost is known
 - [x] Arduino kit contents: owner's board (KiCad, 2026-11-18); page `#arduino` added
 - [ ] Arduino board: change the KiCad title block (it still says "KiCad copy" and "Imported from Eagle design by Elecrow (no licence stated)") and keep the licence document that allows selling it
+- [ ] Arduino simulator: add the lessons as guided steps (like the CPU labs), and let students edit the code later
 - [ ] Arduino kit price (cost estimate about $38 a kit with board assembly, before transport and customs) and its lessons
 
 ## Before launch

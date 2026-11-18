@@ -2,32 +2,11 @@
 """Draw a KiCad board (top side) as an SVG illustration: outline, copper tracks, vias, pads and silkscreen.
 usage: python3 dev/pcbrender.py board.kicad_pcb out.svg
 Used for the Arduino kit picture (img/arduino-board.png, rasterised from the SVG with Playwright)."""
-import sys, re, math
+import sys, re, math, os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-def parse(s):
-    toks = re.findall(r'\(|\)|"(?:[^"\\]|\\.)*"|[^\s()]+', s)
-    st = [[]]
-    for t in toks:
-        if t == "(": st.append([])
-        elif t == ")": x = st.pop(); st[-1].append(x)
-        elif t.startswith('"'): st[-1].append(t[1:-1].replace('\\"', '"').replace("\\n", "\n"))
-        else: st[-1].append(t)
-    return st[0][0]
-
+from pcbrender_parse import parse, kids, kid, layers, xy, width
 root = parse(open(sys.argv[1], encoding="utf-8").read())
-kids = lambda n, name: [c for c in n if isinstance(c, list) and c and c[0] == name]
-def kid(n, name):
-    k = kids(n, name); return k[0] if k else None
-def layers(n):
-    l = kid(n, "layer")
-    if l: return [l[1]]
-    l = kid(n, "layers"); return l[1:] if l else []
-def xy(n, name):
-    k = kid(n, name); return (float(k[1]), float(k[2])) if k else None
-def width(n):
-    s = kid(n, "stroke")
-    if s and kid(s, "width"): return float(kid(s, "width")[1])
-    w = kid(n, "width"); return float(w[1]) if w else 0.12
 f2 = lambda v: f"{v:.2f}".rstrip("0").rstrip(".")
 
 # outline bounding box
