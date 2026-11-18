@@ -15,7 +15,8 @@
 - [ ] Arduino board: change the KiCad title block (it still says "KiCad copy" and "Imported from Eagle design by Elecrow (no licence stated)") and keep the licence document that allows selling it
 - [x] Arduino simulator: students edit programs with Scratch-style blocks (2026-11-18)
 - [ ] Arduino simulator: guided lessons (like the CPU labs); later, typing Arduino code directly
-- [ ] Arduino kit price (cost estimate about $38 a kit with board assembly, before transport and customs) and its lessons
+- [ ] Confirm the proposed prices (Logic Gates 8,000 DA, Arduino 18,000 DA, used in the hackathon plan) before putting them on the website and in the order tracker
+- [ ] Arduino kit lessons
 
 ## Before launch
 
