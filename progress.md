@@ -1,6 +1,6 @@
 # Progress
 
-Last updated: 2026-11-17
+Last updated: 2026-11-19
 
 ## Vision
 
@@ -34,7 +34,7 @@ The company name in the header always goes back home.
 | Home page | Presents the startup: banner ("Designed and made in Algeria", headline, photo, 3 key facts), who we are, 3 kit cards, learning path (Logic Gates → CPU, Arduino alongside), 4 reasons to choose us, 3-step ordering with a "quote for your school" WhatsApp button, 5-question FAQ, contact box | `renderHome` in `dev/app.js`, `h…` strings in `dev/strings.js` |
 | Logic Gates Kit page | Board drawn from the KiCad file, switches, power switch and jumper wires to try, live truth tables, examples, contents, status, parts list | `dev/gates.js`, `dev/gatesdata.js` (from `dev/gatespcb.py`) |
 | Coming-soon pages | Kit name, description, planned contents, WhatsApp and email buttons with a pre-written message | `renderSoon` in `dev/app.js` |
-| Prices | Assembled 49,000 DA, solder kit 39,000 DA; home page card shows "From 39,000 DA" | `SHOP.prices` in `dev/app.js` |
+| Prices | Assembled 49,000 DA, solder kit 39,000 DA; home page card shows "From 39,000 DA". Planned prices: Logic Gates 8,000 DA, Arduino 18,000 DA, shown as "Planned price" on the home cards, the kit pages (Status column) and the catalogue; also in the order tracker Prices tab | `SHOP.prices` in `dev/app.js` |
 | PDF catalogue | 2-page A4 catalogue in English, French and Arabic, made from the site's text and prices; download buttons on the home page and the CPU kit page | `dev/brochure.js`, `brochure/catalogue-*.pdf` |
 | Quotes section | Built but hidden until real quotes are added | `QUOTES` in `dev/app.js` |
 | Home board row | "Inside the kit" row of 4 board drawings | `HOMEBOARDS` in `dev/app.js` |
@@ -108,3 +108,4 @@ See [todo.md](todo.md) and [bugs.md](bugs.md).
 - 2026-11-18: Arduino page reworked as the owner asked: the 3D view is replaced by a flat drawing of the board with every component drawn (chips with names, live LCD text, servo arm, LED glow, relay, buzzer waves); press the button, drag the potentiometer and tap the PIR directly on the board; tap any part for what it does. New Scratch-style block editor (control, outputs, screen, sensors, operators, variables): add, edit, nest, reorder and delete blocks; the Arduino code is generated live from the blocks; the 10 examples are now editable block programs; the student's program is saved in the browser. three.js removed. Checked: every page at 1280 and 375 px in 3 languages; examples, editing and code generation by script.
 - 2026-11-18: Home card for the Arduino kit now shows the board with its components (`img/arduino-kit.png`, `node dev/ardkitimg.js`). Fixed: the relay's label was drawn upside down. Removed the unused `img/arduino-board.png`. Checked: every page at 1280 and 375 px in 3 languages; every string has its 3 languages.
 - 2026-11-18: Hackathon plan reworked to be profitable from the first year: the three kits are sold from 2027 (50 CPU, 60 logic gates at 8,000 DA, 30 Arduino at 18,000 DA — proposed prices), giving about +530,500 DA in 2027, +1.99 M DA in 2028 and +4.4 M DA in 2029. Slides (money, roadmap, Arduino, BMC) and the speech document updated; the Arduino slide uses the board-with-components picture.
+- 2026-11-19: Planned prices added (Logic Gates 8,000 DA, Arduino 18,000 DA) on the home cards, kit pages, catalogue and order tracker. Licence section removed from the About page (owner); the CERN-OHL-P credit line stays at the bottom of the home page and in the catalogue. Checked: 10 pages × 3 languages × 1280/375 px, no errors, no sideways scrolling; catalogue rebuilt.

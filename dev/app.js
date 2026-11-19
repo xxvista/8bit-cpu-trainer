@@ -157,7 +157,7 @@ function renderHome(){
    '<section class="hsec who"><h2>'+t("hWho")+'</h2><div><p class="whotext">'+t("hWhoP")+'</p><b class="forlbl">'+t("hFor")+'</b><div class="audience">'+[1,2,3,4].map(i=>"<span>"+t("hAud"+i)+"</span>").join("")+"</div></div></section>"+
    '<section class="hsec" id="hKits">'+head(t("hChoose"))+'<div class="kits">'+KITS.map(k=>{const live=k.status==="live";
      return'<article class="kitcard'+(live?" live":"")+'"><a class="pic" href="#'+(live?"simulator":k.id)+'" tabindex="-1">'+kitPic(k)+'</a><div class="body">'+kitBadge(k)+"<h3"+(k.id==="cpu"?' class="ltr"':"")+">"+k.name()+"</h3><p>"+k.desc()+"</p>"+(live&&k.id==="cpu"?'<div class="fromprice">'+t("hFrom",'<b class="ltr">'+money(Math.min(SHOP.prices.assembled,SHOP.prices.solder))+"</b>")+"</div>":"")+'<div class="ctas">'+
-       (live?'<a class="btn primary" href="#simulator">'+t("hExplore")+'</a><a class="btn" href="#kit">'+t("hOrder")+"</a>":'<a class="btn" href="#'+k.id+'">'+t("hMore")+"</a>")+"</div></div></article>";}).join("")+"</div></section>"+
+       (SHOP.prices[k.id]!=null?'<div class="fromprice">'+t("hPlanned",'<b class="ltr">'+money(SHOP.prices[k.id])+"</b>")+"</div>":"")+(live?'<a class="btn primary" href="#simulator">'+t("hExplore")+'</a><a class="btn" href="#kit">'+t("hOrder")+"</a>":'<a class="btn" href="#'+k.id+'">'+t("hMore")+"</a>")+"</div></div></article>";}).join("")+"</div></section>"+
    '<section class="hsec band">'+head(t("hPath"),t("hPathL"))+'<div class="path">'+
      step(t("hStep",1),kit("gates"),t("hPath1"))+'<span class="arrow" aria-hidden="true">→</span>'+step(t("hStep",2),kit("cpu"),t("hPath2"))+'<span class="arrow plus" aria-hidden="true">+</span>'+step(t("hAlong"),kit("arduino"),t("hPath3"))+"</div></section>"+
    '<section class="hsec">'+head(t("hWhy"))+'<div class="why">'+[1,2,3,4].map(i=>'<div class="whyitem"><span class="ico">'+svgI(WHYICONS[i-1])+"</span><h3>"+t("hW"+i)+"</h3><p>"+t("hW"+i+"d")+"</p></div>").join("")+"</div></section>"+
@@ -173,7 +173,7 @@ function renderSoon(id){
   $("soonBody").innerHTML='<a class="backlink" href="#home">← '+t("sBack")+'</a><div class="soonpage"><div><span class="badge soon">'+t("hSoon")+"</span><h2>"+k.name()+'</h2><p class="lead">'+k.desc()+"</p><p style=\"margin-top:14px\">"+t("sPlanned")+"</p><ul>"+[1,2,3,4].map(i=>"<li>"+t("sP"+i)+"</li>").join("")+"</ul><p>"+t("sNotify")+'</p><div class="ctas" style="margin-top:12px"><a class="btn primary big" target="_blank" rel="noopener" href="'+waLink(msg)+'">WhatsApp</a><a class="btn big" href="'+mailLink(k.name(),msg)+'">Email</a></div>'+contactHtml()+'</div><div class="pic">'+ICONS[k.id]+"</div></div>";
 }
 
-const SHOP={email:"abdelkafiabdellah419@gmail.com",whatsapp:"213666020037",phone:"0666 02 00 37",currency:"DA",prices:{assembled:49000,solder:39000}};
+const SHOP={email:"abdelkafiabdellah419@gmail.com",whatsapp:"213666020037",phone:"0666 02 00 37",currency:"DA",prices:{assembled:49000,solder:39000,gates:8000,arduino:18000}};
 
 const EXAMPLES=[
  {id:"count3",src:"; Shows 3, 6, 9 ... and wraps past 255\n      LDB three   ; B = 3\nloop: ADD         ; A = A + B\n      OUT         ; show A\n      JMP loop    ; again\n14:\nthree: 3"},

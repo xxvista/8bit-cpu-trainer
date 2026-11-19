@@ -10,12 +10,12 @@
 - [ ] A real photo of the team or workshop for the "Who we are" section (optional)
 - [x] Logic Gates Kit contents: board designed (owner's KiCad files, 2026-11-17); page `#gates` added
 - [ ] Logic Gates board, before ordering: check the LED loads on the CD40xx outputs (about 1 mA drive at 5 V against 1 kΩ LEDs: dim LEDs, weak levels when chaining gates). Options: 74HC00/08/32/86 (other pinouts, re-route) or 4.7–10 kΩ LED resistors with bright LEDs. Run KiCad ERC/DRC (`check.bat`)
-- [ ] Logic Gates Kit price, once the board cost is known
+- [ ] Logic Gates Kit: check the planned 8,000 DA price once the board cost is known
 - [x] Arduino kit contents: owner's board (KiCad, 2026-11-18); page `#arduino` added
 - [ ] Arduino board: change the KiCad title block (it still says "KiCad copy" and "Imported from Eagle design by Elecrow (no licence stated)") and keep the licence document that allows selling it
 - [x] Arduino simulator: students edit programs with Scratch-style blocks (2026-11-18)
 - [ ] Arduino simulator: guided lessons (like the CPU labs); later, typing Arduino code directly
-- [ ] Confirm the proposed prices (Logic Gates 8,000 DA, Arduino 18,000 DA, used in the hackathon plan) before putting them on the website and in the order tracker
+- [x] Prices confirmed and added as planned prices: Logic Gates 8,000 DA, Arduino 18,000 DA (website, catalogue, order tracker, 2026-11-19)
 - [ ] Arduino kit lessons
 
 ## Before launch

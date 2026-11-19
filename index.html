@@ -971,6 +971,7 @@ const U={
  hQuote:["Request a quote for your school","Demander un devis pour votre établissement","اطلب عرض سعر لمؤسستك"],
  hQuoteMsg:["Hello, I would like a quote for our school. Kit(s): ... Number of student groups: ...","Bonjour, je souhaite un devis pour notre établissement. Kit(s) : ... Nombre de groupes d'étudiants : ...","مرحباً، أريد عرض سعر لمؤسستنا. الطقم/الأطقم: ... عدد أفواج الطلاب: ..."],
  hIllus:["Illustration: the 11 boards, drawn from our design files","Illustration : les 11 cartes, dessinées d'après nos fichiers de conception","رسم توضيحي: البطاقات الإحدى عشرة، مرسومة من ملفات تصميمنا"],
+ hPlanned:["Planned price {0}","Prix prévu {0}","السعر المتوقع {0}"],
  hFrom:["From {0}","À partir de {0}","ابتداءً من {0}"],
  hPhotos:["Inside the kit","Le kit en détail","الطقم عن قرب"],
  hQuotes:["What teachers and students say","Ce qu'en disent enseignants et étudiants","ماذا يقول الأساتذة والطلاب"],
@@ -1394,9 +1395,7 @@ const ABOUT=[
 <details class="faq"><summary>What does the kit need to run?</summary><p>Only a 5 V USB-C power supply. No computer is needed: programs are entered with the switches on the boards.</p></details>
 <details class="faq"><summary>Does the simulator need installing?</summary><p>No. It runs in any recent web browser, on a computer or a phone.</p></details>
 <details class="faq"><summary>What architecture does it use?</summary><p>The classic SAP-1 (Simple As Possible) teaching architecture, built on printed circuit boards. The RAM card uses two ATmega328 microcontrollers in place of memory chips, and the instruction set is listed in the user guide.</p></details>
-<details class="faq"><summary>Can a teacher adapt the labs?</summary><p>Yes. The labs and course map are a starting point; contact us to adapt them to your own syllabus.</p></details>
-<h3>Licence</h3>
-<p>The board design is open hardware, released under the CERN Open Hardware Licence version 2, Permissive (CERN-OHL-P). The licence and its notices are kept with the design files.</p>`,
+<details class="faq"><summary>Can a teacher adapt the labs?</summary><p>Yes. The labs and course map are a starting point; contact us to adapt them to your own syllabus.</p></details>`,
 `<h2>À propos</h2>
 <p class="lead">8-Bit CPU Trainer est un kit pédagogique et un site web pour les cours d'architecture des ordinateurs : un véritable ordinateur 8 bits sur circuits imprimés, et un simulateur qui se comporte exactement comme lui.</p>
 <h3>Qui le fabrique</h3>
@@ -1408,9 +1407,7 @@ const ABOUT=[
 <details class="faq"><summary>De quoi le kit a-t-il besoin pour fonctionner ?</summary><p>D'une simple alimentation USB-C 5 V. Aucun ordinateur n'est nécessaire : les programmes se saisissent avec les interrupteurs des cartes.</p></details>
 <details class="faq"><summary>Faut-il installer le simulateur ?</summary><p>Non. Il fonctionne dans tout navigateur récent, sur ordinateur ou sur téléphone.</p></details>
 <details class="faq"><summary>Quelle architecture utilise-t-il ?</summary><p>L'architecture pédagogique classique SAP-1 (Simple As Possible), réalisée sur circuits imprimés. La carte RAM utilise deux microcontrôleurs ATmega328 à la place des circuits mémoire, et le jeu d'instructions est décrit dans le guide.</p></details>
-<details class="faq"><summary>Un enseignant peut-il adapter les TP ?</summary><p>Oui. Les TP et la correspondance avec le programme sont un point de départ ; contactez-nous pour les adapter à votre cours.</p></details>
-<h3>Licence</h3>
-<p>La conception des cartes est du matériel libre, publiée sous licence CERN Open Hardware Licence version 2, Permissive (CERN-OHL-P). La licence et ses mentions sont conservées avec les fichiers de conception.</p>`,
+<details class="faq"><summary>Un enseignant peut-il adapter les TP ?</summary><p>Oui. Les TP et la correspondance avec le programme sont un point de départ ; contactez-nous pour les adapter à votre cours.</p></details>`,
 `<h2>من نحن</h2>
 <p class="lead">‏8-Bit CPU Trainer طقم تعليمي وموقع لمقررات بنية الحاسوب: حاسوب حقيقي ذو 8 بتات على دارات مطبوعة، ومحاكٍ يتصرف مثله تماماً.</p>
 <h3>من يصنعه</h3>
@@ -1422,9 +1419,7 @@ const ABOUT=[
 <details class="faq"><summary>ماذا يحتاج الطقم ليعمل؟</summary><p>تغذية USB-C بجهد 5 فولت فقط. لا حاجة إلى حاسوب: تُدخَل البرامج بالمفاتيح الموجودة على البطاقات.</p></details>
 <details class="faq"><summary>هل يحتاج المحاكي إلى تثبيت؟</summary><p>لا. يعمل في أي متصفح حديث، على الحاسوب أو الهاتف.</p></details>
 <details class="faq"><summary>ما المعمارية التي يعتمدها؟</summary><p>المعمارية التعليمية الكلاسيكية SAP-1 (أبسط ما يمكن)، مبنية على دارات مطبوعة. بطاقة الذاكرة تستعمل متحكّمَين دقيقين ATmega328 بدل دوائر الذاكرة، وطقم التعليمات موضّح في الدليل.</p></details>
-<details class="faq"><summary>هل يمكن للأستاذ تكييف الأعمال التطبيقية؟</summary><p>نعم. الأعمال التطبيقية وخريطة المقرر نقطة انطلاق؛ تواصل معنا لتكييفها مع برنامجك.</p></details>
-<h3>الرخصة</h3>
-<p>تصميم البطاقات عتاد مفتوح منشور برخصة CERN Open Hardware Licence الإصدار 2، النوع المتساهل (CERN-OHL-P). الرخصة وإشعاراتها محفوظة مع ملفات التصميم.</p>`
+<details class="faq"><summary>هل يمكن للأستاذ تكييف الأعمال التطبيقية؟</summary><p>نعم. الأعمال التطبيقية وخريطة المقرر نقطة انطلاق؛ تواصل معنا لتكييفها مع برنامجك.</p></details>`
 ];
 
 /* Module simulator on the Modules page (dev/bench.js): [English, Français, العربية] */
@@ -1857,7 +1852,7 @@ function renderHome(){
    '<section class="hsec who"><h2>'+t("hWho")+'</h2><div><p class="whotext">'+t("hWhoP")+'</p><b class="forlbl">'+t("hFor")+'</b><div class="audience">'+[1,2,3,4].map(i=>"<span>"+t("hAud"+i)+"</span>").join("")+"</div></div></section>"+
    '<section class="hsec" id="hKits">'+head(t("hChoose"))+'<div class="kits">'+KITS.map(k=>{const live=k.status==="live";
      return'<article class="kitcard'+(live?" live":"")+'"><a class="pic" href="#'+(live?"simulator":k.id)+'" tabindex="-1">'+kitPic(k)+'</a><div class="body">'+kitBadge(k)+"<h3"+(k.id==="cpu"?' class="ltr"':"")+">"+k.name()+"</h3><p>"+k.desc()+"</p>"+(live&&k.id==="cpu"?'<div class="fromprice">'+t("hFrom",'<b class="ltr">'+money(Math.min(SHOP.prices.assembled,SHOP.prices.solder))+"</b>")+"</div>":"")+'<div class="ctas">'+
-       (live?'<a class="btn primary" href="#simulator">'+t("hExplore")+'</a><a class="btn" href="#kit">'+t("hOrder")+"</a>":'<a class="btn" href="#'+k.id+'">'+t("hMore")+"</a>")+"</div></div></article>";}).join("")+"</div></section>"+
+       (SHOP.prices[k.id]!=null?'<div class="fromprice">'+t("hPlanned",'<b class="ltr">'+money(SHOP.prices[k.id])+"</b>")+"</div>":"")+(live?'<a class="btn primary" href="#simulator">'+t("hExplore")+'</a><a class="btn" href="#kit">'+t("hOrder")+"</a>":'<a class="btn" href="#'+k.id+'">'+t("hMore")+"</a>")+"</div></div></article>";}).join("")+"</div></section>"+
    '<section class="hsec band">'+head(t("hPath"),t("hPathL"))+'<div class="path">'+
      step(t("hStep",1),kit("gates"),t("hPath1"))+'<span class="arrow" aria-hidden="true">→</span>'+step(t("hStep",2),kit("cpu"),t("hPath2"))+'<span class="arrow plus" aria-hidden="true">+</span>'+step(t("hAlong"),kit("arduino"),t("hPath3"))+"</div></section>"+
    '<section class="hsec">'+head(t("hWhy"))+'<div class="why">'+[1,2,3,4].map(i=>'<div class="whyitem"><span class="ico">'+svgI(WHYICONS[i-1])+"</span><h3>"+t("hW"+i)+"</h3><p>"+t("hW"+i+"d")+"</p></div>").join("")+"</div></section>"+
@@ -1873,7 +1868,7 @@ function renderSoon(id){
   $("soonBody").innerHTML='<a class="backlink" href="#home">← '+t("sBack")+'</a><div class="soonpage"><div><span class="badge soon">'+t("hSoon")+"</span><h2>"+k.name()+'</h2><p class="lead">'+k.desc()+"</p><p style=\"margin-top:14px\">"+t("sPlanned")+"</p><ul>"+[1,2,3,4].map(i=>"<li>"+t("sP"+i)+"</li>").join("")+"</ul><p>"+t("sNotify")+'</p><div class="ctas" style="margin-top:12px"><a class="btn primary big" target="_blank" rel="noopener" href="'+waLink(msg)+'">WhatsApp</a><a class="btn big" href="'+mailLink(k.name(),msg)+'">Email</a></div>'+contactHtml()+'</div><div class="pic">'+ICONS[k.id]+"</div></div>";
 }
 
-const SHOP={email:"abdelkafiabdellah419@gmail.com",whatsapp:"213666020037",phone:"0666 02 00 37",currency:"DA",prices:{assembled:49000,solder:39000}};
+const SHOP={email:"abdelkafiabdellah419@gmail.com",whatsapp:"213666020037",phone:"0666 02 00 37",currency:"DA",prices:{assembled:49000,solder:39000,gates:8000,arduino:18000}};
 
 const EXAMPLES=[
  {id:"count3",src:"; Shows 3, 6, 9 ... and wraps past 255\n      LDB three   ; B = 3\nloop: ADD         ; A = A + B\n      OUT         ; show A\n      JMP loop    ; again\n14:\nthree: 3"},
@@ -2673,7 +2668,7 @@ function renderGates(){
      '<label class="gex">'+gt("exL")+' <select id="gEx">'+GGATES.map(g=>'<option value="'+g[0]+'">'+gt("exGate",g[0])+"</option>").join("")+'<option value="ab">'+gt("exAb")+'</option><option value="half">'+gt("exHalf")+'</option></select></label><div class="ctas"><button type="button" class="btn primary" data-g="ex">'+gt("exGo")+'</button><button type="button" class="btn" data-g="clear">'+gt("clear")+"</button></div>"+
      "<h3>"+gt("ttT")+'</h3><div class="gtables" id="gTables"></div></aside></div>'+
    '<p class="gnote">'+gt("illus")+"</p>"+
-   '<div class="gcols"><section><h3>'+gt("onT")+"</h3>"+li("on",7)+"</section><section><h3>"+gt("learnT")+"</h3>"+li("learn",4)+"</section><section><h3>"+gt("stT")+'</h3><ul class="gstat"><li class="done">'+gt("st1")+'</li><li class="done">'+gt("st2")+"</li><li>"+gt("st3")+"</li><li>"+gt("st4")+"</li></ul></section></div>"+
+   '<div class="gcols"><section><h3>'+gt("onT")+"</h3>"+li("on",7)+"</section><section><h3>"+gt("learnT")+"</h3>"+li("learn",4)+"</section><section><h3>"+gt("stT")+'</h3><ul class="gstat"><li class="done">'+gt("st1")+'</li><li class="done">'+gt("st2")+"</li><li>"+gt("st3")+"</li><li>"+gt("st4")+"</li></ul><p class='fromprice'>"+t("hPlanned",'<b class="ltr">'+money(SHOP.prices.gates)+"</b>")+"</p></section></div>"+
    "<h3>"+gt("bomT")+'</h3><div class="tablewrap"><table class="gbom"><thead><tr><th>'+gt("bomQ")+"</th><th>"+gt("bomP")+"</th><th>"+gt("bomR")+"</th></tr></thead><tbody>"+GBOM.map(r=>"<tr><td class='m'>"+r[0]+"</td><td>"+r[1][LI]+"</td><td class='m ltr'>"+r[2]+"</td></tr>").join("")+"</tbody></table></div>"+
    '<div class="ctabox gcta"><div><h2>'+gt("ctaT")+'</h2><p class="lead">'+t("sNotify")+'</p></div><div class="ctas"><a class="btn primary big" target="_blank" rel="noopener" href="'+waLink(msg)+'">WhatsApp</a><a class="btn big" href="'+mailLink(k.name(),msg)+'">Email</a></div>'+contactHtml()+"</div>";
   gUpdate();
@@ -3117,7 +3112,7 @@ function renderArduino(){
    '<div class="ghead"><span class="badge soon dsg">'+t("hDesigned")+"</span><h2>"+k.name()+'</h2><p class="lead">'+at("lead")+"</p></div>"+
    ardsimSection()+
    '<section class="asec"><h3>'+at("modT")+"</h3><p>"+at("modL")+'</p><div class="amods">'+AMODS.map(m=>'<div class="amod"><b>'+m[0][LI]+'</b><i class="pin ltr">'+m[1]+"</i><span>"+m[2][LI]+"</span></div>").join("")+"</div></section>"+
-   '<div class="gcols"><section><h3>'+at("onT")+"</h3>"+li("on",5)+"</section><section><h3>"+at("learnT")+"</h3>"+li("learn",4)+"</section><section><h3>"+at("stT")+'</h3><ul class="gstat"><li class="done">'+at("st1")+'</li><li class="done">'+at("st2")+"</li><li>"+at("st3")+"</li><li>"+at("st4")+"</li></ul></section></div>"+
+   '<div class="gcols"><section><h3>'+at("onT")+"</h3>"+li("on",5)+"</section><section><h3>"+at("learnT")+"</h3>"+li("learn",4)+"</section><section><h3>"+at("stT")+'</h3><ul class="gstat"><li class="done">'+at("st1")+'</li><li class="done">'+at("st2")+"</li><li>"+at("st3")+"</li><li>"+at("st4")+"</li></ul><p class='fromprice'>"+t("hPlanned",'<b class="ltr">'+money(SHOP.prices.arduino)+"</b>")+"</p></section></div>"+
    '<div class="ctabox gcta"><div><h2>'+at("ctaT")+'</h2><p class="lead">'+t("sNotify")+'</p></div><div class="ctas"><a class="btn primary big" target="_blank" rel="noopener" href="'+waLink(msg)+'">WhatsApp</a><a class="btn big" href="'+mailLink(k.name(),msg)+'">Email</a></div>'+contactHtml()+"</div>";
   ardsimMount();
 }

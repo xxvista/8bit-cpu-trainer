@@ -29,6 +29,7 @@ const U={
  hQuote:["Request a quote for your school","Demander un devis pour votre établissement","اطلب عرض سعر لمؤسستك"],
  hQuoteMsg:["Hello, I would like a quote for our school. Kit(s): ... Number of student groups: ...","Bonjour, je souhaite un devis pour notre établissement. Kit(s) : ... Nombre de groupes d'étudiants : ...","مرحباً، أريد عرض سعر لمؤسستنا. الطقم/الأطقم: ... عدد أفواج الطلاب: ..."],
  hIllus:["Illustration: the 11 boards, drawn from our design files","Illustration : les 11 cartes, dessinées d'après nos fichiers de conception","رسم توضيحي: البطاقات الإحدى عشرة، مرسومة من ملفات تصميمنا"],
+ hPlanned:["Planned price {0}","Prix prévu {0}","السعر المتوقع {0}"],
  hFrom:["From {0}","À partir de {0}","ابتداءً من {0}"],
  hPhotos:["Inside the kit","Le kit en détail","الطقم عن قرب"],
  hQuotes:["What teachers and students say","Ce qu'en disent enseignants et étudiants","ماذا يقول الأساتذة والطلاب"],
@@ -452,9 +453,7 @@ const ABOUT=[
 <details class="faq"><summary>What does the kit need to run?</summary><p>Only a 5 V USB-C power supply. No computer is needed: programs are entered with the switches on the boards.</p></details>
 <details class="faq"><summary>Does the simulator need installing?</summary><p>No. It runs in any recent web browser, on a computer or a phone.</p></details>
 <details class="faq"><summary>What architecture does it use?</summary><p>The classic SAP-1 (Simple As Possible) teaching architecture, built on printed circuit boards. The RAM card uses two ATmega328 microcontrollers in place of memory chips, and the instruction set is listed in the user guide.</p></details>
-<details class="faq"><summary>Can a teacher adapt the labs?</summary><p>Yes. The labs and course map are a starting point; contact us to adapt them to your own syllabus.</p></details>
-<h3>Licence</h3>
-<p>The board design is open hardware, released under the CERN Open Hardware Licence version 2, Permissive (CERN-OHL-P). The licence and its notices are kept with the design files.</p>`,
+<details class="faq"><summary>Can a teacher adapt the labs?</summary><p>Yes. The labs and course map are a starting point; contact us to adapt them to your own syllabus.</p></details>`,
 `<h2>À propos</h2>
 <p class="lead">8-Bit CPU Trainer est un kit pédagogique et un site web pour les cours d'architecture des ordinateurs : un véritable ordinateur 8 bits sur circuits imprimés, et un simulateur qui se comporte exactement comme lui.</p>
 <h3>Qui le fabrique</h3>
@@ -466,9 +465,7 @@ const ABOUT=[
 <details class="faq"><summary>De quoi le kit a-t-il besoin pour fonctionner ?</summary><p>D'une simple alimentation USB-C 5 V. Aucun ordinateur n'est nécessaire : les programmes se saisissent avec les interrupteurs des cartes.</p></details>
 <details class="faq"><summary>Faut-il installer le simulateur ?</summary><p>Non. Il fonctionne dans tout navigateur récent, sur ordinateur ou sur téléphone.</p></details>
 <details class="faq"><summary>Quelle architecture utilise-t-il ?</summary><p>L'architecture pédagogique classique SAP-1 (Simple As Possible), réalisée sur circuits imprimés. La carte RAM utilise deux microcontrôleurs ATmega328 à la place des circuits mémoire, et le jeu d'instructions est décrit dans le guide.</p></details>
-<details class="faq"><summary>Un enseignant peut-il adapter les TP ?</summary><p>Oui. Les TP et la correspondance avec le programme sont un point de départ ; contactez-nous pour les adapter à votre cours.</p></details>
-<h3>Licence</h3>
-<p>La conception des cartes est du matériel libre, publiée sous licence CERN Open Hardware Licence version 2, Permissive (CERN-OHL-P). La licence et ses mentions sont conservées avec les fichiers de conception.</p>`,
+<details class="faq"><summary>Un enseignant peut-il adapter les TP ?</summary><p>Oui. Les TP et la correspondance avec le programme sont un point de départ ; contactez-nous pour les adapter à votre cours.</p></details>`,
 `<h2>من نحن</h2>
 <p class="lead">‏8-Bit CPU Trainer طقم تعليمي وموقع لمقررات بنية الحاسوب: حاسوب حقيقي ذو 8 بتات على دارات مطبوعة، ومحاكٍ يتصرف مثله تماماً.</p>
 <h3>من يصنعه</h3>
@@ -480,9 +477,7 @@ const ABOUT=[
 <details class="faq"><summary>ماذا يحتاج الطقم ليعمل؟</summary><p>تغذية USB-C بجهد 5 فولت فقط. لا حاجة إلى حاسوب: تُدخَل البرامج بالمفاتيح الموجودة على البطاقات.</p></details>
 <details class="faq"><summary>هل يحتاج المحاكي إلى تثبيت؟</summary><p>لا. يعمل في أي متصفح حديث، على الحاسوب أو الهاتف.</p></details>
 <details class="faq"><summary>ما المعمارية التي يعتمدها؟</summary><p>المعمارية التعليمية الكلاسيكية SAP-1 (أبسط ما يمكن)، مبنية على دارات مطبوعة. بطاقة الذاكرة تستعمل متحكّمَين دقيقين ATmega328 بدل دوائر الذاكرة، وطقم التعليمات موضّح في الدليل.</p></details>
-<details class="faq"><summary>هل يمكن للأستاذ تكييف الأعمال التطبيقية؟</summary><p>نعم. الأعمال التطبيقية وخريطة المقرر نقطة انطلاق؛ تواصل معنا لتكييفها مع برنامجك.</p></details>
-<h3>الرخصة</h3>
-<p>تصميم البطاقات عتاد مفتوح منشور برخصة CERN Open Hardware Licence الإصدار 2، النوع المتساهل (CERN-OHL-P). الرخصة وإشعاراتها محفوظة مع ملفات التصميم.</p>`
+<details class="faq"><summary>هل يمكن للأستاذ تكييف الأعمال التطبيقية؟</summary><p>نعم. الأعمال التطبيقية وخريطة المقرر نقطة انطلاق؛ تواصل معنا لتكييفها مع برنامجك.</p></details>`
 ];
 
 /* Module simulator on the Modules page (dev/bench.js): [English, Français, العربية] */
